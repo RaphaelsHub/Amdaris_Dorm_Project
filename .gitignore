@@ -1,0 +1,42 @@
+# Временные файлы, каталоги и сборки
+bin/
+obj/
+*.log
+*.tmp
+*.swp
+
+# Visual Studio специфические файлы
+.vs/
+*.suo
+*.user
+*.sln.docstates
+
+# VSCode специфические файлы
+.vscode/
+
+# Rider специфические файлы
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
+*.sln.iml
+
+# Конфигурационные файлы
+appsettings*.json
+
+# Файлы NuGet
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Артефакты сборок
+*.dll
+*.exe
+*.pdb
+
+# Логи и артефакты
+*.log
+*.pid
+*.gz
+*.zip
