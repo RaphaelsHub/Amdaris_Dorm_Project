@@ -1,4 +1,5 @@
-﻿using Dorm.Domain.Entities.User;
+﻿using Dorm.Domain.Entities.Ticket;
+using Dorm.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Dorm.DAL
             InitializeDB(this);
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
     
         private static void InitializeDB(ApplicationDbContext context)
         {
@@ -25,8 +27,24 @@ namespace Dorm.DAL
                 {
                     Name = "Vlad"
                 });
-                context.SaveChanges();
+                //context.SaveChanges();
             }
+            if (!context.Tickets.Any())
+            {
+                context.Tickets.Add(new Ticket
+                {
+                    UserId = 1,
+                    Name = "vlad",
+                    Group = "2210",
+                    Room = "23",
+                    Type = Domain.Enum.TicketType.COMPLAINT,
+                    Subject = "Tualet prorvalo",
+                    Description = "Srat' net vozmojnosti(",
+                    Status = Domain.Enum.TicketStatus.SENT,
+                    Date = DateTime.UtcNow,
+                });
+            }
+            context.SaveChanges();
         }
     }
 }

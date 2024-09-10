@@ -17,7 +17,7 @@ namespace Dorm.BLL.Services
         {
             _ticketRepository = ticketRepository;
         }
-        public async Task<Ticket> GetTicketById(int ticketId)
+        public async Task<Ticket?> GetTicketById(int ticketId)
         {
             return await _ticketRepository.GetById(ticketId);
         }
