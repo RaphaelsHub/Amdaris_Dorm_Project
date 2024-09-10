@@ -1,3 +1,6 @@
+using Dorm.DAL;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +10,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=04nykk"));
+
+
 var app = builder.Build();
+
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

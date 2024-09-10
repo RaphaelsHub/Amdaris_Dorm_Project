@@ -3,9 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dorm.Server", "Dorm.Server\Dorm.Server.csproj", "{4B918544-6270-4C2A-9B74-85A1DEDC6F58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dorm.Server", "Dorm.Server\Dorm.Server.csproj", "{4B918544-6270-4C2A-9B74-85A1DEDC6F58}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "dorm.client", "dorm.client\dorm.client.esproj", "{0D7BBD90-0161-484E-8845-BCFE8899FFDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{8E6EB759-AEC9-463B-89CF-FB40C90980F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dorm.DAL", "Dorm.DAL\Dorm.DAL.csproj", "{834B8126-3D9D-4B8D-9F2B-5BB56A947239}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{101CBA3B-7069-4795-BECB-B6D94AEEB3E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dorm.BLL", "Dorm.BLL\Dorm.BLL.csproj", "{D6177D58-3F68-4EC9-8623-C1324877CC62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{E238A7A0-1FAF-4942-B489-E3954D71BA85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dorm.Domain", "Dorm.Domain\Dorm.Domain.csproj", "{70A3419F-EC8C-44F0-8B22-33FA413B4107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,9 +35,26 @@ Global
 		{0D7BBD90-0161-484E-8845-BCFE8899FFDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D7BBD90-0161-484E-8845-BCFE8899FFDF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D7BBD90-0161-484E-8845-BCFE8899FFDF}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{834B8126-3D9D-4B8D-9F2B-5BB56A947239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834B8126-3D9D-4B8D-9F2B-5BB56A947239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{834B8126-3D9D-4B8D-9F2B-5BB56A947239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{834B8126-3D9D-4B8D-9F2B-5BB56A947239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6177D58-3F68-4EC9-8623-C1324877CC62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6177D58-3F68-4EC9-8623-C1324877CC62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6177D58-3F68-4EC9-8623-C1324877CC62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6177D58-3F68-4EC9-8623-C1324877CC62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70A3419F-EC8C-44F0-8B22-33FA413B4107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A3419F-EC8C-44F0-8B22-33FA413B4107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70A3419F-EC8C-44F0-8B22-33FA413B4107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70A3419F-EC8C-44F0-8B22-33FA413B4107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{834B8126-3D9D-4B8D-9F2B-5BB56A947239} = {8E6EB759-AEC9-463B-89CF-FB40C90980F8}
+		{D6177D58-3F68-4EC9-8623-C1324877CC62} = {101CBA3B-7069-4795-BECB-B6D94AEEB3E5}
+		{70A3419F-EC8C-44F0-8B22-33FA413B4107} = {E238A7A0-1FAF-4942-B489-E3954D71BA85}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DCB446E-5EA8-4548-8AB0-F58909F5AFB7}
