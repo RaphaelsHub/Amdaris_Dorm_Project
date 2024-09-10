@@ -1,23 +1,22 @@
-﻿using Dorm.Domain.Enum;
+﻿using Dorm.Domain.Entities.User;
+using Dorm.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dorm.Domain.Entities.Ticket
+namespace Dorm.Domain.DTO
 {
-    public class Ticket
+    public class TicketDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Group { get; set; }
         public string Room { get; set; }
         public TicketType Type { get; set; }
         public string Subject { get; set; }
         public string Description { get; set; }
-        public TicketStatus Status { get; set; }
-        public User.User Respondent {  get; set; }
-        public DateTime Date {  get; set; } = DateTime.Now;
+        public User Respondent { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
     }
 }
