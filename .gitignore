@@ -11,8 +11,7 @@ obj/
 *.user
 *.sln.docstates
 
-# VSCode специфические файлы
-# .vscode/
+
 
 # Rider специфические файлы
 .idea/
