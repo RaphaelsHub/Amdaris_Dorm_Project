@@ -1,11 +1,6 @@
 ﻿using Dorm.DAL.Interfaces;
-using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ticket;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dorm.DAL.Repositories
 {
@@ -17,29 +12,35 @@ namespace Dorm.DAL.Repositories
             _db = db;
         }
 
-        public Task<bool> Create(Ticket entity)
+        public async Task<bool> Create(Ticket entity)
         {
-            throw new NotImplementedException();
+            _db.Tickets.Add(entity);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public Task<bool> Delete(Ticket entity)
+        public async Task<bool> Delete(Ticket entity)
         {
-            throw new NotImplementedException();
+            _db.Tickets.Remove(entity);
+            await _db.SaveChangesAsync();
+            return true;
         }
 
-        public Task<IEnumerable<Ticket>> GetAll()
+        public async Task<IEnumerable<Ticket>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _db.Tickets.ToListAsync();
         }
 
-        public async Task<Ticket> GetById(int ticketId)
+        public async Task<Ticket?> GetById(int ticketId)
         {
-            return new Ticket();
+            return await _db.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
         }
 
-        public Task<Ticket> Update(Ticket entity)
+        public async Task<Ticket> Update(Ticket entity)
         {
-            throw new NotImplementedException();
+            _db.Tickets.Update(entity);
+            await _db.SaveChangesAsync();
+            return entity;
         }
     }
 }

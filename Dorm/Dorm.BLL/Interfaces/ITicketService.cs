@@ -10,6 +10,6 @@ namespace Dorm.BLL.Interfaces
 {
     public interface ITicketService
     {
-        Task<Ticket> GetTicketById(int ticketId);
+        Task<Ticket?> GetTicketById(int ticketId);
     }
 }
