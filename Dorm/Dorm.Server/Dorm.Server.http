@@ -1,0 +1,6 @@
+@Dorm.Server_HostAddress = http://localhost:5077
+
+GET {{Dorm.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
