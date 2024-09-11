@@ -9,6 +9,5 @@ namespace Dorm.DAL.Interfaces
 {
     public interface ITicketRepository : IBaseRepository<Ticket>
     {
-        
     }
 }

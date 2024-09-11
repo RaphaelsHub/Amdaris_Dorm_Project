@@ -28,10 +28,12 @@ namespace Dorm.Server.Contracts.Commands
                 Response = createTicketCommand.ticketDto.Response,
                 Status = Domain.Enum.TicketStatus.SENT
             };
-            if (await _ticketService.CreateTicket(ticket))
-                return createTicketCommand.ticketDto;
-            else 
-                return null;
+
+            var createdTicket = await _ticketService.CreateTicket(ticket) ?? throw new Exception("Failed to create ticket");
+            
+            TicketDto ticketDto = createTicketCommand.ticketDto;
+            ticketDto.Id = createdTicket.Id;
+            return ticketDto;
         }
     }
 }

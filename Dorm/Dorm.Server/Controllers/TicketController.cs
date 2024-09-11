@@ -25,6 +25,9 @@ namespace Dorm.Server.Controllers
         {
             //TicketDto ticket = await _mediator.Send(new GetTicketByIdQuery(ticketId));
             Ticket? ticket = await _ticketService.GetTicketById(ticketId);
+            if (ticket == null)
+                return NotFound();
+
             return Ok(ticket);
         }
 
