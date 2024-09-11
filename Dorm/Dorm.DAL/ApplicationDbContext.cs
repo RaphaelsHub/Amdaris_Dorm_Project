@@ -1,4 +1,5 @@
-﻿using Dorm.Domain.Entities.Ticket;
+﻿using Dorm.Domain.Entities.Ad;
+using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,6 +19,7 @@ namespace Dorm.DAL
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Ad> Ads { get; set; }
     
         private static void InitializeDB(ApplicationDbContext context)
         {
