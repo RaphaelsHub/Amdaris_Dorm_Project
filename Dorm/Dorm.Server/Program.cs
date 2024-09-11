@@ -3,6 +3,7 @@ using Dorm.BLL.Services;
 using Dorm.DAL;
 using Dorm.DAL.Interfaces;
 using Dorm.DAL.Repositories;
+using Dorm.Domain.Entities.User;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUsersRepository<User>, UsersRepository>();
 
 
 var app = builder.Build();

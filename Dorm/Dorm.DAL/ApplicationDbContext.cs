@@ -25,7 +25,7 @@ namespace Dorm.DAL
             {
                 context.Users.Add(new User
                 {
-                    Name = "Vlad"
+                    FirstName = "Vlad"
                 });
                 //context.SaveChanges();
             }
@@ -37,10 +37,10 @@ namespace Dorm.DAL
                     Name = "vlad",
                     Group = "2210",
                     Room = "23",
-                    Type = Domain.Enum.TicketType.COMPLAINT,
+                    Type = Domain.Enums.TicketType.COMPLAINT,
                     Subject = "Tualet prorvalo",
                     Description = "Srat' net vozmojnosti(",
-                    Status = Domain.Enum.TicketStatus.SENT,
+                    Status = Domain.Enums.TicketStatus.SENT,
                     Date = DateTime.UtcNow,
                 });
             }

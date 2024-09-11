@@ -1,10 +1,8 @@
-﻿using Dorm.Server.RequestData;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
+﻿using Dorm.BLL.Interfaces;
+using Dorm.Domain.DTO;
+using Dorm.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using LoginRequest = Dorm.Server.RequestData.LoginRequest;
-using IdentityLoginRequest = Microsoft.AspNetCore.Identity.Data.LoginRequest;
 
 
 namespace Dorm.Server.Controllers
@@ -13,9 +11,10 @@ namespace Dorm.Server.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public AuthController()
+        private IAuthService _authService;
+        public AuthController(IAuthService authService)
         {
-
+            _authService = authService;
         }
         private void ValidateRequest(IValidatableObject request)
         {
@@ -31,34 +30,33 @@ namespace Dorm.Server.Controllers
         }
 
         [HttpPost(Name = "login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            ValidateRequest(loginRequest);
-
+            ValidateRequest(loginModel);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            //Запросы определенные
+            UserDto userDto =await _authService.LoginUser(loginModel);
 
-            return Ok();
+            return Ok(new { success = true, userDto });
         }
 
         [HttpPost(Name = "registration")]
-        public async Task<IActionResult> Registration([FromBody] RegistrationRequest registrationRequest)
+        public async Task<IActionResult> Registration([FromBody] RegistrationModel registrationModel)
         {
-            ValidateRequest(registrationRequest);
+            ValidateRequest(registrationModel);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            //Какие-то там обращения к базе
+            UserDto userDto =await _authService.RegisterUser(registrationModel);
 
-            return Ok();
+            return Ok(new { success = true, userDto });
         }
 
 

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Dorm.Server.RequestData
+namespace Dorm.Domain.Models
 {
-    public class LoginRequest : IValidatableObject
+    public class LoginModel : IValidatableObject
     {
         [Required(ErrorMessage = "Email field is required.")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
