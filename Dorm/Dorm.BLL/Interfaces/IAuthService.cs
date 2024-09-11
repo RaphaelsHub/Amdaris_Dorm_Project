@@ -1,5 +1,6 @@
 ﻿using Dorm.Domain.DTO;
 using Dorm.Domain.Models;
+using Dorm.Domain.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace Dorm.BLL.Interfaces
 {
     public interface IAuthService
     {
-        Task<string> RegisterUser(RegistrationModel registrationModel);
-        Task<string> LoginUser(LoginModel loginModel);
+        Task<AuthResponse> LoginUser(LoginModel loginModel);
+        Task<AuthResponse> RegisterUser(RegistrationModel registrationModel);
+        Task<ValidationResponse> AuthValidation(object model);
     }
 }

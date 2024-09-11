@@ -2,7 +2,7 @@
 
 namespace Dorm.Domain.Models
 {
-    public class LoginModel : IValidatableObject
+    public class LoginModel
     {
         [Required(ErrorMessage = "Email field is required.")]
         [EmailAddress(ErrorMessage = "Invalid Email Address.")]
@@ -24,37 +24,6 @@ namespace Dorm.Domain.Models
         [Required(ErrorMessage = "DeviceType field is required.")]
         public string DeviceType { get; set; } = string.Empty;
 
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            var results = new List<ValidationResult>();
-
-            //Check for lenght parament and expression value
-            if (Password.Length < 8 || !System.Text.RegularExpressions.Regex.IsMatch(Password, @"^[A-Za-z\d@$!%*?&]+$"))
-            {
-                results.Add(new ValidationResult("Password must contain at least 6 English letters(1 uppercase letter), 1 digit, and 1 special characters.",
-                    new[] { nameof(Password) }));
-            }
-
-            //Check for uppercase letters
-            if (!System.Text.RegularExpressions.Regex.IsMatch(Password, @"[A-Z]"))
-            {
-                results.Add(new ValidationResult("Password must contain at least 1 uppercase letter.", new[] { nameof(Password) }));
-            }
-
-            //Check for digits
-            if (!System.Text.RegularExpressions.Regex.IsMatch(Password, @"\d"))
-            {
-                results.Add(new ValidationResult("Password must contain at least 1 digit.", new[] { nameof(Password) }));
-            }
-
-            //Check for having special chacters
-            if (!System.Text.RegularExpressions.Regex.IsMatch(Password, @"[@$!%*?&]"))
-            {
-                results.Add(new ValidationResult("Password must contain at least 1 special character.", new[] { nameof(Password) }));
-            }
-
-            return new List<ValidationResult>();
-        }
+        public bool RememberMe { get; set; } = false;
     }
 }

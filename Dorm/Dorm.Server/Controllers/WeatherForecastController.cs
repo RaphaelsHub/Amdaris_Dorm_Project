@@ -28,7 +28,7 @@ namespace Dorm.Server.Controllers
         {
             _context.Users.Add(new User
             {
-                Name = "Alex"
+                FirstName = "Alex"
             });
 
             _context.Tickets.Add(new Ticket
@@ -36,10 +36,10 @@ namespace Dorm.Server.Controllers
                 Name = "vlad",
                 Group = "2210",
                 Room = "23",
-                Type = Domain.Enum.TicketType.COMPLAINT,
+                Type = Domain.Enums.TicketType.COMPLAINT,
                 Subject = "Tualet prorvalo",
                 Description = "Srat' net vozmojnosti(",
-                Status = Domain.Enum.TicketStatus.SENT,
+                Status = Domain.Enums.TicketStatus.SENT,
                 Date = DateTime.UtcNow,
             });
 

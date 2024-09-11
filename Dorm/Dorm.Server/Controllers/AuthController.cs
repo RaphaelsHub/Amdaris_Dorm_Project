@@ -2,7 +2,6 @@
 using Dorm.Domain.DTO;
 using Dorm.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace Dorm.Server.Controllers
@@ -16,49 +15,35 @@ namespace Dorm.Server.Controllers
         {
             _authService = authService;
         }
-        private void ValidateRequest(IValidatableObject request)
-        {
-            var validationContext = new ValidationContext(request);
-            var validationResults = request.Validate(validationContext);
-
-            foreach (var validationResult in validationResults)
-            {
-                var memberName = validationResult.MemberNames.FirstOrDefault() ?? string.Empty;
-                var errorMessage = validationResult.ErrorMessage ?? string.Empty;
-                ModelState.AddModelError(memberName, errorMessage);
-            }
-        }
 
         [HttpPost(Name = "login")]
         public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            ValidateRequest(loginModel);
+            var validationResponse = await _authService.AuthValidation(loginModel);
 
-            if (!ModelState.IsValid)
+            if (validationResponse.IsValid)
             {
-                return BadRequest(ModelState);
+                var authResponse = await _authService.LoginUser(loginModel);
+
+                return authResponse.Success ? Ok(authResponse) : BadRequest(authResponse);
             }
 
-            UserDto userDto =await _authService.LoginUser(loginModel);
-
-            return Ok(new { success = true, userDto });
+            return BadRequest(validationResponse);
         }
 
         [HttpPost(Name = "registration")]
         public async Task<IActionResult> Registration([FromBody] RegistrationModel registrationModel)
         {
-            ValidateRequest(registrationModel);
+            var validationResponse = await _authService.AuthValidation(registrationModel);
 
-            if (!ModelState.IsValid)
+            if (validationResponse.IsValid)
             {
-                return BadRequest(ModelState);
+                var authResponse = await _authService.RegisterUser(registrationModel);
+
+                return authResponse.Success ? Ok(authResponse) : BadRequest(authResponse);
             }
 
-            UserDto userDto =await _authService.RegisterUser(registrationModel);
-
-            return Ok(new { success = true, userDto });
+            return BadRequest(validationResponse);
         }
-
-
     }
 }
