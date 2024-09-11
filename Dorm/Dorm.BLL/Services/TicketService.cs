@@ -24,6 +24,14 @@ namespace Dorm.BLL.Services
             return ticket;
         }
 
+        public async Task<bool> DeleteTicket(int ticketId)
+        {
+            var ticket = await GetTicketById(ticketId);
+            if (ticket != null)
+                return await _ticketRepository.Delete(ticket);
+            return false;
+        }
+
         public async Task<Ticket?> GetTicketById(int ticketId)
         {
             return await _ticketRepository.GetById(ticketId);

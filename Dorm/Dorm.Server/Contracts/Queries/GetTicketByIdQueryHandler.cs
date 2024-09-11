@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Dorm.Domain.Contracts.Queries
 {
-    public class GetTicketByIdQueryHandler : IRequestHandler<GetTicketByIdQuery, TicketDto>
+    public class GetTicketByIdQueryHandler : IRequestHandler<GetTicketByIdQuery, TicketDto?>
     {
         //private readonly IMapper _mapper;
         private readonly ITicketService _ticketService;
@@ -21,12 +21,28 @@ namespace Dorm.Domain.Contracts.Queries
             //_mapper = mapper;
             _ticketService = ticketService;
         }
-        public async Task<TicketDto> Handle(GetTicketByIdQuery request, CancellationToken cancellationToken)
+        public async Task<TicketDto?> Handle(GetTicketByIdQuery request, CancellationToken cancellationToken)
         {
-            Ticket ticket = await _ticketService.GetTicketById(request.ticketId);
+            Ticket? ticket = await _ticketService.GetTicketById(request.ticketId);
 
             //return _mapper.Map<TicketDto>(ticket);
-            return new TicketDto();
+            if (ticket != null)
+            {
+                return new TicketDto
+                {
+                    Id = ticket.Id,
+                    Name = ticket.Name,
+                    Group = ticket.Group,
+                    Room = ticket.Room,
+                    Type = ticket.Type,
+                    Subject = ticket.Subject,
+                    Description = ticket.Description,
+                    //Respondent = _userService.GetUserById(ticket.RespondentId),
+                    Date = ticket.Date,
+                    Response = ticket.Response
+                };
+            }
+            return null;
         }
     }
 }

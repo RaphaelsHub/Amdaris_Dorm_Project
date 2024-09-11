@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 
 namespace Dorm.Domain.Contracts.Queries
 {
-    public record GetTicketByIdQuery(int ticketId) : IRequest<TicketDto>;
+    public record GetTicketByIdQuery(int ticketId) : IRequest<TicketDto?>;
 }

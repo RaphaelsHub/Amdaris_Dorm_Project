@@ -1,4 +1,5 @@
 ﻿using Dorm.BLL.Interfaces;
+using Dorm.Domain.Contracts.Queries;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ticket;
 using Dorm.Server.Contracts.Commands;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dorm.Server.Controllers
 {
     [ApiController]
-    [Route("tickets")]
+    [Route("api/tickets")]
     public class TicketController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -23,8 +24,7 @@ namespace Dorm.Server.Controllers
         [HttpGet("{ticketId}")]
         public async Task<IActionResult> GetTicketById([FromRoute] int ticketId)
         {
-            //TicketDto ticket = await _mediator.Send(new GetTicketByIdQuery(ticketId));
-            Ticket? ticket = await _ticketService.GetTicketById(ticketId);
+            TicketDto? ticket = await _mediator.Send(new GetTicketByIdQuery(ticketId));
             if (ticket == null)
                 return NotFound();
 
@@ -36,6 +36,12 @@ namespace Dorm.Server.Controllers
         {
             TicketDto ticket = await _mediator.Send(createTicketCommand);
             return CreatedAtAction(nameof(GetTicketById), new { ticketId = ticket.Id }, ticket);
+        }
+
+        [HttpDelete("{ticketId}")]
+        public async Task<IActionResult> DeleteTicket([FromRoute] int ticketId)
+        {
+            return await _mediator.Send(new DeleteTicketCommand(ticketId)) ? NoContent() : NotFound();
         }
     }
 }
