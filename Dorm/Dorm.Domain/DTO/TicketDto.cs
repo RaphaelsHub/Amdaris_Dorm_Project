@@ -1,5 +1,5 @@
 ﻿using Dorm.Domain.Entities.User;
-using Dorm.Domain.Enum;
+using Dorm.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

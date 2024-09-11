@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dorm.Domain.Enum
+namespace Dorm.Domain.Enums
 {
     public enum TicketStatus
     {

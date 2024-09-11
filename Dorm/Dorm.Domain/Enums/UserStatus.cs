@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dorm.Domain.Enum
+namespace Dorm.Domain.Enums
 {
-    public enum TicketType
+    public enum UserStatus
     {
-        REQUEST = 0,
-        COMPLAINT = 1,
-        SUGGESTION = 2
+        None = 0,
+        Student = 1,
+        Moderator = 2,
+        Admin = 3
     }
 }
