@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ad;
+using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Entities.User;
+using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Models;
 
 namespace Dorm.BLL.MappingService
@@ -30,6 +32,10 @@ namespace Dorm.BLL.MappingService
 
             CreateMap<AdDto, Ad>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<Ticket, TicketDto>();
+            CreateMap<TicketDto, Ticket>()
+                .ForMember(dest => dest.RespondentId, opt => opt.MapFrom(src => src.Respondent.Id));
 
         }
     }
