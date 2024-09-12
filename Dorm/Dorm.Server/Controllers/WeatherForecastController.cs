@@ -31,18 +31,6 @@ namespace Dorm.Server.Controllers
                 FirstName = "Alex"
             });
 
-            _context.Tickets.Add(new Ticket
-            {
-                Name = "vlad",
-                Group = "2210",
-                Room = "23",
-                Type = Domain.Enums.TicketType.COMPLAINT,
-                Subject = "Tualet prorvalo",
-                Description = "Srat' net vozmojnosti(",
-                Status = Domain.Enums.TicketStatus.SENT,
-                Date = DateTime.UtcNow,
-            });
-
             _context.SaveChanges();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
