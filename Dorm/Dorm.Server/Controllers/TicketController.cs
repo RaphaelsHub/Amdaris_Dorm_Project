@@ -4,12 +4,14 @@ using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ticket;
 using Dorm.Server.Contracts.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dorm.Server.Controllers
 {
     [ApiController]
-    [Route("api/tickets")]
+    [Route("tickets")]
+    [Authorize]
     public class TicketController : ControllerBase
     {
         private readonly IMediator _mediator;

@@ -21,9 +21,6 @@ obj/
 *.iws
 *.sln.iml
 
-# Конфигурационные файлы
-appsettings*.json
-
 # Файлы NuGet
 project.lock.json
 project.fragment.lock.json

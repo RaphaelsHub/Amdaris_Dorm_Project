@@ -28,7 +28,7 @@ namespace Dorm.Server.Controllers
         {
             _context.Users.Add(new User
             {
-                Name = "Alex"
+                FirstName = "Alex"
             });
 
             _context.SaveChanges();
