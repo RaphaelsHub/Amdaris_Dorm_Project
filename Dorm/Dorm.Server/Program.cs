@@ -1,12 +1,21 @@
+﻿using AutoMapper;
 using Dorm.BLL.Interfaces;
+using Dorm.BLL.MappingService;
 using Dorm.BLL.Services;
+using Dorm.BLL.Settings;
 using Dorm.DAL;
 using Dorm.DAL.Interfaces;
 using Dorm.DAL.Repositories;
+using Dorm.Domain.Entities.User;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using Dorm.BLL.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +34,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUsersRepository<User>, UsersRepository>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddScoped<JwtService, JwtService>(); 
+builder.Services.Configure<AuthSettings>(builder.Configuration.GetSection(nameof(AuthSettings)));
+builder.Services.AddAuth(builder.Configuration);
 
 builder.Services.AddScoped<IAdRepository, AdRepository>();
 builder.Services.AddScoped<IAdService, AdService>();
@@ -43,6 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

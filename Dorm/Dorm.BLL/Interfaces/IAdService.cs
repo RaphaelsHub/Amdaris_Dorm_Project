@@ -1,5 +1,6 @@
 ﻿using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ad;
+using Dorm.Domain.Responces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace Dorm.BLL.Interfaces
 {
     public interface IAdService
     {
-        Task<Ad> CreateAd(Ad model);
-        Task<Ad> Edit(int id, Ad model); 
-        Task<bool> DeleteAd(int id);
-        Task<Ad> GetAdById(int id);
-        Task<IEnumerable<Ad>> GetAllAds();
+        Task<BaseResponse<AdDto>> Create(AdDto model);
+        Task<BaseResponse<AdDto>> Edit(int id, AdDto model); 
+        Task<BaseResponse<bool>> Delete(int id);
+        Task<BaseResponse<AdDto>> Get(int id);
+        Task<BaseResponse<IEnumerable<AdDto>>> GetAll();
     }
 }
