@@ -1,7 +1,7 @@
 ﻿using Dorm.BLL.Interfaces;
 using MediatR;
 
-namespace Dorm.Server.Contracts.Commands
+namespace Dorm.Server.Contracts.Commands.TicketCommands
 {
     public class DeleteTicketCommandHandler : IRequestHandler<DeleteTicketCommand, bool>
     {

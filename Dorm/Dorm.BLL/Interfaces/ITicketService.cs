@@ -11,7 +11,7 @@ namespace Dorm.BLL.Interfaces
     public interface ITicketService
     {
         Task<Ticket?> GetTicketById(int ticketId);
-        Task<Ticket> CreateTicket(Ticket ticket);
+        Task<Ticket> CreateTicket(TicketDto ticketDto);
         Task<bool> DeleteTicket(int ticketId);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Dorm.BLL.Interfaces;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ticket;
+using Dorm.Server.Contracts.Queries.TicketQueries;
 using MediatR;
 using System;
 using System.Collections.Generic;

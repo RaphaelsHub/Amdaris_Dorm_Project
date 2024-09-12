@@ -18,8 +18,22 @@ namespace Dorm.BLL.Services
             _ticketRepository = ticketRepository;
         }
 
-        public async Task<Ticket> CreateTicket(Ticket ticket)
+        public async Task<Ticket> CreateTicket(TicketDto ticketDto)
         {
+            Ticket ticket = new()
+            {
+                Id = ticketDto.Id,
+                Name = ticketDto.Name,
+                Group = ticketDto.Group,
+                Room = ticketDto.Room,
+                Type = ticketDto.Type,
+                Subject = ticketDto.Subject,
+                Description = ticketDto.Description,
+                RespondentId = ticketDto.Respondent.Id,
+                Date = ticketDto.Date,
+                Response = ticketDto.Response,
+                Status = Domain.Enums.TicketStatus.SENT
+            };
             await _ticketRepository.Create(ticket);
             return ticket;
         }
