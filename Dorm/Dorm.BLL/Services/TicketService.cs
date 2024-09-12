@@ -21,14 +21,14 @@ namespace Dorm.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<TicketDto> CreateTicket(TicketDto ticketDto)
+        public async Task<TicketDto> Create(TicketDto ticketDto)
         {
             Ticket ticket = _mapper.Map<Ticket>(ticketDto);
             await _ticketRepository.Create(_mapper.Map<Ticket>(ticketDto));
             return _mapper.Map<TicketDto>(ticket);
         }
 
-        public async Task<bool> DeleteTicket(int ticketId)
+        public async Task<bool> Delete(int ticketId)
         {
             var ticket = await _ticketRepository.GetById(ticketId);
             if (ticket != null)
@@ -36,12 +36,18 @@ namespace Dorm.BLL.Services
             return false;
         }
 
-        public async Task<TicketDto?> GetTicketById(int ticketId)
+        public async Task<IEnumerable<TicketDto>> GetAll()
+        {
+            var tickets = await _ticketRepository.GetAll();
+            return _mapper.Map<IEnumerable<TicketDto>>(tickets);
+        }
+
+        public async Task<TicketDto?> GetById(int ticketId)
         {
             return _mapper.Map<TicketDto?>(await _ticketRepository.GetById(ticketId));
         }
 
-        public async Task<TicketDto> UpdateTicket(int ticketId, TicketDto ticketDto)
+        public async Task<TicketDto> Update(int ticketId, TicketDto ticketDto)
         {
             var ticket = await _ticketRepository.GetById(ticketId) ?? throw new KeyNotFoundException($"Ticket with ID {ticketId} not found.");
             _mapper.Map(ticketDto, ticket);

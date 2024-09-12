@@ -1,7 +1,5 @@
 ﻿using Dorm.BLL.Interfaces;
 using Dorm.Domain.DTO;
-using Dorm.Domain.Entities.Ticket;
-using Dorm.Server.Contracts.Commands;
 using Dorm.Server.Contracts.Commands.TicketCommands;
 using Dorm.Server.Contracts.Queries.TicketQueries;
 using MediatR;
@@ -32,6 +30,13 @@ namespace Dorm.Server.Controllers
                 return NotFound();
 
             return Ok(ticket);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllTickets()
+        {
+            IEnumerable<TicketDto> tickets = await _mediator.Send(new GetAllTicketsQuery());
+            return Ok(tickets);
         }
 
         [HttpPost]

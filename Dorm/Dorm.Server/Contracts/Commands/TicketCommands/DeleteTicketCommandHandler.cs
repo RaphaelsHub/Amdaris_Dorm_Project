@@ -13,7 +13,7 @@ namespace Dorm.Server.Contracts.Commands.TicketCommands
 
         public async Task<bool> Handle(DeleteTicketCommand deleteTicketCommand, CancellationToken cancellationToken)
         {
-            return await _ticketService.DeleteTicket(deleteTicketCommand.ticketId);
+            return await _ticketService.Delete(deleteTicketCommand.ticketId);
         }
     }
 }

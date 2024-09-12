@@ -10,9 +10,10 @@ namespace Dorm.BLL.Interfaces
 {
     public interface ITicketService
     {
-        Task<TicketDto?> GetTicketById(int ticketId);
-        Task<TicketDto> CreateTicket(TicketDto ticketDto);
-        Task<bool> DeleteTicket(int ticketId);
-        Task<TicketDto> UpdateTicket(int ticketId, TicketDto ticketDto);
+        Task<TicketDto?> GetById(int ticketId);
+        Task<IEnumerable<TicketDto>> GetAll();
+        Task<TicketDto> Create(TicketDto ticketDto);
+        Task<bool> Delete(int ticketId);
+        Task<TicketDto> Update(int ticketId, TicketDto ticketDto);
     }
 }
