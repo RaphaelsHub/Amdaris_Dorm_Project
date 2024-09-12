@@ -13,5 +13,6 @@ namespace Dorm.BLL.Interfaces
         Task<Ticket?> GetTicketById(int ticketId);
         Task<Ticket> CreateTicket(TicketDto ticketDto);
         Task<bool> DeleteTicket(int ticketId);
+        Task<Ticket> UpdateTicket(TicketDto ticketDto);
     }
 }

@@ -50,5 +50,25 @@ namespace Dorm.BLL.Services
         {
             return await _ticketRepository.GetById(ticketId);
         }
+
+        public async Task<Ticket> UpdateTicket(TicketDto ticketDto)
+        {
+            Ticket ticket = new()
+            {
+                Id = ticketDto.Id,
+                Name = ticketDto.Name,
+                Group = ticketDto.Group,
+                Room = ticketDto.Room,
+                Type = ticketDto.Type,
+                Subject = ticketDto.Subject,
+                Description = ticketDto.Description,
+                RespondentId = ticketDto.Respondent.Id,
+                Date = ticketDto.Date,
+                Status = ticketDto.Status,
+                Response = ticketDto.Response,
+            };
+            
+            return await _ticketRepository.Update(ticket);
+        }
     }
 }

@@ -46,5 +46,15 @@ namespace Dorm.Server.Controllers
         {
             return await _mediator.Send(new DeleteTicketCommand(ticketId)) ? NoContent() : NotFound();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateTicket([FromBody] UpdateTicketCommand updateTicketCommand)
+        {
+            TicketDto updatedTicket = await _mediator.Send(updateTicketCommand);
+            if (updatedTicket == null)
+                return NotFound();
+
+            return Ok(updatedTicket);
+        }
     }
 }
