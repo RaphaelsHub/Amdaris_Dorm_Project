@@ -15,21 +15,7 @@ namespace Dorm.Server.Contracts.Commands.TicketCommands
 
         public async Task<TicketDto> Handle(UpdateTicketCommand updateTicketCommand, CancellationToken cancellationToken)
         {
-            var updatedTicket = await _ticketService.UpdateTicket(updateTicketCommand.ticketDto);
-            return new TicketDto
-            {
-                Id = updatedTicket.Id,
-                Name = updatedTicket.Name,
-                Group = updatedTicket.Group,
-                Room = updatedTicket.Room,
-                Type = updatedTicket.Type,
-                Subject = updatedTicket.Subject,
-                Description = updatedTicket.Description,
-                Status = updatedTicket.Status,
-                //Respondent = _userService.GetUserById(updatedTicket.RespondentId),
-                Date = updatedTicket.Date,
-                Response = updatedTicket.Response
-            };
+            return await _ticketService.UpdateTicket(updateTicketCommand.ticketId, updateTicketCommand.ticketDto);
         }
     }
 }

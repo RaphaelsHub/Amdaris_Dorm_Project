@@ -38,7 +38,7 @@ namespace Dorm.Server.Controllers
         public async Task<IActionResult> CreateTicket([FromBody] CreateTicketCommand createTicketCommand)
         {
             TicketDto ticket = await _mediator.Send(createTicketCommand);
-            return CreatedAtAction(nameof(GetTicketById), new { ticketId = ticket.Id }, ticket);
+            return Ok(ticket); //CreatedAtAction(nameof(GetTicketById), new { ticketId = ticket.Id }, ticket);
         }
 
         [HttpDelete("{ticketId}")]
@@ -47,10 +47,10 @@ namespace Dorm.Server.Controllers
             return await _mediator.Send(new DeleteTicketCommand(ticketId)) ? NoContent() : NotFound();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateTicket([FromBody] UpdateTicketCommand updateTicketCommand)
+        [HttpPut("{ticketId}")]
+        public async Task<IActionResult> UpdateTicket([FromRoute] int ticketId, [FromBody] TicketDto ticketDto)
         {
-            TicketDto updatedTicket = await _mediator.Send(updateTicketCommand);
+            TicketDto updatedTicket = await _mediator.Send(new UpdateTicketCommand(ticketId, ticketDto));
             if (updatedTicket == null)
                 return NotFound();
 

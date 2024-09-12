@@ -1,4 +1,5 @@
-﻿using Dorm.BLL.Interfaces;
+﻿using AutoMapper;
+using Dorm.BLL.Interfaces;
 using Dorm.DAL.Interfaces;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ticket;
@@ -13,62 +14,39 @@ namespace Dorm.BLL.Services
     public class TicketService : ITicketService
     {
         private readonly ITicketRepository _ticketRepository;
-        public TicketService(ITicketRepository ticketRepository)
+        private readonly IMapper _mapper;
+        public TicketService(ITicketRepository ticketRepository, IMapper mapper)
         {
             _ticketRepository = ticketRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Ticket> CreateTicket(TicketDto ticketDto)
+        public async Task<TicketDto> CreateTicket(TicketDto ticketDto)
         {
-            Ticket ticket = new()
-            {
-                Id = ticketDto.Id,
-                Name = ticketDto.Name,
-                Group = ticketDto.Group,
-                Room = ticketDto.Room,
-                Type = ticketDto.Type,
-                Subject = ticketDto.Subject,
-                Description = ticketDto.Description,
-                RespondentId = ticketDto.Respondent.Id,
-                Date = ticketDto.Date,
-                Response = ticketDto.Response,
-                Status = Domain.Enums.TicketStatus.SENT
-            };
-            await _ticketRepository.Create(ticket);
-            return ticket;
+            Ticket ticket = _mapper.Map<Ticket>(ticketDto);
+            await _ticketRepository.Create(_mapper.Map<Ticket>(ticketDto));
+            return _mapper.Map<TicketDto>(ticket);
         }
 
         public async Task<bool> DeleteTicket(int ticketId)
         {
-            var ticket = await GetTicketById(ticketId);
+            var ticket = await _ticketRepository.GetById(ticketId);
             if (ticket != null)
                 return await _ticketRepository.Delete(ticket);
             return false;
         }
 
-        public async Task<Ticket?> GetTicketById(int ticketId)
+        public async Task<TicketDto?> GetTicketById(int ticketId)
         {
-            return await _ticketRepository.GetById(ticketId);
+            return _mapper.Map<TicketDto?>(await _ticketRepository.GetById(ticketId));
         }
 
-        public async Task<Ticket> UpdateTicket(TicketDto ticketDto)
+        public async Task<TicketDto> UpdateTicket(int ticketId, TicketDto ticketDto)
         {
-            Ticket ticket = new()
-            {
-                Id = ticketDto.Id,
-                Name = ticketDto.Name,
-                Group = ticketDto.Group,
-                Room = ticketDto.Room,
-                Type = ticketDto.Type,
-                Subject = ticketDto.Subject,
-                Description = ticketDto.Description,
-                RespondentId = ticketDto.Respondent.Id,
-                Date = ticketDto.Date,
-                Status = ticketDto.Status,
-                Response = ticketDto.Response,
-            };
-            
-            return await _ticketRepository.Update(ticket);
+            var ticket = await _ticketRepository.GetById(ticketId) ?? throw new KeyNotFoundException($"Ticket with ID {ticketId} not found.");
+            _mapper.Map(ticketDto, ticket);
+            await _ticketRepository.Update(ticket);
+            return _mapper.Map<TicketDto>(ticket);
         }
     }
 }
