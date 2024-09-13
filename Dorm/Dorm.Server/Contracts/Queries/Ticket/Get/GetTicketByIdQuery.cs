@@ -1,13 +1,8 @@
 ﻿using Dorm.Domain.DTO;
+using Dorm.Domain.Responces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dorm.Server.Contracts.Queries.Ticket.Get
 {
-    public record GetTicketByIdQuery(int ticketId) : IRequest<TicketDto?>;
+    public record GetTicketByIdQuery(int ticketId, string token) : IRequest<BaseResponse<TicketDto>>;
 }

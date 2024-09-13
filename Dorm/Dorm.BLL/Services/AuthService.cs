@@ -57,7 +57,7 @@ namespace Dorm.BLL.Services
             var userFromBd = await _userRepository.GetByEmail(registrationDto.Email ??
                             throw new ArgumentNullException("Email", "Email cannot be null"));
 
-            if (userFromBd == null) return new AuthResponse(false,
+            if (userFromBd != null) return new AuthResponse(false,
                             "User with such email, hasn't been found.", null);
 
             var user = _mapper.Map<UserEF>(registrationDto);
