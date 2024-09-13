@@ -42,7 +42,7 @@ namespace Dorm.Server.Controllers
 
             var response = await _mediator.Send(new CreateAdCommand(model, token));
             
-            if (response == null)
+            if (response.Data == null)
             {
                 return BadRequest(response.Description);
             }
@@ -55,7 +55,8 @@ namespace Dorm.Server.Controllers
         {
             var response = await _mediator.Send(new GetAdQuery(adId));
             
-            if (response == null)
+
+            if (response.Data == null) 
             {
                 return BadRequest(response.Description);
             }
@@ -68,7 +69,7 @@ namespace Dorm.Server.Controllers
         {
             var response = await _mediator.Send(new GetAllAdsQuery());
             
-            if (response == null)
+            if (response.Data == null)
             {
                 return BadRequest(response.Description);
             }
@@ -81,7 +82,7 @@ namespace Dorm.Server.Controllers
         {
             var response = await _adService.Delete(adId);
             
-            if (response == null)
+            if (response.Data == false)
             {
                 return BadRequest(response.Description);
             }

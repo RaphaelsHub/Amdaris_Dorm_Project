@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Dorm.BLL.Interfaces;
 using Dorm.DAL.Interfaces;
-using Dorm.Domain.Entities.User;
-using Dorm.Domain.Models;
+using Dorm.Domain.DTO.Auth;
+using Dorm.Domain.Entities.UserEF;
 using Dorm.Domain.Responses;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
@@ -12,28 +12,30 @@ namespace Dorm.BLL.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly IUsersRepository<User> _userRepository;
+        private readonly IUsersRepository<UserEF> _userRepository;
         private readonly IMapper _mapper;
         private readonly JwtService _jwtService;
-        public AuthService(IUsersRepository<User> userRepository, IMapper mapper, JwtService jwtService)
+        public AuthService(IUsersRepository<UserEF> userRepository, IMapper mapper, JwtService jwtService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _jwtService = jwtService;
         }
 
-        public async Task<AuthResponse> LoginUser(LoginModel loginModel)
+        public async Task<AuthResponse> LoginUser(LoginDto loginDto)
         {
-            if (loginModel == null) return new AuthResponse(false,
+            if (loginDto == null) return new AuthResponse(false,
                             "Login Model is null", null);
 
-            var user = await _userRepository.GetByEmail(loginModel.Email);
+            var user = await _userRepository.GetByEmail(loginDto.Email ?? throw new ArgumentException("Email cannot be null"));
 
             if (user == null) return new AuthResponse(false,
                             "User with such email, hasn't been found.", null);
 
-            var result = new PasswordHasher<User>()
-                            .VerifyHashedPassword(user, user.PasswordHash, loginModel.Password);
+            var result = new PasswordHasher<UserEF>()
+                            .VerifyHashedPassword(user, user.PasswordHash ?? 
+                                    throw new ArgumentException("PasswordHash from bd is empty"), 
+                            loginDto.Password ?? throw new ArgumentException("Password cant be empty"));
 
 
             if (result == PasswordVerificationResult.Failed)
@@ -41,24 +43,26 @@ namespace Dorm.BLL.Services
                 return new AuthResponse(false, "Password is incorrect.", null);
             }
             //await _userRepository.Update(user);
+
             string token = _jwtService.GetToken(user);
 
             return new AuthResponse(true, null, token);
         }
 
-        public async Task<AuthResponse> RegisterUser(RegistrationModel registrationModel)
+        public async Task<AuthResponse> RegisterUser(RegistrationDto registrationDto)
         {
-            if (registrationModel == null) return new AuthResponse(false,
+            if (registrationDto == null) return new AuthResponse(false,
                 "Registration Model is null", null);
 
-            var userFromBd = await _userRepository.GetByEmail(registrationModel.Email);
+            var userFromBd = await _userRepository.GetByEmail(registrationDto.Email ??
+                            throw new ArgumentNullException("Email", "Email cannot be null"));
 
-            if (userFromBd != null) return new AuthResponse(false,
+            if (userFromBd == null) return new AuthResponse(false,
                             "User with such email, hasn't been found.", null);
 
-            var user = _mapper.Map<User>(registrationModel);
+            var user = _mapper.Map<UserEF>(registrationDto);
 
-            user.PasswordHash = new PasswordHasher<User>().HashPassword(user, registrationModel.Password);
+            user.PasswordHash = new PasswordHasher<UserEF>().HashPassword(user, registrationDto.Password ?? throw new ArgumentException("Cant be empty pass"));
 
             await _userRepository.Create(user);
 
@@ -91,13 +95,13 @@ namespace Dorm.BLL.Services
             bool isValid = Validator.TryValidateObject(model, context, validationResults, true);
 
             // Дополнительная валидация
-            if (model is LoginModel loginModel)
+            if (model is LoginDto loginDto)
             {
-                ValidatePassword(loginModel.Password, validationResults);
+                ValidatePassword(loginDto.Password?? throw new ArgumentException("Password cant be empty"), validationResults);
             }
-            else if (model is RegistrationModel registrationModel)
+            else if (model is RegistrationDto registrationDto)
             {
-                ValidatePassword(registrationModel.Password, validationResults);
+                ValidatePassword(registrationDto.Password ?? throw new ArgumentException("Password cant be empty"), validationResults);
             }
 
             return isValid;

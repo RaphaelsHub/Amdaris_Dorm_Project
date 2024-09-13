@@ -1,20 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Dorm.Domain.Models
+namespace Dorm.Domain.DTO.Auth
 {
-    public class RegistrationModel : LoginModel
+    public class RegistrationDto : LoginDto
     {
         [Required(ErrorMessage = "First name field is required.")]
-        public string FirstName { get; set; } = string.Empty;
+        public string? FirstName { get; set; }
 
         [Required(ErrorMessage = "Second name field is required.")]
-        public string Surname { get; set; } = string.Empty;
+        public string? Surname { get; set; }
 
         [Required(ErrorMessage = "Group name must be select.")]
-        public string Group { get; set; } = string.Empty;
+        public string? Group { get; set; }
 
         [Required(ErrorMessage = "The Confirm Password field is required.")]
         [Compare("Password", ErrorMessage = "Password and Confirm Password do not match.")]
-        public string ConfirmPassword { get; set; } = string.Empty;
+        public string? ConfirmPassword { get; set; }
     }
 }

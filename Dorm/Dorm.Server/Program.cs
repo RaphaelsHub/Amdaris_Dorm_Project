@@ -6,7 +6,7 @@ using Dorm.BLL.Settings;
 using Dorm.DAL;
 using Dorm.DAL.Interfaces;
 using Dorm.DAL.Repositories;
-using Dorm.Domain.Entities.User;
+using Dorm.Domain.Entities.UserEF;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,7 +35,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUsersRepository<User>, UsersRepository>();
+builder.Services.AddScoped<IUsersRepository<UserEF>, UsersRepository>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<JwtService, JwtService>(); 
 builder.Services.Configure<AuthSettings>(builder.Configuration.GetSection(nameof(AuthSettings)));

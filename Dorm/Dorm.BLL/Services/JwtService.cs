@@ -1,5 +1,5 @@
 ﻿using Dorm.BLL.Settings;
-using Dorm.Domain.Entities.User;
+using Dorm.Domain.Entities.UserEF;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -14,12 +14,10 @@ namespace Dorm.BLL.Services
 {
     public class JwtService(IOptions<AuthSettings> options)
     {
-        public string GetToken(User user)
+        public string GetToken(UserEF user)
         {
             var claims = new List<Claim>()
             {
-                new Claim("firstName", user.FirstName),
-                new Claim("secondName", user.Surname),
                 new Claim("id", user.Id.ToString()),
             };
 

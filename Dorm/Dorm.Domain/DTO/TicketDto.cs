@@ -1,10 +1,4 @@
-﻿using Dorm.Domain.Entities.User;
-using Dorm.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dorm.Domain.Enum.Ticket;
 
 namespace Dorm.Domain.DTO
 {
@@ -19,6 +13,6 @@ namespace Dorm.Domain.DTO
         public TicketStatus Status { get; set; }
         public UserDto? Respondent { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
-        public string? Response {  get; set; }
+        public string? Response { get; set; }
     }
 }

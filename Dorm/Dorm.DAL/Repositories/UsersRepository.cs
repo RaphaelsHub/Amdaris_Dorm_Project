@@ -1,13 +1,10 @@
 ﻿using Dorm.DAL.Interfaces;
-using Dorm.Domain.Entities.User;
+using Dorm.Domain.Entities.UserEF;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dorm.DAL.Repositories
 {
-    public class UsersRepository : IUsersRepository<User>
+    public class UsersRepository : IUsersRepository<UserEF>
     {
         private readonly ApplicationDbContext _db;
 
@@ -16,7 +13,7 @@ namespace Dorm.DAL.Repositories
             _db = db;
         }
 
-        public async Task<User> Create(User entity)
+        public async Task<UserEF> Create(UserEF entity)
         {
             await _db.Users.AddAsync(entity);
             await _db.SaveChangesAsync();
@@ -26,19 +23,19 @@ namespace Dorm.DAL.Repositories
             return user!;
         }
 
-        public async Task<User> GetByEmail(string email)
+        public async Task<UserEF?> GetByEmail(string email)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Email == email);
             return user;
         }
 
-        public async Task<User?> GetById(int id)
+        public async Task<UserEF?> GetById(int id)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
             return user;
         }
 
-        public async Task<User> Update(User entity)
+        public async Task<UserEF?> Update(UserEF entity)
         {
             _db.Users.Update(entity);
             await _db.SaveChangesAsync();

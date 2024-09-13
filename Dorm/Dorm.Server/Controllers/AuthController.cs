@@ -1,6 +1,5 @@
-﻿/*using Dorm.BLL.Interfaces;
-using Dorm.Domain.DTO;
-using Dorm.Domain.Models;
+﻿using Dorm.BLL.Interfaces;
+using Dorm.Domain.DTO.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -17,30 +16,33 @@ namespace Dorm.Server.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var validationResponse = await _authService.AuthValidation(loginModel);
+            var validationResponse = await _authService.AuthValidation(loginDto);
 
-            if (validationResponse.IsValid)
+            if (!validationResponse.IsValid)
+                return BadRequest(validationResponse);
+
+
+            var authResponse = await _authService.LoginUser(loginDto);
+
+            if (authResponse != null && authResponse.Success && !string.IsNullOrEmpty(authResponse.Token))
             {
-                var authResponse = await _authService.LoginUser(loginModel);
-
                 SetJwtCookie(authResponse.Token);
-
-                return authResponse.Success ? Ok(authResponse) : BadRequest(authResponse);
+                return Ok(authResponse);
             }
-
-            return BadRequest(validationResponse);
+            
+            return BadRequest(authResponse);
         }
 
         [HttpPost("registration")]
-        public async Task<IActionResult> Registration([FromBody] RegistrationModel registrationModel)
+        public async Task<IActionResult> Registration([FromBody] RegistrationDto registrationDto)
         {
-            var validationResponse = await _authService.AuthValidation(registrationModel);
+            var validationResponse = await _authService.AuthValidation(registrationDto);
 
             if (validationResponse.IsValid)
             {
-                var authResponse = await _authService.RegisterUser(registrationModel);
+                var authResponse = await _authService.RegisterUser(registrationDto);
 
                 return authResponse.Success ? Ok(authResponse) : BadRequest(authResponse);
             }
@@ -61,4 +63,3 @@ namespace Dorm.Server.Controllers
         }
     }
 }
-*/

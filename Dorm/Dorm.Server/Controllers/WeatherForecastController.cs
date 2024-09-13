@@ -1,7 +1,6 @@
 using Dorm.DAL;
-using Dorm.Domain.Entities.Ticket;
-using Dorm.Domain.Entities.User;
 using Microsoft.AspNetCore.Mvc;
+using Dorm.Domain.Entities.UserEF;
 
 namespace Dorm.Server.Controllers
 {
@@ -26,7 +25,7 @@ namespace Dorm.Server.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            _context.Users.Add(new User
+            _context.Users.Add(new UserEF
             {
                 FirstName = "Alex"
             });

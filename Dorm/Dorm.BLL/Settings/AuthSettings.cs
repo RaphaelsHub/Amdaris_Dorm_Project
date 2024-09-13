@@ -9,6 +9,6 @@ namespace Dorm.BLL.Settings
     public class AuthSettings
     {
         public TimeSpan TimeExp { get; set; }
-        public string SecretKey {  get; set; }
+        public string? SecretKey {  get; set; }
     }
 }

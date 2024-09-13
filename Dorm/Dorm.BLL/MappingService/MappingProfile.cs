@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Dorm.Domain.DTO;
+using Dorm.Domain.DTO.Auth;
 using Dorm.Domain.Entities.Ad;
 using Dorm.Domain.Entities.Ticket;
-using Dorm.Domain.Entities.User;
-using Dorm.Domain.Entities.Ticket;
-using Dorm.Domain.Models;
+using Dorm.Domain.Entities.UserEF;
 
 namespace Dorm.BLL.MappingService
 {
@@ -17,12 +11,12 @@ namespace Dorm.BLL.MappingService
     {
         public MappingProfile()
         {
-            CreateMap<RegistrationModel, User>()
+            CreateMap<RegistrationDto, UserEF>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
                 .ForMember(dest => dest.UserStatus, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
-            CreateMap<LoginModel, User>()
+            CreateMap<LoginDto, UserEF>()
                 .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
                 .ForMember(dest => dest.UserStatus, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
