@@ -1,10 +1,7 @@
 ﻿namespace Dorm.DAL.Interfaces
 {
-    public interface IUsersRepository<T>
+    public interface IUsersRepository<UserEF> : IBaseRepository<UserEF>
     {
-        Task<T> Create(T entity);
-        Task<T?> Update(T entity);
-        Task<T?> GetById(int id);
-        Task<T?> GetByEmail(string email);
+        Task<UserEF?> GetByEmail(string email);
     }
 }

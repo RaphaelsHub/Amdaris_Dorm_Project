@@ -8,7 +8,7 @@ namespace Dorm.Domain.DTO.Auth
         public string? FirstName { get; set; }
 
         [Required(ErrorMessage = "Second name field is required.")]
-        public string? Surname { get; set; }
+        public string? LastName { get; set; }
 
         [Required(ErrorMessage = "Group name must be select.")]
         public string? Group { get; set; }

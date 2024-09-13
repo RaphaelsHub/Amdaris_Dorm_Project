@@ -16,10 +16,14 @@ namespace Dorm.BLL.MappingService
                 .ForMember(dest => dest.UserStatus, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
-            CreateMap<LoginDto, UserEF>()
-                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore())
-                .ForMember(dest => dest.UserStatus, opt => opt.Ignore())
+            CreateMap<UserProfileDto, UserEF>()
+                .ForMember(dest => dest.Email, opt => opt.Ignore())
+                .ForMember(dest => dest.FirstName, opt => opt.Ignore())
+                .ForMember(dest => dest.Lastname, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<UserEF, UserProfileDto>();
+
 
 
             CreateMap<Ad, AdDto>();
@@ -29,7 +33,7 @@ namespace Dorm.BLL.MappingService
 
             CreateMap<Ticket, TicketDto>();
             CreateMap<TicketDto, Ticket>()
-                .ForMember(dest => dest.RespondentId, opt => opt.MapFrom(src => src.Respondent.Id));
+                .ForMember(dest => dest.RespondentId, opt => opt.MapFrom(src => src.Respondent.UserId));
 
         }
     }
