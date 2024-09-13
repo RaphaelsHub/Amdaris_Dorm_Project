@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dorm.Server.Contracts.Queries.TicketQueries
+namespace Dorm.Server.Contracts.Queries.Ticket.Get
 {
     public record GetTicketByIdQuery(int ticketId) : IRequest<TicketDto?>;
 }

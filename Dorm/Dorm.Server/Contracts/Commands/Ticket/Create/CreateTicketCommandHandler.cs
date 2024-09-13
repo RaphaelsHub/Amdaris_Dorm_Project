@@ -3,7 +3,7 @@ using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ticket;
 using MediatR;
 
-namespace Dorm.Server.Contracts.Commands.TicketCommands
+namespace Dorm.Server.Contracts.Commands.Ticket.Create
 {
     public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, TicketDto>
     {

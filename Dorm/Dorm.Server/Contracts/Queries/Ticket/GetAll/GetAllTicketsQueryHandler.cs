@@ -2,7 +2,7 @@
 using Dorm.Domain.DTO;
 using MediatR;
 
-namespace Dorm.Server.Contracts.Queries.TicketQueries
+namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
 {
     public class GetAllTicketsQueryHandler : IRequestHandler<GetAllTicketsQuery, IEnumerable<TicketDto>>
     {
