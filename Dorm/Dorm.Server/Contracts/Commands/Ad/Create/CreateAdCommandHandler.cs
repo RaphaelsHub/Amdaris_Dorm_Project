@@ -38,10 +38,9 @@ namespace Dorm.Server.Contracts.Commands.Ad.Create
 
             var userIdClaim = principal.FindFirst("id")?.Value;
 
-            // обновляем значение userId
-            var updatedModel = request.model with { UserId = int.Parse(userIdClaim) };
+            request.model.UserId = int.Parse(userIdClaim);
 
-            var response = await _adService.Create(updatedModel);
+            var response = await _adService.Create(request.model);
 
             return response;
         }

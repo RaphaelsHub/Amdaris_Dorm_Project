@@ -4,6 +4,6 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Queries.Ad.Get
 {
-    public record GetAdQuery(int adId)
+    public record GetAdQuery(int adId, string token)
         : IRequest<BaseResponse<AdDto>>;
 }
