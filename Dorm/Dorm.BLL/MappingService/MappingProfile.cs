@@ -27,9 +27,12 @@ namespace Dorm.BLL.MappingService
             CreateMap<AdDto, Ad>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
+
             CreateMap<Ticket, TicketDto>();
+
             CreateMap<TicketDto, Ticket>()
-                .ForMember(dest => dest.RespondentId, opt => opt.MapFrom(src => src.Respondent.Id));
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
         }
     }
