@@ -3,6 +3,7 @@ using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Enum.Ticket;
 using Microsoft.EntityFrameworkCore;
 using Dorm.Domain.Entities.UserEF;
+using Dorm.Domain.Entities.Laundry;
 
 namespace Dorm.DAL
 {
@@ -16,6 +17,27 @@ namespace Dorm.DAL
         public DbSet<UserEF> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Ad> Ads { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Washer> Washers { get; set; }
+
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Связь Washer с Reservation (один ко многим)
+            modelBuilder.Entity<Washer>()
+                .HasMany(w => w.Reservations)
+                .WithOne()
+                .HasForeignKey(r => r.WasherId)
+                .OnDelete(DeleteBehavior.Cascade); // Удаление резерваций при удалении машинки
+
+            // Конфигурация для Reservation
+            modelBuilder.Entity<Reservation>()
+                .HasOne<UserEF>()
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict); // Не позволяем удалять пользователя при наличии резерваций
+        }*/
 
         private static void InitializeDB(ApplicationDbContext context)
         {
@@ -42,6 +64,17 @@ namespace Dorm.DAL
                     Date = DateTime.UtcNow,
                 });
             }
+            /*if (!context.Reservations.Any())
+            {
+                context.Reservations.Add(new Reservation
+                {
+                    WasherId = 1,
+                    StartTime = DateTime.UtcNow,
+                    EndTime = DateTime.UtcNow.AddMinutes(120),
+                    UserId = 2
+                });
+                context.SaveChanges();
+            }*/
             context.SaveChanges();
         }
     }

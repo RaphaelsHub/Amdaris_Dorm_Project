@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Dorm.Domain.DTO.Laundry;
+using Dorm.Server.Contracts.Commands.Washer;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dorm.Server.Controllers
@@ -12,11 +14,22 @@ namespace Dorm.Server.Controllers
         {
             _mediator = mediator;
         }
-        [HttpPost("{reservationId}")] // Под вопросом
-        public async Task<IActionResult> Reserve([FromRoute] int reservationId, [FromBody] DateTime startTime)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] ReservationDto reservationDto)
         {
+            var token = Request.Cookies["authToken"];
 
-            return Ok();
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Token is missing");
+            }
+
+            var response = await _mediator.Send(new CreateReservationCommand(reservationDto, token));
+            if(response.Data == null)
+            {
+                return BadRequest(response.Description);
+            }
+            return Ok(response.Data);
         }
     }
 }
