@@ -14,12 +14,10 @@ namespace Dorm.Server.Controllers
     public class TicketController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ITicketService _ticketService;
 
-        public TicketController(IMediator mediator, ITicketService ticketService)
+        public TicketController(IMediator mediator)
         {
             _mediator = mediator;
-            _ticketService = ticketService;
         }
 
         [HttpGet("{ticketId}")]
