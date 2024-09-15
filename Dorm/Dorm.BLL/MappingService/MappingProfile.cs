@@ -35,8 +35,8 @@ namespace Dorm.BLL.MappingService
             CreateMap<Ticket, TicketDto>();
 
             CreateMap<TicketDto, Ticket>()
-                .ForMember(dest => dest.RespondentId, opt => opt.MapFrom(src => src.Respondent.UserId));
-                //.ForMember(dest => dest.Id, opt => opt.Ignore())
+                //.ForMember(dest => dest.RespondentId, opt => opt.MapFrom(src => src.Respondent.UserId));
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
                 //.ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }

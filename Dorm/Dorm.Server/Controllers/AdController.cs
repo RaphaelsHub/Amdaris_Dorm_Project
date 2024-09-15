@@ -98,7 +98,14 @@ namespace Dorm.Server.Controllers
         [HttpPut("{adId}")]
         public async Task<IActionResult> Edit([FromRoute] int adId, [FromBody] AdDto model)
         {
-            var response = await _mediator.Send(new EditAdCommand(adId, model));
+            var token = Request.Cookies["authToken"];
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Token is missing");
+            }
+
+            var response = await _mediator.Send(new EditAdCommand(adId, model, token));
 
             if (response.Data == null)
             {

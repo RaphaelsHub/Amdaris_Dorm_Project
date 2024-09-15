@@ -21,6 +21,6 @@ namespace Dorm.Domain.DTO
         public decimal Price { get; set; }
         public byte[]? Image { get; set; }
         public DateTime CreatedDate { get; set; }
-        public bool CanEdit {  get; set; }
+        public bool CanEdit { get; set; }
     }
 }

@@ -15,6 +15,7 @@ using Dorm.BLL.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Dorm.Server.Controllers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,17 +30,25 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Get
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+builder.Services.Configure<AuthSettings>(builder.Configuration.GetSection(nameof(AuthSettings)));
+builder.Services.AddAuth(builder.Configuration);
+builder.Services.AddScoped<JwtService, JwtService>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=root"));//04nykk
+    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=04nykk"));//04nykk
+
+
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ITicketService, TicketService>();
+
 builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddScoped<IUsersRepository<UserEF>, UsersRepository>();
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-builder.Services.AddScoped<JwtService, JwtService>(); 
-builder.Services.Configure<AuthSettings>(builder.Configuration.GetSection(nameof(AuthSettings)));
-builder.Services.AddAuth(builder.Configuration);
+builder.Services.AddScoped<IStudentProfileService, StudentProfileService>();
+
 
 builder.Services.AddScoped<IAdRepository, AdRepository>();
 builder.Services.AddScoped<IAdService, AdService>();
