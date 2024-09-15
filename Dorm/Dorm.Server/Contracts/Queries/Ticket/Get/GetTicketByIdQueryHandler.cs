@@ -6,24 +6,26 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Dorm.Server.Contracts.Commands.Ad.Create
+namespace Dorm.Server.Contracts.Queries.Ticket.Get
 {
-    public class CreateAdCommandHandler
-        : IRequestHandler<CreateAdCommand, BaseResponse<AdDto>>
+    public class GetTicketByIdQueryHandler : IRequestHandler<GetTicketByIdQuery, BaseResponse<TicketDto>>
     {
-        private readonly IAdService _adService;
+        private readonly ITicketService _ticketService;
         private readonly IOptions<AuthSettings> _options;
 
-        public CreateAdCommandHandler(IAdService adService, IOptions<AuthSettings> options)
+        public GetTicketByIdQueryHandler(ITicketService ticketService, IOptions<AuthSettings> options)
         {
-            _adService = adService;
+            _ticketService = ticketService;
             _options = options;
         }
-
-        public async Task<BaseResponse<AdDto>> Handle(CreateAdCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<TicketDto>> Handle(GetTicketByIdQuery request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey);
@@ -38,10 +40,11 @@ namespace Dorm.Server.Contracts.Commands.Ad.Create
 
             var userIdClaim = principal.FindFirst("id")?.Value;
 
-            request.model.UserId = int.Parse(userIdClaim);
-
-            var response = await _adService.Create(request.model);
-
+            var response = await _ticketService.GetById(request.ticketId);
+            if(response.Data != null) 
+            {
+                response.Data.canEdit = response.Data.UserId == int.Parse(userIdClaim);
+            }
             return response;
         }
     }

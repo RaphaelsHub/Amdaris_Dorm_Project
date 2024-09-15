@@ -3,11 +3,7 @@ using Dorm.BLL.Interfaces;
 using Dorm.DAL.Interfaces;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ticket;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Dorm.Domain.Responces;
 
 namespace Dorm.BLL.Services
 {
@@ -21,38 +17,85 @@ namespace Dorm.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<TicketDto> Create(TicketDto ticketDto)
+        public async Task<BaseResponse<TicketDto>> Create(TicketDto ticketDto)
         {
-            Ticket ticket = _mapper.Map<Ticket>(ticketDto);
-            await _ticketRepository.Create(_mapper.Map<Ticket>(ticketDto));
-            return _mapper.Map<TicketDto>(ticket);
+            try
+            {
+                var ticket = _mapper.Map<Ticket>(ticketDto);
+                await _ticketRepository.Create(ticket);
+                return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<TicketDto>(null, ex.Message);
+            }
         }
 
-        public async Task<bool> Delete(int ticketId)
+        public async Task<BaseResponse<bool>> Delete(int ticketId)
         {
-            var ticket = await _ticketRepository.GetById(ticketId);
-            if (ticket != null)
-                return await _ticketRepository.Delete(ticket);
-            return false;
+            try
+            {
+                var ticket = await _ticketRepository.GetById(ticketId);
+                if (ticket == null)
+                    return new BaseResponse<bool>(false, $"Ticket with ID {ticketId} not found.");
+                await _ticketRepository.Delete(ticket);
+                return new BaseResponse<bool>(true, "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool>(false, ex.Message);
+            }
         }
 
-        public async Task<IEnumerable<TicketDto>> GetAll()
+        public async Task<BaseResponse<IEnumerable<TicketDto>>> GetAll()
         {
-            var tickets = await _ticketRepository.GetAll();
-            return _mapper.Map<IEnumerable<TicketDto>>(tickets);
+            try
+            {
+                var tickets = await _ticketRepository.GetAll();
+                if (!tickets.Any())
+                {
+                    return new BaseResponse<IEnumerable<TicketDto>> (null, "Tickets not found.");
+                }
+                return new BaseResponse<IEnumerable<TicketDto>>(_mapper.Map<IEnumerable<TicketDto>>(tickets), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<TicketDto>>(null, ex.Message);
+            }
         }
 
-        public async Task<TicketDto?> GetById(int ticketId)
+        public async Task<BaseResponse<TicketDto>> GetById(int ticketId)
         {
-            return _mapper.Map<TicketDto?>(await _ticketRepository.GetById(ticketId));
+            try
+            {
+                var ticket = await _ticketRepository.GetById(ticketId);
+                if(ticket == null)
+                    return new BaseResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
+
+                return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<TicketDto>(null, ex.Message);
+            }
         }
 
-        public async Task<TicketDto> Update(int ticketId, TicketDto ticketDto)
+        public async Task<BaseResponse<TicketDto>> Update(int ticketId, TicketDto ticketDto)
         {
-            var ticket = await _ticketRepository.GetById(ticketId) ?? throw new KeyNotFoundException($"Ticket with ID {ticketId} not found.");
-            _mapper.Map(ticketDto, ticket);
-            await _ticketRepository.Update(ticket);
-            return _mapper.Map<TicketDto>(ticket);
+            try
+            {
+                var ticket = await _ticketRepository.GetById(ticketId);
+                if (ticket == null)
+                    return new BaseResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
+
+                _mapper.Map(ticketDto, ticket);
+                await _ticketRepository.Update(ticket);
+                return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<TicketDto>(null, ex.Message);
+            }
         }
     }
 }
