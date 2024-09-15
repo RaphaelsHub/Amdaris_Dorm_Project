@@ -32,11 +32,11 @@ namespace Dorm.DAL
                 .OnDelete(DeleteBehavior.Cascade); // Удаление резерваций при удалении машинки
 
             // Конфигурация для Reservation
-            modelBuilder.Entity<Reservation>()
+            *//*modelBuilder.Entity<Reservation>()
                 .HasOne<UserEF>()
                 .WithMany()
                 .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // Не позволяем удалять пользователя при наличии резерваций
+                .OnDelete(DeleteBehavior.Restrict);*//* // Не позволяем удалять пользователя при наличии резерваций
         }*/
 
         private static void InitializeDB(ApplicationDbContext context)
@@ -64,17 +64,41 @@ namespace Dorm.DAL
                     Date = DateTime.UtcNow,
                 });
             }
-            /*if (!context.Reservations.Any())
+
+            if (!context.Washers.Any())
+            {
+                context.Washers.Add(new Washer
+                {
+                    Id = 1,
+                    Name = "LG Vlad",
+                    IsOccupied = false,
+                });
+
+                context.Washers.Add(new Washer
+                {
+                    Id = 2,
+                    Name = "Samsung Sanek",
+                    IsOccupied = false,
+                });
+
+                context.Washers.Add(new Washer
+                {
+                    Id = 3,
+                    Name = "Apple Alya",
+                    IsOccupied = false,
+                });
+            }
+
+            if (!context.Reservations.Any())
             {
                 context.Reservations.Add(new Reservation
                 {
                     WasherId = 1,
                     StartTime = DateTime.UtcNow,
                     EndTime = DateTime.UtcNow.AddMinutes(120),
-                    UserId = 2
+                    UserId = 0
                 });
-                context.SaveChanges();
-            }*/
+            }
             context.SaveChanges();
         }
     }

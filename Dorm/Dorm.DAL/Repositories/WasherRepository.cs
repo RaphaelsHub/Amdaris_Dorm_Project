@@ -25,53 +25,33 @@ namespace Dorm.DAL.Repositories
             return true;
         }
 
-        public Task<bool> Delete(Reservation entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Reservation>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Reservation?> GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<Reservation>> HasReservation(int washerId, DateTime startTime, DateTime endTime)
         {
             return await _db.Reservations.Where(r => startTime <= r.EndTime && endTime >= r.StartTime).ToListAsync();
         }
 
-        public Task<Reservation> Update(Reservation entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        /*public async Task<bool> Delete(Washer entity)
+        public async Task<bool> Delete(Reservation entity)
         {
             _db.Reservations.Remove(entity);
             await _db.SaveChangesAsync();
             return true;
         }
 
-        public async Task<IEnumerable<Washer>> GetAll()
+        public async Task<IEnumerable<Reservation>> GetAll()
         {
             return await _db.Reservations.ToListAsync();
         }
 
-        public async Task<Washer?> GetById(int WasherId)
+        public async Task<Reservation?> GetById(int WasherId)
         {
             return await _db.Reservations.FirstOrDefaultAsync(x => x.Id == WasherId);
         }
 
-        public async Task<Washer> Update(Washer entity)
+        public async Task<Reservation> Update(Reservation entity)
         {
             _db.Reservations.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
-        }*/
+        }
     }
 }
