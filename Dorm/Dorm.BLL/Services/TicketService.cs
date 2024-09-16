@@ -17,6 +17,29 @@ namespace Dorm.BLL.Services
             _mapper = mapper;
         }
 
+        public async Task<BaseResponse<TicketDto>> AddResponse(int ticketId, TicketDto ticketDto)
+        {
+            try
+            {
+                var ticket = await _ticketRepository.GetById(ticketId);
+                if (ticket == null)
+                    return new BaseResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
+
+                ticket.RespondentId = ticketDto.RespondentId;
+                ticket.RespondentName = ticketDto.RespondentName;
+                ticket.RespondentEmail = ticketDto.RespondentEmail;
+                ticket.Response = ticketDto.Response;
+                ticket.Status = Domain.Enum.Ticket.TicketStatus.IN_PROCESS;
+
+                await _ticketRepository.Update(ticket);
+                return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<TicketDto>(null, ex.Message);
+            }
+        }
+
         public async Task<BaseResponse<TicketDto>> Create(TicketDto ticketDto)
         {
             try
@@ -88,7 +111,9 @@ namespace Dorm.BLL.Services
                 if (ticket == null)
                     return new BaseResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
 
+                //int temp = ticketDto.UserId;
                 _mapper.Map(ticketDto, ticket);
+                //ticket.UserId = temp;
                 await _ticketRepository.Update(ticket);
                 return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
             }

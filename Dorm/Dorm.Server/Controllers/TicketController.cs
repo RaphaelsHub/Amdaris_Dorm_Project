@@ -1,5 +1,6 @@
 ﻿using Dorm.BLL.Interfaces;
 using Dorm.Domain.DTO;
+using Dorm.Server.Contracts.Commands.Ticket.AddResponse;
 using Dorm.Server.Contracts.Commands.Ticket.Create;
 using Dorm.Server.Contracts.Commands.Ticket.Delete;
 using Dorm.Server.Contracts.Commands.Ticket.Update;
@@ -45,7 +46,14 @@ namespace Dorm.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllTickets()
         {
-            var response = await _mediator.Send(new GetAllTicketsQuery());
+            var token = Request.Cookies["authToken"];
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Token is missing");
+            }
+
+            var response = await _mediator.Send(new GetAllTicketsQuery(token));
 
             if(response.Data == null)
             {
@@ -94,6 +102,23 @@ namespace Dorm.Server.Controllers
             }
 
             var response = await _mediator.Send(new UpdateTicketCommand(ticketId, ticketDto, token));
+            if (response.Data == null)
+                return NotFound(response.Description);
+
+            return Ok(response.Data);
+        }
+
+        [HttpPut("api/tickets/{ticketId}/response")]
+        public async Task<IActionResult> AddResponse([FromRoute] int ticketId, [FromBody] TicketDto ticketDto)
+        {
+            var token = Request.Cookies["authToken"];
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Token is missing");
+            }
+
+            var response = await _mediator.Send(new AddResponseCommand(ticketId, ticketDto, token));
             if (response.Data == null)
                 return NotFound(response.Description);
 
