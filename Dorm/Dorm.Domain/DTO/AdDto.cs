@@ -8,21 +8,19 @@ using System.Threading.Tasks;
 
 namespace Dorm.Domain.DTO
 {
-    public record AdDto
-    (
-        //[property: JsonIgnore]
-        int id,
-        //[property: JsonIgnore]
-        int UserId,
-        string Name,
-        string Number,
-        AdType Type,
-        AdStatus Status,
-        string Subject,
-        string Description,
-        decimal Price,
-        byte[] Image,
-        //[property: JsonIgnore]
-        DateTime CreatedDate
-    );
+    public class AdDto
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string? Name { get; set; }
+        public string? Number { get; set; }
+        public AdType Type { get; set; }
+        public AdStatus Status { get; set; }
+        public string? Subject { get; set; }
+        public string? Description { get; set; }
+        public decimal Price { get; set; }
+        public byte[]? Image { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public bool CanEdit { get; set; }
+    }
 }

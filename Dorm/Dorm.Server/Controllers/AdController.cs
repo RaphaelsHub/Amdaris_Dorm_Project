@@ -3,6 +3,8 @@ using Dorm.BLL.Settings;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ad;
 using Dorm.Server.Contracts.Commands.Ad.Create;
+using Dorm.Server.Contracts.Commands.Ad.Delete;
+using Dorm.Server.Contracts.Commands.Ad.Edit;
 using Dorm.Server.Contracts.Queries.Ad.Get;
 using Dorm.Server.Contracts.Queries.Ad.GetAll;
 using MediatR;
@@ -20,14 +22,10 @@ namespace Dorm.Server.Controllers
     public class AdController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IAdService _adService;
-        private readonly IOptions<AuthSettings> _authSettings;
 
-        public AdController(IAdService adService, IMediator mediator, IOptions<AuthSettings> authSettings)
+        public AdController(IMediator mediator)
         {
             _mediator = mediator;
-            _adService = adService;
-            _authSettings = authSettings;
         }
 
         [HttpPost]
@@ -53,7 +51,14 @@ namespace Dorm.Server.Controllers
         [HttpGet("{adId}")]
         public async Task<IActionResult> Get([FromRoute] int adId)
         {
-            var response = await _mediator.Send(new GetAdQuery(adId));
+            var token = Request.Cookies["authToken"];
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Token is missing");
+            }
+
+            var response = await _mediator.Send(new GetAdQuery(adId, token));
             
 
             if (response.Data == null) 
@@ -80,20 +85,28 @@ namespace Dorm.Server.Controllers
         [HttpDelete("{adId}")]
         public async Task<IActionResult> Delete([FromRoute] int adId)
         {
-            var response = await _adService.Delete(adId);
+            var response = await _mediator.Send(new DeleteAdCommand(adId));
             
             if (response.Data == false)
             {
                 return BadRequest(response.Description);
             }
 
-            return Ok();
+            return Ok(response.Data);
         }
 
         [HttpPut("{adId}")]
         public async Task<IActionResult> Edit([FromRoute] int adId, [FromBody] AdDto model)
         {
-            var response = await _adService.Edit(adId, model);
+            var token = Request.Cookies["authToken"];
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Token is missing");
+            }
+
+            var response = await _mediator.Send(new EditAdCommand(adId, model, token));
+
             if (response.Data == null)
             {
                 return BadRequest(response.Description);

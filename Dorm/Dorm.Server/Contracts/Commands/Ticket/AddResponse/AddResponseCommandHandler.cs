@@ -2,25 +2,28 @@
 using Dorm.BLL.Settings;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Responces;
+using Dorm.Server.Controllers;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
+namespace Dorm.Server.Contracts.Commands.Ticket.AddResponse
 {
-    public class GetAllTicketsQueryHandler : IRequestHandler<GetAllTicketsQuery, BaseResponse<IEnumerable<TicketDto>>>
+    public class AddResponseCommandHandler : IRequestHandler<AddResponseCommand, BaseResponse<TicketDto>>
     {
         private readonly ITicketService _ticketService;
         private readonly IOptions<AuthSettings> _options;
-        public GetAllTicketsQueryHandler(ITicketService ticketService, IOptions<AuthSettings> options)
+        private readonly IStudentProfileService _studentProfileService;
+        public AddResponseCommandHandler(ITicketService ticketService, IOptions<AuthSettings> options, IStudentProfileService studentProfileService)
         {
             _ticketService = ticketService;
             _options = options;
+            _studentProfileService = studentProfileService;
         }
 
-        public async Task<BaseResponse<IEnumerable<TicketDto>>> Handle(GetAllTicketsQuery request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<TicketDto>> Handle(AddResponseCommand request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey!);
@@ -34,13 +37,12 @@ namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
             }, out SecurityToken validatedToken);
 
             var currentUserId = int.Parse(principal.FindFirst("id")?.Value);
-            var response =  await _ticketService.GetAll();
+            var currentUser = await _studentProfileService.GetById(currentUserId);
+            request.ticketDto.RespondentId = currentUserId;
+            request.ticketDto.RespondentName = currentUser.Data.FirstName + " " + currentUser.Data.Lastname;
+            request.ticketDto.RespondentEmail = currentUser.Data.Email;
 
-            foreach (var ticket in response.Data)
-            {
-                ticket.canEdit = ticket.UserId == currentUserId;
-            }
-            return response;
+            return await _ticketService.AddResponse(request.ticketId, request.ticketDto);
         }
     }
 }

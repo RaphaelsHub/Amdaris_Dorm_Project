@@ -10,6 +10,8 @@ namespace Dorm.Domain.Entities.Ticket
         public int Id { get; set; }
         public int UserId { get; set; }
         public int? RespondentId { get; set; }
+        public string? RespondentName { get; set; }
+        public string? RespondentEmail { get; set; }
         public string? Name { get; set; }
         public string? Group { get; set; }
         public string? Room { get; set; }

@@ -14,6 +14,8 @@ namespace Dorm.Domain.DTO
         public string? Description { get; set; }
         public TicketStatus Status { get; set; }
         public int RespondentId { get; set; }
+        public string? RespondentName { get; set; }
+        public string? RespondentEmail { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
         public string? Response { get; set; }
         public bool canEdit { get; set; }

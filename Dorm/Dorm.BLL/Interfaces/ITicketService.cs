@@ -10,5 +10,6 @@ namespace Dorm.BLL.Interfaces
         Task<BaseResponse<TicketDto>> Create(TicketDto ticketDto);
         Task<BaseResponse<bool>> Delete(int ticketId);
         Task<BaseResponse<TicketDto>> Update(int ticketId, TicketDto ticketDto);
+        Task<BaseResponse<TicketDto>> AddResponse(int ticketId, TicketDto ticketDto);
     }
 }

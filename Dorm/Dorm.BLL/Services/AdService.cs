@@ -3,6 +3,7 @@ using Dorm.BLL.Interfaces;
 using Dorm.DAL.Interfaces;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ad;
+using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Responces;
 
 namespace Dorm.BLL.Services
@@ -115,6 +116,7 @@ namespace Dorm.BLL.Services
                     return new BaseResponse<IEnumerable<AdDto>>(null, "0 elements.");
                 }
 
+                //_mapper.Map<IEnumerable<TicketDto>>(tickets);
                 var adDtos = _mapper.Map<IEnumerable<AdDto>>(ads);
                 
                 return new BaseResponse<IEnumerable<AdDto>>(adDtos, "Success.");
