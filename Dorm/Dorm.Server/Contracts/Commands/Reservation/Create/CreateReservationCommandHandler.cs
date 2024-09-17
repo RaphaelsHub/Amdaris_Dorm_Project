@@ -1,7 +1,6 @@
 ﻿using Dorm.BLL.Interfaces;
 using Dorm.BLL.Settings;
 using Dorm.Domain.DTO.Laundry;
-using Dorm.Domain.Entities.Laundry;
 using Dorm.Domain.Responces;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -9,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace Dorm.Server.Contracts.Commands.Washer
+namespace Dorm.Server.Contracts.Commands.Reservation.Create
 {
     public class CreateReservationCommandHandler : IRequestHandler<CreateReservationCommand, BaseResponse<ReservationDto>>
     {
@@ -24,7 +23,8 @@ namespace Dorm.Server.Contracts.Commands.Washer
 
         public async Task<BaseResponse<ReservationDto>> Handle(CreateReservationCommand request, CancellationToken cancellationToken)
         {
-            if(await _washerService.HasReservation(request.reservationDto.WasherId, request.reservationDto.StartTime, request.reservationDto.EndTime))
+            var reservations = await _washerService.HasReservation(request.reservationDto.WasherId, request.reservationDto.StartTime, request.reservationDto.EndTime);
+            if (reservations.Data)
             {
                 return new BaseResponse<ReservationDto>(null, "Washer is occupied. Try different time.");
             }
@@ -41,7 +41,6 @@ namespace Dorm.Server.Contracts.Commands.Washer
             }, out SecurityToken validatedToken);
 
             request.reservationDto.UserId = int.Parse(principal.FindFirst("id")?.Value);
-            request.reservationDto.StartTime.ToLocalTime();
             request.reservationDto.EndTime = request.reservationDto.StartTime.AddHours(2);
 
             return await _washerService.Create(request.reservationDto);

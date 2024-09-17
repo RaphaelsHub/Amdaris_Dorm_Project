@@ -1,15 +1,9 @@
 ﻿using AutoMapper;
 using Dorm.BLL.Interfaces;
 using Dorm.DAL.Interfaces;
-using Dorm.Domain.DTO;
 using Dorm.Domain.DTO.Laundry;
 using Dorm.Domain.Entities.Laundry;
 using Dorm.Domain.Responces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dorm.BLL.Services
 {
@@ -38,33 +32,98 @@ namespace Dorm.BLL.Services
 
         public async Task<BaseResponse<bool>> Delete(int reservationId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var reservation = await _washerRepository.GetById(reservationId);
+                if (reservation == null)
+                    return new BaseResponse<bool>(false, $"Reservation with ID {reservationId} not found.");
+                await _washerRepository.Delete(reservation);
+                return new BaseResponse<bool>(true, "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool>(false, ex.Message);
+            }
         }
 
         public async Task<BaseResponse<IEnumerable<ReservationDto>>> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var reservations = await _washerRepository.GetAll();
+                if (!reservations.Any())
+                {
+                    return new BaseResponse<IEnumerable<ReservationDto>>(null, "Reservations not found.");
+                }
+                return new BaseResponse<IEnumerable<ReservationDto>>(_mapper.Map<IEnumerable<ReservationDto>>(reservations), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<ReservationDto>> (null, ex.Message);
+            }
         }
 
         public async Task<BaseResponse<IEnumerable<ReservationDto>>> GetAllByUserId(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var reservations = await _washerRepository.GetAllByUserId(userId);
+                if (!reservations.Any())
+                {
+                    return new BaseResponse<IEnumerable<ReservationDto>>(null, "Reservations not found.");
+                }
+                return new BaseResponse<IEnumerable<ReservationDto>>(_mapper.Map<IEnumerable<ReservationDto>>(reservations), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<ReservationDto>>(null, ex.Message);
+            }
         }
 
         public async Task<BaseResponse<IEnumerable<ReservationDto>>> GetAllByWasherId(int washerId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var reservations = await _washerRepository.GetAllByWasherId(washerId);
+                if (!reservations.Any())
+                {
+                    return new BaseResponse<IEnumerable<ReservationDto>>(null, "Reservations not found.");
+                }
+                return new BaseResponse<IEnumerable<ReservationDto>>(_mapper.Map<IEnumerable<ReservationDto>>(reservations), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<ReservationDto>>(null, ex.Message);
+            }
         }
 
         public async Task<BaseResponse<ReservationDto>> GetById(int reservationId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var reservation = await _washerRepository.GetById(reservationId);
+                if (reservation == null)
+                    return new BaseResponse<ReservationDto>(null, $"Ticket with ID {reservationId} not found.");
+
+                return new BaseResponse<ReservationDto>(_mapper.Map<ReservationDto>(reservation), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ReservationDto>(null, ex.Message);
+            }
         }
 
-        public async Task<bool> HasReservation(int washerId, DateTime startTime, DateTime endTime)
+        public async Task<BaseResponse<bool>> HasReservation(int washerId, DateTime startTime, DateTime endTime)
         {
-            var reservation = await _washerRepository.HasReservation(washerId, startTime, endTime);
-            return reservation.Any();
+            try
+            {
+                var reservations = await _washerRepository.HasReservation(washerId, startTime, endTime);
+                return new BaseResponse<bool>(reservations.Any(), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool>(false, ex.Message);
+            }
         }
 
         public async Task<BaseResponse<ReservationDto>> Update(int reservationId, ReservationDto reservationDto)

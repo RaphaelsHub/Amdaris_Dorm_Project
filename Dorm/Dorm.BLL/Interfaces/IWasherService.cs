@@ -1,11 +1,5 @@
-﻿using Dorm.Domain.DTO;
-using Dorm.Domain.DTO.Laundry;
+﻿using Dorm.Domain.DTO.Laundry;
 using Dorm.Domain.Responces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dorm.BLL.Interfaces
 {
@@ -18,6 +12,6 @@ namespace Dorm.BLL.Interfaces
         Task<BaseResponse<ReservationDto>> Create(ReservationDto reservationDto);
         Task<BaseResponse<bool>> Delete(int reservationId);
         Task<BaseResponse<ReservationDto>> Update(int reservationId, ReservationDto reservationDto);
-        Task<bool> HasReservation(int washerId, DateTime startTime, DateTime endTime);
+        Task<BaseResponse<bool>> HasReservation(int washerId, DateTime startTime, DateTime endTime);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Dorm.DAL.Interfaces;
+using Dorm.Domain.DTO.Laundry;
 using Dorm.Domain.Entities.Laundry;
+using Dorm.Domain.Entities.UserEF;
 using Dorm.Domain.Responces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -27,7 +29,7 @@ namespace Dorm.DAL.Repositories
 
         public async Task<IEnumerable<Reservation>> HasReservation(int washerId, DateTime startTime, DateTime endTime)
         {
-            return await _db.Reservations.Where(r => startTime <= r.EndTime && endTime >= r.StartTime).ToListAsync();
+            return await _db.Reservations.Where(r => r.WasherId == washerId && startTime <= r.EndTime && endTime >= r.StartTime).ToListAsync();
         }
 
         public async Task<bool> Delete(Reservation entity)
@@ -52,6 +54,16 @@ namespace Dorm.DAL.Repositories
             _db.Reservations.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task<IEnumerable<Reservation>> GetAllByUserId(int userId)
+        {
+            return await _db.Reservations.Where(r => userId == r.UserId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Reservation>> GetAllByWasherId(int washerId)
+        {
+            return await _db.Reservations.Where(r => washerId == r.WasherId).ToListAsync();
         }
     }
 }
