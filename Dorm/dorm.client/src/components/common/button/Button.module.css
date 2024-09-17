@@ -1,0 +1,40 @@
+.button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #af97c8;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    margin-top: 10px;
+    margin-left: 3%;
+    color: black;
+  }
+  .button:hover {
+    border-color: #646cff;
+    color: white;
+
+  }
+  .button:focus,
+  .button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+
+/* 
+  .registration-container button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 500;
+  }
+
+.registration-container button:hover {
+    background-color: #45a049;
+  } */
