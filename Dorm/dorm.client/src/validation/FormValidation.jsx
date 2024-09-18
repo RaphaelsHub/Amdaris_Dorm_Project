@@ -12,7 +12,7 @@ export const schema = Joi.object({
     }),
   password: Joi.string()
     .min(8)
-    .pattern(new RegExp(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/))
+    .pattern(new RegExp(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?.&])[A-Za-z\d@$!%*?.&]+$/))
     .required()
     .label("Пароль")
     .messages({

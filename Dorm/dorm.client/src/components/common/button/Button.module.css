@@ -5,21 +5,21 @@
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #af97c8;
+    background-color: #856088;
     cursor: pointer;
-    transition: border-color 0.25s;
+    transition: border-color 0.05s;
     margin-top: 10px;
     margin-left: 3%;
     color: black;
   }
   .button:hover {
-    border-color: #646cff;
+    border-color: #301934;
     color: white;
 
   }
   .button:focus,
   .button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+    outline: 2px auto -webkit-focus-ring-color;
   }
 
 /* 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import InputField from "../inputs/InputField";
 import Button from "../common/button/Button";
 import { validateForm } from "../../validation/FormValidation";
+import axios from "axios";
 import './RegistrationForm.css'
 
 export default function RegistrationForm() {
@@ -15,6 +16,8 @@ export default function RegistrationForm() {
   });
 
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState(null);
 
 
   const handleChange = (e) => {
@@ -25,26 +28,47 @@ export default function RegistrationForm() {
     });
   };
 
-
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const validationErrors = validateForm(formData);
-    if (validationErrors) {
-      setErrors(validationErrors);
-    } else {
-      setErrors({});
-      console.log("Данные формы:", formData);
+    try {
+      const validationErrors = validateForm(formData);
+      if (validationErrors) {
+        setErrors(validationErrors);
+        return;
+      }
+  
+      const response = await axios.post('http://localhost:5077/api/Auth/registration', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      console.log('Регистрация успешна', response.data);
+    } catch (error) {
+      console.error('Ошибка регистрации', error);
+      if (error.response) {
+        // Сервер вернул ответ с ошибкой
+        console.error('Ошибка от сервера:', error.response.data);
+      } else if (error.request) {
+        // Сервер не ответил
+        console.error('Не удалось получить ответ от сервера:', error.request);
+      } else {
+        // Другая ошибка
+        console.error('Ошибка:', error.message);
+      }
     }
   };
+  
 
     return (
     <div className="registration-page">
       <div className="registration-container">
         <h2 className="registration-header">Регистрация</h2>
 
-        <form onSubmit={handleSubmit}>
+        {message && <div className="message">{message}</div>} {/* Вывод сообщения */}
 
+        <form onSubmit={handleSubmit}>
           <InputField
             label="Email"
             type="email"
@@ -93,7 +117,8 @@ export default function RegistrationForm() {
             onChange={handleChange}
             error={errors.group}
           />
-          <Button label="Зарегистрироваться" buttonType="submit"/>
+          {/* <Button label="Зарегистрироваться" buttonType="submit"/> */}
+          <Button label={isSubmitting ? "Отправка..." : "Зарегистрироваться"} buttonType="submit" disabled={isSubmitting} />
         </form>
         <div className="login-redirect">
           Уже есть аккаунт? <a href="/login">Войти</a>

@@ -21,10 +21,21 @@ using Dorm.Server.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("http://localhost:5174")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
+    });
+});
 
 builder.Services.AddControllers();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -56,6 +67,11 @@ builder.Services.AddScoped<IAdService, AdService>();
 
 var app = builder.Build();
 
+app.UseCors(options => options
+    .WithOrigins("http://localhost:5174")
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()); // Разрешает отправку куки
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

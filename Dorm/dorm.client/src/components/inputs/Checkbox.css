@@ -1,0 +1,14 @@
+.checkbox-container {
+    margin: 10px 0;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+  }
+  
+  .checkbox-input {
+    margin-right: 8px;
+  }
+  

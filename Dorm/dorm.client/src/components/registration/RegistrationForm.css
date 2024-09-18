@@ -4,10 +4,11 @@
   align-items: center;
   height: auto;
   background-color: white;
+  margin-top: 50px;
 }
 
 .registration-container {
-  background-color: #f9f1da;
+  background-color: #F5F5F5;
   padding: 30px;
   border-radius: 20px;
   box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.1);
@@ -20,7 +21,7 @@
     font-size: 24px;
     margin-top: 0;
     text-align: center;
-    color: purple
+    color: #301934;
   }
   
 .registration-container form {
