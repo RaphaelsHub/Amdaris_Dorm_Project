@@ -60,7 +60,7 @@ namespace Dorm.Server.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-             Response.Cookies.Delete("authToken");
+            Response.Cookies.Delete("authToken");
             return Ok();
         }
     }
