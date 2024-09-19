@@ -1,54 +1,57 @@
-﻿using Dorm.Domain.DTO;
+﻿using Dorm.BLL.Interfaces;
+using Dorm.Domain.DTO;
 using Dorm.Domain.Responces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+// ReSharper disable MergeIntoPattern
 
 namespace Dorm.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentProfileController : ControllerBase
+    public class StudentProfileController(IStudentProfileService studentProfileService) : ControllerBase
     {
-        private readonly IStudentProfileService _studentProfileService;
-
-        public StudentProfileController(IStudentProfileService studentProfileService)
-        {
-            _studentProfileService = studentProfileService;
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateProfile(UserProfileDto userDto) =>
-            await _studentProfileService.Create(userDto) is var result && result.Data != null
-                ? Ok(result.Data)
-                : BadRequest(result.Description);
-
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProfileById(int id) =>
-            await _studentProfileService.GetById(id) is var result && result.Data != null
-            ? Ok(result.Data)
-            : BadRequest(result.Description);
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProfile([FromRoute] int id, [FromBody] UserProfileDto userDto) =>
-            await _studentProfileService.Edit(id, userDto) is var result && result.Data != null
-                ? Ok(result.Data)
-                : BadRequest(result.Description);
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProfile([FromRoute] int id) =>
-            await _studentProfileService.Delete(id) is var result && result.Data == true
-                ? Ok(result.Data)
-                : BadRequest(result.Description);
-
+        public async Task<IActionResult> GetProfileById(int id)
+        {
+            var response = await studentProfileService.GetById(id);
+            
+            if(response == null)
+                throw new ArgumentNullException($"Response is null api/StudentProfileController/GetProfileById/{id}");
+            
+            return response.Data == null ? BadRequest(response.Description) : Ok(response.Data);
+        }
+        
         [HttpGet]
         public async Task<IActionResult> GetAllProfiles()
         {
-            var response = await _studentProfileService.GetAll();
+            BaseResponse<IEnumerable<UserProfileDto>> response = await studentProfileService.GetAll();
 
-            if (response.Data == null || response.Data.Count() == 0)
-                return Ok(response.Description);
+            if (response == null)
+                throw new ArgumentNullException($"Response is null api/StudentProfileController/GetAllProfiles");
+            
+            return response.Data == null || !response.Data.Any() ? Ok(response.Description) : Ok(response.Data);
+        }
+        
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProfile([FromRoute] int id, [FromBody] UserProfileDto userDto)
+        {
+            var response = await studentProfileService.Edit(id, userDto);
+            
+            if(response == null)
+                throw new ArgumentNullException($"Response is null api/StudentProfileController/UpdateProfile/{id}");
+            
+            return response.Data == null ? BadRequest(response.Description) : Ok(response.Data);
+        }
 
-            return Ok(response.Data);
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProfile([FromRoute] int id)
+        {
+            var response = await studentProfileService.Delete(id);
+            
+            if(response == null)
+                throw new ArgumentNullException($"Response is null api/StudentProfileController/DeleteProfile/{id}");
+            
+            return response.Data ? Ok(response.Description) : BadRequest(response.Description);
         }
     }
 }

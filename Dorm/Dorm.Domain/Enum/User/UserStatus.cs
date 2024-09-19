@@ -1,6 +1,6 @@
 ﻿namespace Dorm.Domain.Enum.User
 {
-    public enum UserStatus
+    public enum UserType
     {
         Student = 1,
         Moderator = 2,
