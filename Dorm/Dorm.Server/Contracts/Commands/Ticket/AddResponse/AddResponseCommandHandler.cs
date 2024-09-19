@@ -39,7 +39,7 @@ namespace Dorm.Server.Contracts.Commands.Ticket.AddResponse
             var currentUserId = int.Parse(principal.FindFirst("id")?.Value);
             var currentUser = await _studentProfileService.GetById(currentUserId);
             request.ticketDto.RespondentId = currentUserId;
-            request.ticketDto.RespondentName = currentUser.Data.FirstName + " " + currentUser.Data.Lastname;
+            request.ticketDto.RespondentName = currentUser.Data.FirstName + " " + currentUser.Data.LastName;
             request.ticketDto.RespondentEmail = currentUser.Data.Email;
 
             return await _ticketService.AddResponse(request.ticketId, request.ticketDto);
