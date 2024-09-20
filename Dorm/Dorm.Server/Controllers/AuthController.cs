@@ -56,6 +56,7 @@ namespace Dorm.Server.Controllers
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.None,
+                Secure = true,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
 

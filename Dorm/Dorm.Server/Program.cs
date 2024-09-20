@@ -67,11 +67,7 @@ builder.Services.AddScoped<IAdService, AdService>();
 
 var app = builder.Build();
 
-app.UseCors(options => options
-    .WithOrigins("http://localhost:5174")
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials()); // Разрешает отправку куки
+app.UseCors("AllowSpecificOrigin"); // Разрешает отправку куки
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

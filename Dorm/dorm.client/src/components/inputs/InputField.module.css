@@ -1,8 +1,9 @@
 .inputFieldContainer {
-    margin-bottom: 3px;
+    margin-bottom: 5px;
   }
 
 .input {
+    font-family: 'Exo 2', sans-serif;
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -12,7 +13,9 @@
   }
 
 .input:focus {
-    border-color: #ff5733;
+  border-color: purple;
+  outline: none;
+  box-shadow: 0 0 2px #301934;
   }
 
 .label {

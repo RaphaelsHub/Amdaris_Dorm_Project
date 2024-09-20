@@ -45,16 +45,14 @@ export default function RegistrationForm() {
       });
       
       console.log('Регистрация успешна', response.data);
+
     } catch (error) {
       console.error('Ошибка регистрации', error);
       if (error.response) {
-        // Сервер вернул ответ с ошибкой
         console.error('Ошибка от сервера:', error.response.data);
       } else if (error.request) {
-        // Сервер не ответил
         console.error('Не удалось получить ответ от сервера:', error.request);
       } else {
-        // Другая ошибка
         console.error('Ошибка:', error.message);
       }
     }
@@ -66,7 +64,7 @@ export default function RegistrationForm() {
       <div className="registration-container">
         <h2 className="registration-header">Регистрация</h2>
 
-        {message && <div className="message">{message}</div>} {/* Вывод сообщения */}
+        {message && <div className="message">{message}</div>}
 
         <form onSubmit={handleSubmit}>
           <InputField

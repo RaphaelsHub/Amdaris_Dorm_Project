@@ -4,7 +4,7 @@ import Button from "../common/button/Button";
 import Checkbox from "../inputs/Checkbox";
 import { validateLoginForm } from "../../validation/LoginValidation";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './LoginForm.css';
 
 export default function LoginForm() {
@@ -46,6 +46,7 @@ export default function LoginForm() {
       });
       
       console.log("Успешный вход:", response.data);
+      localStorage.setItem('token', response.data.token);
 
       // Здесь можно сохранить данные о входе пользователя
     } catch (error) {
