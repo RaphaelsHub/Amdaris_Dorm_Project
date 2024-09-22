@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import InputField from '../../inputs/InputField';
 import SelectField from '../../inputs/SelectField';
 import Button from '../../common/button/Button';
-import './AdForm.css'
 import TextareaField from '../../inputs/TextareaField';
+import './AdForm.css';
 
 export default function AdForm() {
+    const { adId } = useParams();
     const [formData, setFormData] = useState({
         name: "",
         number: "",
@@ -18,28 +19,53 @@ export default function AdForm() {
         price: 0,
         currency: "MDL",
         image: ""
-
-      });
+    });
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+    const [isEditMode, setIsEditMode] = useState(false);
 
     
+    useEffect(() => {
+        if (adId) {
+            setIsEditMode(true);
+            const fetchAdData = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:5077/api/ads/${adId}`, {
+                        withCredentials: true
+                    });
+                    setFormData({
+                        name: response.data.name,
+                        number: response.data.number,
+                        type: response.data.type,
+                        status: response.data.status,
+                        subject: response.data.subject,
+                        description: response.data.description,
+                        price: response.data.price,
+                        currency: response.data.currency,
+                        image: response.data.image ? `data:image/jpeg;base64,${response.data.image}` : ""
+                    });
+                } catch (error) {
+                    console.error("Ошибка при загрузке данных объявления:", error.response ? error.response.data : error.message);
+                }
+            };
 
-    const [errors, setErrors] = useState({});
-    // const navigate = useNavigate();
-
+            fetchAdData();
+        }
+    }, [adId]);
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === "image" && files) {
             const file = files[0];
             const reader = new FileReader();
-    
+
             reader.onloadend = () => {
                 setFormData({
                     ...formData,
                     image: reader.result
                 });
             };
-    
+
             reader.readAsDataURL(file);
         } else {
             setFormData({
@@ -48,7 +74,7 @@ export default function AdForm() {
             });
         }
     };
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -58,7 +84,6 @@ export default function AdForm() {
         if (!formData.subject) newErrors.subject = "Поле обязательно для заполнения";
         if (!formData.price) newErrors.price = "Поле обязательно для заполнения";
 
-        
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
@@ -66,38 +91,46 @@ export default function AdForm() {
 
         const formDataToSend = {
             ...formData,
+            type: parseInt(formData.type),
+            status: parseInt(formData.status),
             image: formData.image ? formData.image.split(',')[1] : null
         };
-    
+
         try {
-            const response = await axios.post("http://localhost:5077/api/ads", formDataToSend, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true,
-            });
-            
-            
-            console.log("Товар добавлен:", response.data);
+            if (isEditMode) {
+                
+                const response = await axios.put(`http://localhost:5077/api/ads/${adId}`, formDataToSend, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                });
+                console.log("Товар обновлен:", response.data);
+            } else {
+                
+                const response = await axios.post("http://localhost:5077/api/ads", formDataToSend, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    withCredentials: true,
+                });
+                console.log("Товар добавлен:", response.data);
+            }
 
-            // const newAdId = response.data.id;
-            // navigate(/ads/${newAdId});
-        } 
-
-        catch (error) {
-            console.error("Ошибка при добавлении товара:", error.response ? error.response.data : error.message);
+            navigate(`/ads/${adId || response.data.id}`);
+        } catch (error) {
+            console.error("Ошибка при сохранении товара:", error.response ? error.response.data : error.message);
         }
     };
-    
 
-
-      return (
+    return (
         <div className='ad-form-page'>
             <div className='ad-form-container'>
-                <h2 className='ad-form-header'>Заполните объявление</h2>
+                <h2 className='ad-form-header'>
+                    {isEditMode ? 'Редактировать объявление' : 'Заполните объявление'}
+                </h2>
 
                 <form onSubmit={handleSubmit}>
-                
                     <InputField
                         label="Имя владельца"
                         type="text"
@@ -106,7 +139,6 @@ export default function AdForm() {
                         onChange={handleChange}
                         error={errors.name}
                     />
-                    
 
                     <InputField
                         label="Телефон"
@@ -192,10 +224,9 @@ export default function AdForm() {
                         error={errors.image}
                     />
 
-                    <Button label="Разместить объявление" buttonType="submit" />
-
+                    <Button label={isEditMode ? "Сохранить изменения" : "Разместить объявление"} buttonType="submit" />
                 </form>
             </div>
         </div>
-      )
+    )
 }

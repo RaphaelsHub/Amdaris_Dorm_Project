@@ -1,54 +1,89 @@
+
+.ad-page-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    margin-left: 1000px;
+}
+
+.ad-page-actions button {
+    padding: 10px 10px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ad-page-actions button:first-child {
+    background-color: #856088;
+    color: white;
+}
+
+.ad-page-actions button:first-child:hover {
+    background-color: #563C5C;
+}
+
+.ad-page-actions button:last-child {
+    background-color: #B31B1B;
+    color: white;
+}
+
+.ad-page-actions button:last-child:hover {
+    background-color: #800020;
+}
+
+
+
 .ad-page {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: auto;
-    background-color: #f4f4f4;
     padding: 20px;
-}
+  }
+  
+  .ad-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    margin-top:10px;
+    margin-right:800px;
+    padding: 10px;
 
-.ad-page-container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 600px;
-    text-align: center;
-}
-
-.ad-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-}
-
-.ad-details {
-    margin: 20px 0;
-    text-align: left;
-}
-
-.ad-details p {
-    margin: 8px 0;
-}
-
-.ad-buttons {
+  }
+  
+  .ad-content {
     display: flex;
-    justify-content: space-around;
-}
-
-.btn-edit, .btn-delete {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-edit {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.btn-delete {
-    background-color: #f44336;
-    color: white;
-}
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .ad-left {
+    flex: 2;
+  }
+  
+  .ad-right {
+    flex: 1;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .ad-image {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .ad-description {
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+  
+  .ad-price {
+    font-size: 1.5rem;
+    color: #333;
+    margin-top: 20px;
+  }
+  
