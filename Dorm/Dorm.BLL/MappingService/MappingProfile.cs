@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Dorm.Domain.DTO;
 using Dorm.Domain.DTO.Auth;
+using Dorm.Domain.DTO.Laundry;
 using Dorm.Domain.Entities.Ad;
+using Dorm.Domain.Entities.Laundry;
 using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Entities.UserEF;
 
@@ -36,6 +38,10 @@ namespace Dorm.BLL.MappingService
 
             CreateMap<TicketDto, Ticket>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<Reservation, ReservationDto>();
+
+            CreateMap<ReservationDto, Reservation>();
         }
     }
 }
