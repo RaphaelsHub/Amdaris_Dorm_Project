@@ -54,7 +54,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ITicketService, TicketService>();
-
+builder.Services.AddScoped<IWasherRepository, WasherRepository>();
+builder.Services.AddScoped<IWasherService, WasherService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IUsersRepository<UserEF>, UsersRepository>();

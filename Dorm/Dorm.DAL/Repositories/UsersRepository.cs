@@ -8,10 +8,7 @@ namespace Dorm.DAL.Repositories
     {
         private readonly ApplicationDbContext _db;
 
-        public UsersRepository(ApplicationDbContext db)
-        {
-            _db = db;
-        }
+        public UsersRepository(ApplicationDbContext db) => _db = db;
 
         public async Task<bool> Create(UserEF entity)
         {
@@ -25,12 +22,12 @@ namespace Dorm.DAL.Repositories
 
         public async Task<UserEF?> GetById(int id) => await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<UserEF?> Update(UserEF entity)
+        public async Task<UserEF> Update(UserEF entity)
         {
              _db.Users.Update(entity);
             await _db.SaveChangesAsync();
             
-            return _db.Users.FirstOrDefault(entity => entity.Email == entity.Email);
+            return _db.Users.FirstOrDefault(user => user.Email == entity.Email) ?? new UserEF() { Id = -1 };
         }
 
         public async Task<bool> Delete(UserEF entity)

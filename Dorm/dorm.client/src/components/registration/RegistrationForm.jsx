@@ -4,6 +4,7 @@ import Button from "../common/button/Button";
 import { validateForm } from "../../validation/FormValidation";
 import axios from "axios";
 import './RegistrationForm.css'
+import { useNavigate } from "react-router-dom";
 
 export default function RegistrationForm() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ export default function RegistrationForm() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
 
   const handleChange = (e) => {
@@ -45,6 +47,8 @@ export default function RegistrationForm() {
       });
       
       console.log('Регистрация успешна', response.data);
+
+      navigate(`/`);
 
     } catch (error) {
       console.error('Ошибка регистрации', error);

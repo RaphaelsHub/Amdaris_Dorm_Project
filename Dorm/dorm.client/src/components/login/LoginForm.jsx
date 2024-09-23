@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../inputs/InputField";
 import Button from "../common/button/Button";
 import Checkbox from "../inputs/Checkbox";
@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import './LoginForm.css';
 
 export default function LoginForm() {
+  // const { id } = useParams();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,6 +17,23 @@ export default function LoginForm() {
 
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('email');
+    const savedPassword = localStorage.getItem('password');
+
+    if (savedEmail) {
+      setFormData((prev) => ({
+        ...prev,
+        email: savedEmail,
+        password: savedPassword,
+        rememberMe: true,
+      }));
+    }
+  }, []);
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -48,7 +66,16 @@ export default function LoginForm() {
       console.log("Успешный вход:", response.data);
       localStorage.setItem('token', response.data.token);
 
-      // Здесь можно сохранить данные о входе пользователя
+      if (formData.rememberMe) {
+        localStorage.setItem('email', formData.email);
+        localStorage.setItem('password', formData.password);
+      } else {
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+      }
+
+      navigate(`/`);
+
     } catch (error) {
       setServerError("Ошибка входа. Пожалуйста, проверьте данные.");
     }
