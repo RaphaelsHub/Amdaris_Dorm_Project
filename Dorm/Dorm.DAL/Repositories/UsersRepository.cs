@@ -1,51 +1,43 @@
 ﻿using Dorm.DAL.Interfaces;
-using Dorm.Domain.Entities.User;
+using Dorm.Domain.Entities.UserEF;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Dorm.DAL.Repositories
 {
-    public class UsersRepository : IUsersRepository<User>
+    public class UsersRepository : IUsersRepository<UserEF>
     {
         private readonly ApplicationDbContext _db;
 
-        public UsersRepository(ApplicationDbContext db)
-        {
-            _db = db;
-        }
+        public UsersRepository(ApplicationDbContext db) => _db = db;
 
-        public async Task<User> Create(User entity)
+        public async Task<bool> Create(UserEF entity)
         {
             await _db.Users.AddAsync(entity);
             await _db.SaveChangesAsync();
 
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.Email == entity.Email);
-
-            return user!;
+            return (await _db.Users.FirstOrDefaultAsync(x => x.Email == entity.Email)) != null;
         }
 
-        public async Task<User> GetByEmail(string email)
-        {
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.Email == email);
-            return user;
-        }
+        public async Task<UserEF?> GetByEmail(string email) => await _db.Users.FirstOrDefaultAsync(x => x.Email == email);
 
-        public async Task<User?> GetById(int id)
-        {
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
-            return user;
-        }
+        public async Task<UserEF?> GetById(int id) => await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<User> Update(User entity)
+        public async Task<UserEF> Update(UserEF entity)
         {
-            _db.Users.Update(entity);
+             _db.Users.Update(entity);
             await _db.SaveChangesAsync();
-
-            var user = _db.Users.FirstOrDefault(entity => entity.Email == entity.Email);
-            return user;
+            
+            return _db.Users.FirstOrDefault(user => user.Email == entity.Email) ?? new UserEF() { Id = -1 };
         }
+
+        public async Task<bool> Delete(UserEF entity)
+        {
+            _db.Users.Remove(entity);
+            return await _db.SaveChangesAsync() > 0;
+        }
+
+        public async Task<IEnumerable<UserEF>> GetAll() => await _db.Users.ToListAsync();
+
     }
 }
 

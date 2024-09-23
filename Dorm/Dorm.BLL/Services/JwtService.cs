@@ -1,29 +1,23 @@
 ﻿using Dorm.BLL.Settings;
-using Dorm.Domain.Entities.User;
+using Dorm.Domain.Entities.UserEF;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Dorm.BLL.Services
 {
     public class JwtService(IOptions<AuthSettings> options)
     {
-        public string GetToken(User user)
+        public string GetToken(UserEF user)
         {
             var claims = new List<Claim>()
             {
-                new Claim("firstName", user.FirstName),
-                new Claim("secondName", user.Surname),
                 new Claim("id", user.Id.ToString()),
             };
 
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Value.SecretKey));
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Value.SecretKey! ?? throw new Exception("Secret key is null")));
             var token = new JwtSecurityToken(
                 expires: DateTime.Now.Add(options.Value.TimeExp),
                 claims: claims,
@@ -32,6 +26,22 @@ namespace Dorm.BLL.Services
 
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
+        }
+        
+        public string? GetUserIdFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.UTF8.GetBytes(options.Value.SecretKey! ?? throw new Exception("Secret key is null"));
+
+                var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                }, out SecurityToken validatedToken);
+
+                return principal.FindFirst("id")?.Value;
         }
     }
 }

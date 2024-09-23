@@ -1,15 +1,15 @@
 ﻿using Dorm.Domain.DTO;
-using Dorm.Domain.Entities.Ticket;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Dorm.Domain.Responces;
 
 namespace Dorm.BLL.Interfaces
 {
     public interface ITicketService
     {
-        Task<Ticket?> GetTicketById(int ticketId);
+        Task<BaseResponse<TicketDto>> GetById(int ticketId);
+        Task<BaseResponse<IEnumerable<TicketDto>>> GetAll();
+        Task<BaseResponse<TicketDto>> Create(TicketDto ticketDto);
+        Task<BaseResponse<bool>> Delete(int ticketId);
+        Task<BaseResponse<TicketDto>> Update(int ticketId, TicketDto ticketDto);
+        Task<BaseResponse<TicketDto>> AddResponse(int ticketId, TicketDto ticketDto);
     }
 }

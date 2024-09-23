@@ -1,11 +1,10 @@
-﻿using Dorm.Domain.Entities.Ticket;
-using Dorm.Domain.Entities.User;
+﻿using Dorm.Domain.Entities.Ad;
+using Dorm.Domain.Entities.Ticket;
+using Dorm.Domain.Enum.Ticket;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Dorm.Domain.Entities.UserEF;
+using Dorm.Domain.Entities.Chat;
+using Dorm.Domain.Entities.Laundry;
 
 namespace Dorm.DAL
 {
@@ -16,14 +15,39 @@ namespace Dorm.DAL
             Database.EnsureCreated();
             InitializeDB(this);
         }
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserEF> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-    
+        public DbSet<Ad> Ads { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<ChatUser> ChatUsers { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Washer> Washers { get; set; }
+
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Связь Washer с Reservation (один ко многим)
+            modelBuilder.Entity<Washer>()
+                .HasMany(w => w.Reservations)
+                .WithOne()
+                .HasForeignKey(r => r.WasherId)
+                .OnDelete(DeleteBehavior.Cascade); // Удаление резерваций при удалении машинки
+
+            // Конфигурация для Reservation
+            *//*modelBuilder.Entity<Reservation>()
+                .HasOne<UserEF>()
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);*//* // Не позволяем удалять пользователя при наличии резерваций
+        }*/
+
         private static void InitializeDB(ApplicationDbContext context)
         {
             if (!context.Users.Any())
             {
-                context.Users.Add(new User
+                context.Users.Add(new UserEF
                 {
                     FirstName = "Vlad"
                 });
@@ -37,11 +61,46 @@ namespace Dorm.DAL
                     Name = "vlad",
                     Group = "2210",
                     Room = "23",
-                    Type = Domain.Enums.TicketType.COMPLAINT,
+                    Type = TicketType.COMPLAINT,
                     Subject = "Tualet prorvalo",
                     Description = "Srat' net vozmojnosti(",
-                    Status = Domain.Enums.TicketStatus.SENT,
+                    Status = TicketStatus.SENT,
                     Date = DateTime.UtcNow,
+                });
+            }
+
+            if (!context.Washers.Any())
+            {
+                context.Washers.Add(new Washer
+                {
+                    Id = 1,
+                    Name = "LG Vlad",
+                    IsOccupied = false,
+                });
+
+                context.Washers.Add(new Washer
+                {
+                    Id = 2,
+                    Name = "Samsung Sanek",
+                    IsOccupied = false,
+                });
+
+                context.Washers.Add(new Washer
+                {
+                    Id = 3,
+                    Name = "Apple Alya",
+                    IsOccupied = false,
+                });
+            }
+
+            if (!context.Reservations.Any())
+            {
+                context.Reservations.Add(new Reservation
+                {
+                    WasherId = 1,
+                    StartTime = DateTime.UtcNow,
+                    EndTime = DateTime.UtcNow.AddMinutes(120),
+                    UserId = 0
                 });
             }
             context.SaveChanges();
