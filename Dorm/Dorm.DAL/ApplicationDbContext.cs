@@ -3,6 +3,7 @@ using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Enum.Ticket;
 using Microsoft.EntityFrameworkCore;
 using Dorm.Domain.Entities.UserEF;
+using Dorm.Domain.Entities.Chat;
 using Dorm.Domain.Entities.Laundry;
 
 namespace Dorm.DAL
@@ -17,6 +18,9 @@ namespace Dorm.DAL
         public DbSet<UserEF> Users { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Ad> Ads { get; set; }
+        public DbSet<Chat> Chats { get; set; }
+        public DbSet<ChatMessage> ChatMessages { get; set; }
+        public DbSet<ChatUser> ChatUsers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Washer> Washers { get; set; }
 
