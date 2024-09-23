@@ -50,7 +50,8 @@ namespace Dorm.Server.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
+                Secure = true,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
 

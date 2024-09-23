@@ -1,0 +1,43 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    background-color: white;
+    margin-top: 50px;
+    
+  }
+  
+  .login-container {
+    background-color: #F5F5F5;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: left;
+  
+  }
+  
+  .login-container .login-header {
+      font-size: 24px;
+      margin-top: 0;
+      text-align: center;
+      color: #301934;
+    }
+    
+  .login-container form {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+  .login-container .register-redirect {
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: center;
+    }
+  
+  .login-container .register-redirect a {
+      color: purple;
+      text-align: center;
+    }
