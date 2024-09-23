@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './NavBar.css';
 
 export default function NavBar() {
@@ -34,6 +34,10 @@ export default function NavBar() {
 
         <Link to="/register" className='nav-link'>
           Регистрация
+        </Link>
+
+        <Link to="/profile" className='nav-link'>
+          Профиль
         </Link>
 
         <div className="dropdown">

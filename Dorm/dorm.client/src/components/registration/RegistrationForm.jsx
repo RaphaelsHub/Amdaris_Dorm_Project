@@ -48,7 +48,8 @@ export default function RegistrationForm() {
       
       console.log('Регистрация успешна', response.data);
 
-      navigate(`/`);
+      // const userId = response.data.id;
+      navigate(`/profile`);
 
     } catch (error) {
       console.error('Ошибка регистрации', error);

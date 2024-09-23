@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { validateLoginForm } from "../../validation/LoginValidation";
 import InputField from "../inputs/InputField";
 import Button from "../common/button/Button";
 import Checkbox from "../inputs/Checkbox";
-import { validateLoginForm } from "../../validation/LoginValidation";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 import './LoginForm.css';
 
 export default function LoginForm() {
-  // const { id } = useParams();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -74,7 +73,9 @@ export default function LoginForm() {
         localStorage.removeItem('password');
       }
 
-      navigate(`/`);
+      // const userId = response.data.id;
+      // console.log("User ID:", userId);
+      navigate(`/profile`);
 
     } catch (error) {
       setServerError("Ошибка входа. Пожалуйста, проверьте данные.");
