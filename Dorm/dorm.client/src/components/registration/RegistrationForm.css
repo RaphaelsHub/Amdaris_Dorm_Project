@@ -1,0 +1,42 @@
+.registration-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  background-color: white;
+  margin-top: 50px;
+}
+
+.registration-container {
+  background-color: #F5F5F5;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 5px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: left;
+
+}
+
+.registration-container .registration-header {
+    font-size: 24px;
+    margin-top: 0;
+    text-align: center;
+    color: #301934;
+  }
+  
+.registration-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+.registration-container .login-redirect {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+.registration-container .login-redirect a {
+    color: purple;
+    text-align: center;
+  }

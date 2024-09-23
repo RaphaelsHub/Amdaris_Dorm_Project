@@ -1,49 +1,28 @@
-import { useEffect, useState } from 'react';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LoginForm from "./components/login/LoginForm";
+import RegistrationForm from "./components/registration/RegistrationForm";
+import AdForm from "./components/baraholka/adForm/AdForm";
+import TicketForm from "./components/ticket/ticketForm/ticketForm";
+import AdPage from "./components/baraholka/adPage/AdPage";
+import AdsPage from "./components/baraholka/mainPage/AdsPage";
+import NavBar from "./components/common/navigation bar/NavBar";
 
 function App() {
-    const [forecasts, setForecasts] = useState();
-
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
-
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
-
-    return (
-        <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-        </div>
-    );
-    
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
+  return (
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/adform" element={<AdForm />} />
+        <Route path="/ticket" element={<TicketForm userId={2}/>} />//временно, пока нет аккаунта и не придумала как прокидывать айдишник пользователя между страницами
+        <Route path="/ads/edit/:adId" element={<AdForm />} />
+        <Route path="/ads/:adId" element={<AdPage />} />
+        <Route path="/ads" element={<AdsPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

@@ -1,0 +1,30 @@
+.inputFieldContainer {
+    margin-bottom: 5px;
+  }
+
+.input {
+    font-family: 'Exo 2', sans-serif;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+  }
+
+.input:focus {
+  border-color: purple;
+  outline: none;
+  box-shadow: 0 0 2px #301934;
+  }
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+
+.error {
+  color: red;
+  font-size: 12px;
+}

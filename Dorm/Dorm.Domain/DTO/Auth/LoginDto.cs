@@ -12,16 +12,16 @@ namespace Dorm.Domain.DTO.Auth
         public string? Password { get; set; }
 
         //for 2fa
-        [Required(ErrorMessage = "IpAddress field is required.")]
+        //[Required(ErrorMessage = "IpAddress field is required.")]
         public string? IpAddress { get; set; }
 
-        [Required(ErrorMessage = "Country field is required.")]
+        //[Required(ErrorMessage = "Country field is required.")]
         public string? Country { get; set; }
 
-        [Required(ErrorMessage = "City field is required.")]
+        //[Required(ErrorMessage = "City field is required.")]
         public string? City { get; set; }
 
-        [Required(ErrorMessage = "DeviceType field is required.")]
+        //[Required(ErrorMessage = "DeviceType field is required.")]
         public string? DeviceType { get; set; }
 
         public bool RememberMe { get; set; } = false;

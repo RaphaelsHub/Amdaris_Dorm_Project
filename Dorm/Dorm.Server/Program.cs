@@ -21,10 +21,21 @@ using Dorm.Server.Controllers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", builder =>
+    {
+        builder.WithOrigins("http://localhost:5174")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
+    });
+});
 
 builder.Services.AddControllers();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -37,13 +48,14 @@ builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddScoped<JwtService, JwtService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=04nykk"));//04nykk
+    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=1234"));//04nykk
 
 
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ITicketService, TicketService>();
-
+builder.Services.AddScoped<IWasherRepository, WasherRepository>();
+builder.Services.AddScoped<IWasherService, WasherService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IUsersRepository<UserEF>, UsersRepository>();
@@ -60,6 +72,7 @@ builder.Services.AddScoped<IChatService, ChatService>();
 
 var app = builder.Build();
 
+app.UseCors("AllowSpecificOrigin"); // Разрешает отправку куки
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

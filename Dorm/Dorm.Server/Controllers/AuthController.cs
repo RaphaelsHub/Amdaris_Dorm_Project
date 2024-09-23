@@ -7,26 +7,21 @@ namespace Dorm.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController(IAuthService authService) : ControllerBase
     {
-        private IAuthService _authService;
-        public AuthController(IAuthService authService)
-        {
-            _authService = authService;
-        }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var validationResponse = await _authService.AuthValidation(loginDto);
+            var validationResponse = await authService.AuthValidation(loginDto);
 
             if (!validationResponse.IsValid)
                 return BadRequest(validationResponse);
 
 
-            var authResponse = await _authService.LoginUser(loginDto);
+            var authResponse = await authService.LoginUser(loginDto);
 
-            if (authResponse != null && authResponse.Success && !string.IsNullOrEmpty(authResponse.Token))
+            // ReSharper disable once MergeIntoPattern
+            if (authResponse.Success && !string.IsNullOrEmpty(authResponse.Token))
             {
                 SetJwtCookie(authResponse.Token);
                 return Ok(authResponse);
@@ -38,11 +33,11 @@ namespace Dorm.Server.Controllers
         [HttpPost("registration")]
         public async Task<IActionResult> Registration([FromBody] RegistrationDto registrationDto)
         {
-            var validationResponse = await _authService.AuthValidation(registrationDto);
+            var validationResponse = await authService.AuthValidation(registrationDto);
 
             if (validationResponse.IsValid)
             {
-                var authResponse = await _authService.RegisterUser(registrationDto);
+                var authResponse = await authService.RegisterUser(registrationDto);
 
                 return authResponse.Success ? Ok(authResponse) : BadRequest(authResponse);
             }
@@ -55,11 +50,19 @@ namespace Dorm.Server.Controllers
             var cookieOptions = new CookieOptions
             {
                 HttpOnly = true,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
+                Secure = true,
                 Expires = DateTime.UtcNow.AddDays(7)
             };
 
             Response.Cookies.Append("authToken", token, cookieOptions);
+        }
+        
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            Response.Cookies.Delete("authToken");
+            return Ok();
         }
     }
 }
