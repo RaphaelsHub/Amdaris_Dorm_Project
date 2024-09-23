@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Dorm.Domain.DTO;
 using Dorm.Domain.DTO.Auth;
+using Dorm.Domain.DTO.Chat;
 using Dorm.Domain.Entities.Ad;
+using Dorm.Domain.Entities.Chat;
 using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Entities.UserEF;
 
@@ -29,6 +31,16 @@ namespace Dorm.BLL.MappingService
             CreateMap<Ad, AdDto>();
 
             CreateMap<AdDto, Ad>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<Chat, ChatDto>();
+
+            CreateMap<ChatDto, Chat>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+
+            CreateMap<ChatMessage, ChatMessageDto>();
+
+            CreateMap<ChatMessageDto, ChatMessage>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
 
 
