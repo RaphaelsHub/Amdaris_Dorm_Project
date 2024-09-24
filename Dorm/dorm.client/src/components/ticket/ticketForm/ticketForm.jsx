@@ -29,13 +29,13 @@ export default function TicketForm() {
       }
 
       const decodedToken = jwtDecode(token);
-      const userId = decodedToken.id; // Убедитесь, что 'id' соответствует ключу в вашем токене
+      const userId = decodedToken.id; 
       console.log(userId);
 
       try {
         const response = await axios.get(`http://localhost:5077/api/studentprofile/${userId}`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Добавьте токен в заголовок
+            Authorization: `Bearer ${token}`, // Добавьте токен в заголовок и нихера не помогает
           },
         });
         const userData = response.data;
@@ -44,7 +44,7 @@ export default function TicketForm() {
         // Заполнение формы данными пользователя
         setTicketFormData({
           ...ticketFormData,
-          name: `${userData.firstName} ${userData.lastname}`, // Подставьте нужные поля
+          name: `${userData.firstName} ${userData.lastname}`, 
           group: userData.group,
           room: userData.roomNumber,
         });
@@ -82,8 +82,7 @@ export default function TicketForm() {
     }
 
     try {
-      setLoading(true);  // Начинаем загрузку
-
+      setLoading(true);  // Начинаем загрузк
       const response = await axios.post("http://localhost:5077/api/tickets", ticketFormData, {
         headers: {
           "Content-Type": "application/json",
