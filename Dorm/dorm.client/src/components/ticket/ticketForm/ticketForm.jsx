@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 import InputField from '../../inputs/InputField';
 import SelectField from '../../inputs/SelectField';
 import Button from '../../common/button/Button';
+import { jwtDecode } from 'jwt-decode';
 
-export default function TicketForm({ currentUserId }) {
+export default function TicketForm() {
   const [ticketFormData, setTicketFormData] = useState({
-    userId: currentUserId,
     name: "",
     group: "",
     room: "",
@@ -16,77 +16,97 @@ export default function TicketForm({ currentUserId }) {
   });
 
   const [ticketErrors, setTicketErrors] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  
+  // Получение данных пользователя
   useEffect(() => {
-
-    //if (!currentUserId) return; //временно, пока айди не передается динамически
-
     const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5077/api/studentprofile/2`// временно, пока айдишник не передается динамически
-        );
-        const userData = response.data;
+      const token = localStorage.getItem('token');
+      console.log(token); // Выводим токен для проверки
+      if (!token) {
+        console.error("Token is missing");
+        return;
+      }
 
-        // Автозаполнение полей формы
-        setTicketFormData((prevData) => ({
-          ...prevData,
-          name: `${userData.lastname} ${userData.firstName}` || "",
-          group: userData.group || "",
-          room: userData.roomNumber || "",
-        }));
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id; // Убедитесь, что 'id' соответствует ключу в вашем токене
+      console.log(userId);
+
+      try {
+        const response = await axios.get(`http://localhost:5077/api/studentprofile/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Добавьте токен в заголовок
+          },
+        });
+        const userData = response.data;
+        console.log(userData);
+
+        // Заполнение формы данными пользователя
+        setTicketFormData({
+          ...ticketFormData,
+          name: `${userData.firstName} ${userData.lastname}`, // Подставьте нужные поля
+          group: userData.group,
+          room: userData.roomNumber,
+        });
       } catch (error) {
-        console.error(
-          "Loading user data error:",
-          error.response ? error.response.data : error.message
-        );
-      } finally {
-        setLoading(false);
+        console.error("Ошибка при получении данных пользователя:", error.response ? error.response.data : error.message);
       }
     };
 
     fetchUserData();
-  }, [currentUserId]);
+  }, []);
 
+  // Обработчик изменений полей
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTicketFormData({
       ...ticketFormData,
-      [name]: value,
+      [name]: name === "type" ? parseInt(value) : value,  
     });
   };
 
+  // Обработчик отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Проверка на заполнение обязательных полей
     const newErrors = {};
     if (!ticketFormData.name) newErrors.name = "Поле обязательно для заполнения";
     if (!ticketFormData.subject) newErrors.subject = "Поле обязательно для заполнения";
     if (!ticketFormData.description) newErrors.description = "Поле обязательно для заполнения";
 
+    // Если есть ошибки валидации на клиенте
     if (Object.keys(newErrors).length > 0) {
       setTicketErrors(newErrors);
       return;
     }
 
     try {
+      setLoading(true);  // Начинаем загрузку
+
       const response = await axios.post("http://localhost:5077/api/tickets", ticketFormData, {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Добавьте токен в заголовок
         },
         withCredentials: true,
       });
+
       console.log("Тикет добавлен:", response.data);
+      setTicketErrors({});  // Очистим ошибки после успешной отправки
+
     } catch (error) {
+      // Логирование ошибок сервера
       console.error("Ошибка при добавлении тикета:", error.response ? error.response.data : error.message);
+
+      // Если есть ошибки валидации от сервера
+      if (error.response && error.response.data && error.response.data.errors) {
+        setTicketErrors(error.response.data.errors);  // Установим ошибки для отображения
+      }
+    } finally {
+      setLoading(false);  // Окончание загрузки
     }
   };
-
-//   if (loading) {
-//     return <p>Загрузка данных пользователя...</p>;
-//   }
 
   return (
     <div className='ticket-form-page'>
@@ -100,7 +120,7 @@ export default function TicketForm({ currentUserId }) {
             name="name"
             value={ticketFormData.name}
             onChange={handleChange}
-            error={ticketErrors.name}
+            error={ticketErrors.name}  // Отображение ошибки
           />
 
           <InputField
@@ -124,9 +144,9 @@ export default function TicketForm({ currentUserId }) {
             name="type"
             value={ticketFormData.type}
             options={[
-              { value: 0, label: "Запрос" },
-              { value: 1, label: "Жалоба" },
-              { value: 2, label: "Предложение" }
+              { value: "0", label: "Запрос" },
+              { value: "1", label: "Жалоба" },
+              { value: "2", label: "Предложение" }
             ]}
             onChange={handleChange}
           />
@@ -137,7 +157,7 @@ export default function TicketForm({ currentUserId }) {
             name="subject"
             value={ticketFormData.subject}
             onChange={handleChange}
-            error={ticketErrors.subject}
+            error={ticketErrors.subject}  // Отображение ошибки
           />
 
           <InputField
@@ -146,11 +166,13 @@ export default function TicketForm({ currentUserId }) {
             name="description"
             value={ticketFormData.description}
             onChange={handleChange}
-            error={ticketErrors.description}
+            error={ticketErrors.description}  // Отображение ошибки
           />
 
-          <Button label="Создать тикет" buttonType="submit" />
+          <Button label={loading ? "Создание..." : "Создать тикет"} buttonType="submit" disabled={loading} />
         </form>
+
+        {loading && <p>Загрузка...</p>}  {/* Уведомление о загрузке */}
       </div>
     </div>
   );

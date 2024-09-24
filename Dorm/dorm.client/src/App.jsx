@@ -16,7 +16,9 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/adform" element={<AdForm />} />
-        <Route path="/ticket" element={<TicketForm userId={2}/>} />//временно, пока нет аккаунта и не придумала как прокидывать айдишник пользователя между страницами
+        <Route path="/ticket" element={<TicketForm />}/>
+        <Route path="/ticket/:ticketId" element={<TicketForm />}/>
+        <Route path="/ticket/:tickets" element={<TicketForm />}/>
         <Route path="/ads/edit/:adId" element={<AdForm />} />
         <Route path="/ads/:adId" element={<AdPage />} />
         <Route path="/ads" element={<AdsPage />} />
