@@ -9,6 +9,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Xunit;
@@ -132,7 +133,7 @@ namespace Dorm.BLL.Tests
         public async Task Delete_TicketNotFound_ReturnsError()
         {
             // Arrange
-            var ticketId = 1;
+            var ticketId = 1232;
 
             // Настройка мока
             _ticketRepositoryMock.Setup(repo => repo.GetById(ticketId)).ReturnsAsync((Ticket)null);
@@ -141,11 +142,10 @@ namespace Dorm.BLL.Tests
             var result = await _ticketService.Delete(ticketId);
 
             // Assert
-            Assert.NotNull(result); 
-            Assert.False(result.Success);
+            Assert.NotNull(result);
+            Assert.False(result.Success_);  
             Assert.Equal($"Ticket with ID {ticketId} not found.", result.Description);
         }
-
 
         [Fact]
         public async Task GetAll_ReturnsTickets()
