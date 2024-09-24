@@ -45,7 +45,7 @@ namespace Dorm.BLL.Tests
                 new TicketDto { Id = 1, Subject = "Test Ticket 1" },
                 new TicketDto { Id = 2, Subject = "Test Ticket 2" }
             };
-            var expectedResponse = new BaseResponse<IEnumerable<TicketDto>>(ticketDtos, null); // Передаем null для Description
+            var expectedResponse = new BaseResponse<IEnumerable<TicketDto>>(ticketDtos, null); 
 
             _mockTicketService.Setup(s => s.GetAll()).ReturnsAsync(expectedResponse);
 
