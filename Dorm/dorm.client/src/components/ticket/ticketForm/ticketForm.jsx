@@ -44,9 +44,9 @@ export default function TicketForm() {
         // Заполнение формы данными пользователя
         setTicketFormData({
           ...ticketFormData,
-          name: `${userData.firstName} ${userData.lastname}`, 
-          group: userData.group,
-          room: userData.roomNumber,
+          name: `${userData.firstName || ""} ${userData.lastName || ""}`, 
+          group: userData.group || "",
+          room: userData.roomNumber || "",
         });
       } catch (error) {
         console.error("Ошибка при получении данных пользователя:", error.response ? error.response.data : error.message);
