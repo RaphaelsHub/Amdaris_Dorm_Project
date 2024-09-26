@@ -7,6 +7,7 @@ import TicketForm from "./components/ticket/ticketForm/ticketForm";
 import AdPage from "./components/baraholka/adPage/AdPage";
 import AdsPage from "./components/baraholka/mainPage/AdsPage";
 import NavBar from "./components/common/navigation bar/NavBar";
+import TicketsPage from "./components/ticket/ticketsPage/ticketsPage";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/adform" element={<AdForm />} />
         <Route path="/ticket" element={<TicketForm />}/>
         <Route path="/ticket/:ticketId" element={<TicketForm />}/>
-        <Route path="/ticket/:tickets" element={<TicketForm />}/>
+        <Route path="/tickets" element={<TicketsPage />}/>
         <Route path="/ads/edit/:adId" element={<AdForm />} />
         <Route path="/ads/:adId" element={<AdPage />} />
         <Route path="/ads" element={<AdsPage />} />

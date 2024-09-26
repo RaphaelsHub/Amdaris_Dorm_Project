@@ -86,7 +86,7 @@ export default function TicketForm() {
       const response = await axios.post("http://localhost:5077/api/tickets", ticketFormData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Добавьте токен в заголовок
+          Authorization: `Bearer ${localStorage.getItem('token')}`, 
         },
         withCredentials: true,
       });
@@ -156,7 +156,7 @@ export default function TicketForm() {
             name="subject"
             value={ticketFormData.subject}
             onChange={handleChange}
-            error={ticketErrors.subject}  // Отображение ошибки
+            error={ticketErrors.subject}  
           />
 
           <InputField
@@ -165,13 +165,13 @@ export default function TicketForm() {
             name="description"
             value={ticketFormData.description}
             onChange={handleChange}
-            error={ticketErrors.description}  // Отображение ошибки
+            error={ticketErrors.description}  
           />
 
           <Button label={loading ? "Создание..." : "Создать тикет"} buttonType="submit" disabled={loading} />
         </form>
 
-        {loading && <p>Загрузка...</p>}  {/* Уведомление о загрузке */}
+        {loading && <p>Загрузка...</p>}  {}
       </div>
     </div>
   );
