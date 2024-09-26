@@ -10,7 +10,7 @@ namespace Dorm.Domain.Entities.Chat
     {
         public int Id { get; set; }
         public int ChatId { get; set; }
-        public int UserId { get; set; }
+        public string UserInfo { get; set; }
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
     }

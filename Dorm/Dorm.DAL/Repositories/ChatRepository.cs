@@ -63,6 +63,11 @@ namespace Dorm.DAL.Repositories
             .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        public async Task<ChatMessage> GetMessageById(int id)
+        {
+            return await _db.ChatMessages.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
         public async Task<bool> SaveMessage(ChatMessage entity)
         {
             _db.ChatMessages.Add(entity);
@@ -73,6 +78,13 @@ namespace Dorm.DAL.Repositories
         public async Task<Chat> Update(Chat entity)
         {
             _db.Chats.Update(entity);
+            await _db.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<ChatMessage> UpdateMessage(ChatMessage entity)
+        {
+            _db.ChatMessages.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
         }

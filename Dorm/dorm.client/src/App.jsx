@@ -7,6 +7,7 @@ import TicketForm from "./components/ticket/ticketForm/ticketForm";
 import AdPage from "./components/baraholka/adPage/AdPage";
 import AdsPage from "./components/baraholka/mainPage/AdsPage";
 import NavBar from "./components/common/navigation bar/NavBar";
+import Chat from "./components/chat/Chat";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/ads/edit/:adId" element={<AdForm />} />
         <Route path="/ads/:adId" element={<AdPage />} />
         <Route path="/ads" element={<AdsPage />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </Router>
   );
