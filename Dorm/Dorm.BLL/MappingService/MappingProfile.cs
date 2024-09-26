@@ -27,8 +27,6 @@ namespace Dorm.BLL.MappingService
 
             CreateMap<UserEF, UserProfileDto>();
 
-
-
             CreateMap<Ad, AdDto>();
 
             CreateMap<AdDto, Ad>()
@@ -43,7 +41,6 @@ namespace Dorm.BLL.MappingService
 
             CreateMap<ChatMessageDto, ChatMessage>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
-
 
             CreateMap<Ticket, TicketDto>();
 

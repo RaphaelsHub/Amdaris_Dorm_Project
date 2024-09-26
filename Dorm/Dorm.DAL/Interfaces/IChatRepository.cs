@@ -13,5 +13,7 @@ namespace Dorm.DAL.Interfaces
         Task<IEnumerable<ChatMessage>> GetAllMessages(int id);
         Task<bool> SaveMessage(ChatMessage entity);
         Task<bool> DeleteMessage(ChatMessage entity);
+        Task<ChatMessage> GetMessageById(int id);
+        Task<ChatMessage> UpdateMessage(ChatMessage entity);
     }
 }
