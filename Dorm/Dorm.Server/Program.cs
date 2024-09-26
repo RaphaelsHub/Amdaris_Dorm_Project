@@ -67,10 +67,11 @@ builder.Services.AddScoped<IAdService, AdService>();
 
 var app = builder.Build();
 
-app.UseCors("AllowSpecificOrigin"); // Разрешает отправку куки
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseCors("AllowSpecificOrigin"); // Разрешает отправку куки
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

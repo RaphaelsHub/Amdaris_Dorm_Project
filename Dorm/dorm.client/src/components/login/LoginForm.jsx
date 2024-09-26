@@ -68,13 +68,12 @@ export default function LoginForm() {
       if (formData.rememberMe) {
         localStorage.setItem('email', formData.email);
         localStorage.setItem('password', formData.password);
-      } else {
+      } 
+      else {
         localStorage.removeItem('email');
         localStorage.removeItem('password');
       }
 
-      // const userId = response.data.id;
-      // console.log("User ID:", userId);
       navigate(`/profile`);
 
     } catch (error) {

@@ -32,12 +32,8 @@ export default function NavBar() {
           DormHub
         </Link>
 
-        <Link to="/register" className='nav-link'>
-          Регистрация
-        </Link>
-
-        <Link to="/profile" className='nav-link'>
-          Профиль
+        <Link to="/chat" className='nav-link'>
+          Чат
         </Link>
 
         <div className="dropdown">
@@ -57,6 +53,18 @@ export default function NavBar() {
           )}
         </div>
 
+        <Link to="/profile" className='nav-link'>
+          Профиль
+        </Link>
+
+        <Link to="/login" className='nav-link'>
+          Войти
+        </Link>
+
+        <Link to="/register" className='nav-link'>
+          Регистрация
+        </Link>
+        
       </div>
     </nav>
   );
