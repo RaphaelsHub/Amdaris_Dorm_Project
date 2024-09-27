@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Dorm.Server.Controllers;
+using Dorm.Server.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +37,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
+builder.Services.AddSignalR();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -48,7 +50,7 @@ builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddScoped<JwtService, JwtService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=1234"));//04nykk
+    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=04nykk"));//04nykk
 
 
 
@@ -76,6 +78,7 @@ var app = builder.Build();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
+app.MapHub<ChatHub>("/chat");
 app.UseCors("AllowSpecificOrigin"); // Разрешает отправку куки
 
 // Configure the HTTP request pipeline.
