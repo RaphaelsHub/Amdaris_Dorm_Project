@@ -74,13 +74,12 @@ builder.Services.AddScoped<IChatService, ChatService>();
 
 var app = builder.Build();
 
-app.UseCors("AllowSpecificOrigin"); // Разрешает отправку куки
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-
 app.MapHub<ChatHub>("/chat");
+app.UseCors("AllowSpecificOrigin"); // Разрешает отправку куки
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

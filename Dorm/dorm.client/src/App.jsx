@@ -8,6 +8,7 @@ import AdPage from "./components/baraholka/adPage/AdPage";
 import AdsPage from "./components/baraholka/mainPage/AdsPage";
 import NavBar from "./components/common/navigation bar/NavBar";
 import Chat from "./components/chat/Chat";
+import UserProfile from "./components/profile/UserProfile";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="/adform" element={<AdForm />} />
         <Route path="/ticket" element={<TicketForm userId={2}/>} />//временно, пока нет аккаунта и не придумала как прокидывать айдишник пользователя между страницами
         <Route path="/ads/edit/:adId" element={<AdForm />} />

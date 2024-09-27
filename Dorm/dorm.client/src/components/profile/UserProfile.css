@@ -1,0 +1,76 @@
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-container {
+    display: flex;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    border-width: 5px;
+    border-color: black;
+    background-color: white;
+    box-shadow: 10px 4px 30px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    margin: 60px;
+    height: auto;
+  }
+  
+  .profile-photo {
+    margin-top:2%;
+    margin-left:150px;
+    flex: 0 0 40%;
+    
+  }
+  
+  .profile-photo img {
+    width: 200px;
+    height: 200px;
+    border-radius: 20%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    margin-bottom: 10px;
+  }
+
+  .profile-photo input[type="file"] {
+    display: none;
+}
+.editProfile {
+  margin-left: 20px;
+}
+
+.upload-button {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #F2F3F4;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size:0.7em;
+    /* margin-left: 20px; */
+}
+
+.upload-button input {
+    display: none;
+}
+
+  
+  .profile-details {
+    flex: 0 0 45%;
+    margin-left:30px;
+  }
+  
+  .profile-details p {
+    margin: 10px 0;
+  }
+  
+  .profile-details input,
+  .profile-details select {
+    width: 90%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
