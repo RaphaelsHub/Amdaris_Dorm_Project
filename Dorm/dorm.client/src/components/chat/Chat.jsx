@@ -63,8 +63,6 @@ const Chat = () => {
       .start()
       .then(() => {
         newConnection.on("ReceiveMessage", (user, receivedMessage) => {
-          const timestamp = new Date().toLocaleString(); // Добавление текущего времени
-          setMessages((prevMessages) => [...prevMessages, { user, message: receivedMessage, timestamp }]);
         });
       })
       .catch((err) => console.log("Error connecting to SignalR: ", err));
@@ -116,7 +114,7 @@ const Chat = () => {
           >
             <strong>{msg.user}</strong>: {msg.message} <br />
             <em>{msg.timestamp}</em>
-          </li>
+            </li>
           ))}
         </ul>
       </div>
@@ -124,5 +122,5 @@ const Chat = () => {
   );
 };
 
-
 export default Chat;
+

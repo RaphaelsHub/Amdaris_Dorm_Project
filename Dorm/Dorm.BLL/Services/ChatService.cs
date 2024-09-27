@@ -115,48 +115,25 @@ namespace Dorm.BLL.Services
                     return new BaseResponse<ChatDto>(null, "chat not found.");
                 }
 
-                var chatDto = _mapper.Map<ChatDto>(chat);
-
-                return new BaseResponse<ChatDto>(chatDto, "Success.");
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponse<ChatDto>(null, ex.Message);
-            }
+        public Task<BaseResponse<bool>> DeleteMessage(ChatMessageDto entity)
+        {
+            throw new NotImplementedException();
         }
 
-        public async Task<BaseResponse<IEnumerable<ChatDto>>> GetAll()
+        public Task<BaseResponse<bool>> Edit(int id, ChatDto model)
         {
-            try
-            {
-                var chats = await _chatRepository.GetAll();
-
-                if (chats.Count() == 0)
-                {
-                    return new BaseResponse<IEnumerable<ChatDto>>(null, "0 elements.");
-                }
-
-                var chatDtos = _mapper.Map<IEnumerable<ChatDto>>(chats);
-
-                return new BaseResponse<IEnumerable<ChatDto>>(chatDtos, "Success.");
-            }
-            catch (Exception ex)
-            {
-                return new BaseResponse<IEnumerable<ChatDto>>(null, ex.Message);
-            }
+            throw new NotImplementedException();
         }
 
-        // id - ChatID
-        public async Task<BaseResponse<IEnumerable<ChatMessageDto>>> GetAllMessages(int id)
+        public Task<BaseResponse<ChatDto>> Get(int id)
         {
-            try
-            {
-                var messages = await _chatRepository.GetAllMessages(id);
+            throw new NotImplementedException();
+        }
 
-                if (messages.Count() == 0)
-                {
-                    return new BaseResponse<IEnumerable<ChatMessageDto>>(null, "0 elements.");
-                }
+        public Task<BaseResponse<IEnumerable<ChatDto>>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
 
                 var messagesDto = _mapper.Map<IEnumerable<ChatMessageDto>>(messages);
 
@@ -189,5 +166,22 @@ namespace Dorm.BLL.Services
                 return new BaseResponse<bool>(false, ex.Message);
             }
         }
+        //public async Task<BaseResponse<bool>> AddUserToChat(int chatId, int userId)
+        //{
+        //    try
+        //    {
+        //        var chat = await _chatRepository.GetById(chatId);
+        //        if (chat == null) return new BaseResponse<bool>(false, "Chat not found");
+
+        //        var chatUser = new ChatUser { ChatId = chatId, UserId = userId };
+        //        await _chatRepository.AddUserToChat(chatUser);
+
+        //        return new BaseResponse<bool>(true, "User added to chat");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new BaseResponse<bool>(false, ex.Message);
+        //    }
+        //}
     }
 }
