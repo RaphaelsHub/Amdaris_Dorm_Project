@@ -103,6 +103,23 @@ namespace Dorm.BLL.Services
             }
         }
 
+        public async Task<BaseResponse<IEnumerable<TicketDto>>> GetByUserId(int userId)
+        {
+            try
+            {
+                var tickets = await _ticketRepository.GetByUserId(userId);
+                if (!tickets.Any())
+                {
+                    return new BaseResponse<IEnumerable<TicketDto>>(null, "Tickets not found.");
+                }
+                return new BaseResponse<IEnumerable<TicketDto>>(_mapper.Map<IEnumerable<TicketDto>>(tickets), "Success.");
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<TicketDto>>(null, ex.Message);
+            }
+        }
+
         public async Task<BaseResponse<TicketDto>> Update(int ticketId, TicketDto ticketDto)
         {
             try

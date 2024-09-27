@@ -9,5 +9,6 @@ namespace Dorm.DAL.Interfaces
 {
     public interface ITicketRepository : IBaseRepository<Ticket>
     {
+        Task<IEnumerable<Ticket>> GetByUserId(int userId);
     }
 }
