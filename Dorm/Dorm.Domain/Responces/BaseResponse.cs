@@ -10,6 +10,6 @@ namespace Dorm.Domain.Responces
     {
 
         public bool Success => Data != null;
-        public bool Success_ => Data == null;
+       
     };
 }
