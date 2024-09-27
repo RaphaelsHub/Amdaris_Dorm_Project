@@ -1,4 +1,5 @@
 ﻿using Dorm.BLL.Interfaces;
+using Dorm.BLL.Services;
 using Dorm.BLL.Settings;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Responces;
@@ -108,27 +109,57 @@ namespace Dorm.Server.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProfile([FromRoute] int id, [FromBody] UserProfileDto userDto)
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateProfile([FromRoute] int id, [FromBody] UserProfileDto userDto)
+        //{
+        //    try
+        //    {
+        //        var response = await mediator.Send(new UpdateStudentProfileCommand(id, userDto, GetToken()));
+
+        //        if(response == null)
+        //            throw new ArgumentNullException($"Response is null api/StudentProfileController/UpdateProfile/{id}");
+
+        //        return response.Data == null ? BadRequest(response.Description) : Ok(response.Data);
+        //    }
+        //    catch (UnauthorizedAccessException ex)
+        //    {
+        //        return Unauthorized(ex.Message);
+        //    }
+        //    catch(ArgumentNullException ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfile([FromBody] UserProfileDto userDto)
         {
-            try
+            var token = Request.Cookies["authToken"];
+
+            if (string.IsNullOrEmpty(token))
             {
-                var response = await mediator.Send(new UpdateStudentProfileCommand(id, userDto, GetToken()));
-                
-                if(response == null)
-                    throw new ArgumentNullException($"Response is null api/StudentProfileController/UpdateProfile/{id}");
-                
-                return response.Data == null ? BadRequest(response.Description) : Ok(response.Data);
+                return Unauthorized("Token is missing");
             }
-            catch (UnauthorizedAccessException ex)
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(options.Value.SecretKey);
+
+            var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
-                return Unauthorized(ex.Message);
-            }
-            catch(ArgumentNullException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+            }, out SecurityToken validatedToken);
+
+            var userIdClaim = principal.FindFirst("id")?.Value;
+
+            var id = int.Parse(userIdClaim);
+
+            return await studentProfileService.Edit(id, userDto) is var result && result.Data != null
+                ? Ok(result.Data)
+                : BadRequest(result.Description);
         }
 
         [HttpDelete("{id}")]
