@@ -1,3 +1,4 @@
+﻿using Dorm.BLL.Settings;
 ﻿using Dorm.BLL.Interfaces;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Responces;
@@ -7,6 +8,10 @@ using Dorm.Server.Contracts.Queries.StudentProfile.Get;
 using Dorm.Server.Contracts.Queries.StudentProfile.GetAll;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 // ReSharper disable MergeIntoPattern
 
 namespace Dorm.Server.Controllers
@@ -16,6 +21,88 @@ namespace Dorm.Server.Controllers
     public class StudentProfileController(IStudentProfileService studentProfileService, IMediator mediator) : ControllerBase
     {
         public IStudentProfileService StudentProfileService { get; } = studentProfileService;
+
+
+//         private readonly IOptions<AuthSettings> _options;
+
+//         public StudentProfileController(IStudentProfileService studentProfileService, IOptions<AuthSettings> options)
+//         {
+//             _studentProfileService = studentProfileService;
+//             _options = options;
+//         }
+
+//         [HttpPost]
+//         public async Task<IActionResult> CreateProfile(UserProfileDto userDto) =>
+//             await _studentProfileService.Create(userDto) is var result && result.Data != null
+//                 ? Ok(result.Data)
+//                 : BadRequest(result.Description);
+
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetProfileById(int id) =>
+        //    await _studentProfileService.GetById(id) is var result && result.Data != null
+        //    ? Ok(result.Data)
+        //    : BadRequest(result.Description);
+
+//         [HttpGet]
+//         public async Task<IActionResult> GetProfileById()
+//         {
+//             var token = Request.Cookies["authToken"];
+
+//             if (string.IsNullOrEmpty(token))
+//             {
+//                 return Unauthorized("Token is missing");
+//             }
+
+//             var tokenHandler = new JwtSecurityTokenHandler();
+//             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey);
+
+//             var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+//             {
+//                 ValidateIssuerSigningKey = true,
+//                 IssuerSigningKey = new SymmetricSecurityKey(key),
+//                 ValidateIssuer = false,
+//                 ValidateAudience = false,
+//             }, out SecurityToken validatedToken);
+
+//             var userIdClaim = principal.FindFirst("id")?.Value;
+
+//             var id = int.Parse(userIdClaim);
+
+//             return await _studentProfileService.GetById(id) is var result && result.Data != null
+//             ? Ok(result.Data)
+//             : BadRequest(result.Description);
+//         }
+        
+        
+//         [HttpPut]
+//         public async Task<IActionResult> UpdateProfile([FromBody] UserProfileDto userDto)
+//         {
+//             var token = Request.Cookies["authToken"];
+
+//             if (string.IsNullOrEmpty(token))
+//             {
+//                 return Unauthorized("Token is missing");
+//             }
+
+//             var tokenHandler = new JwtSecurityTokenHandler();
+//             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey);
+
+//             var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+//             {
+//                 ValidateIssuerSigningKey = true,
+//                 IssuerSigningKey = new SymmetricSecurityKey(key),
+//                 ValidateIssuer = false,
+//                 ValidateAudience = false,
+//             }, out SecurityToken validatedToken);
+
+//             var userIdClaim = principal.FindFirst("id")?.Value;
+
+//             var id = int.Parse(userIdClaim);
+
+//             return await _studentProfileService.Edit(id, userDto) is var result && result.Data != null
+//                 ? Ok(result.Data)
+//                 : BadRequest(result.Description);
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfileById(int id)
@@ -83,6 +170,10 @@ namespace Dorm.Server.Controllers
             }
         }
 
+        }
+
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProfile([FromRoute] int id)
         {
@@ -90,6 +181,10 @@ namespace Dorm.Server.Controllers
             {
                 var response = await mediator.Send(
                     new DeleteStudentProfileCommand(id, GetToken()));
+
+
+//         [HttpGet("GetAll")]
+//         public async Task<IActionResult> GetAllProfiles()
 
                 if (response == null)
                     throw new ArgumentNullException(
@@ -108,6 +203,7 @@ namespace Dorm.Server.Controllers
         }
         
         private string GetToken()
+
         {
             var token = Request.Cookies["authToken"] ?? string.Empty;
 
