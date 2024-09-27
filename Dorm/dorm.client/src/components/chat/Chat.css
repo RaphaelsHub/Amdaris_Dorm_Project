@@ -1,0 +1,11 @@
+.my-message {
+    /* background-color: #dcf8c6; */
+    text-align: right;
+    align-self: flex-start;
+  }
+  
+  .other-message {
+    /* background-color: #f1f0f0; */
+    text-align: left;
+    align-self: flex-end;
+  }
