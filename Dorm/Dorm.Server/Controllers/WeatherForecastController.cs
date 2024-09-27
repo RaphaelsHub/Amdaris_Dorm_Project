@@ -25,10 +25,19 @@ namespace Dorm.Server.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            _context.Reservations.FirstOrDefault(x => x.Id == 1);
             _context.Users.Add(new UserEF
             {
                 FirstName = "Alex"
             });
+
+            /*_context.Reservations.Add(new Domain.Entities.Laundry.Reservation
+            {
+                WasherId = 1,
+                StartTime = DateTime.UtcNow,
+                EndTime = DateTime.UtcNow.AddMinutes(120),
+                UserId = 2
+            });*/
 
             _context.SaveChanges();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

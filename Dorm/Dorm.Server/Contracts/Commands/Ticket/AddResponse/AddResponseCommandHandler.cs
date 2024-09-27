@@ -36,11 +36,16 @@ namespace Dorm.Server.Contracts.Commands.Ticket.AddResponse
                 ValidateAudience = false,
             }, out SecurityToken validatedToken);
 
-            var currentUserId = int.Parse(principal.FindFirst("id")?.Value);
-            var currentUser = await _studentProfileService.GetById(currentUserId);
-            request.ticketDto.RespondentId = currentUserId;
-            request.ticketDto.RespondentName = currentUser.Data.FirstName + " " + currentUser.Data.Lastname;
-            request.ticketDto.RespondentEmail = currentUser.Data.Email;
+            var value = principal.FindFirst("id")?.Value;
+            
+            if (value != null)
+            {
+                var currentUserId = int.Parse(value);
+                var currentUser = await _studentProfileService.GetById(currentUserId);
+                request.ticketDto.RespondentId = currentUserId;
+                request.ticketDto.RespondentName = currentUser.Data.FirstName + " " + currentUser.Data.LastName;
+                request.ticketDto.RespondentEmail = currentUser.Data.Email;
+            }
 
             return await _ticketService.AddResponse(request.ticketId, request.ticketDto);
         }

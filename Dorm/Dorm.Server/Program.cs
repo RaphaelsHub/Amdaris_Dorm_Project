@@ -48,13 +48,14 @@ builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddScoped<JwtService, JwtService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=13579"));//04nykk
+    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=1234"));//04nykk
 
 
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ITicketService, TicketService>();
-
+builder.Services.AddScoped<IWasherRepository, WasherRepository>();
+builder.Services.AddScoped<IWasherService, WasherService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IUsersRepository<UserEF>, UsersRepository>();
@@ -63,6 +64,10 @@ builder.Services.AddScoped<IStudentProfileService, StudentProfileService>();
 
 builder.Services.AddScoped<IAdRepository, AdRepository>();
 builder.Services.AddScoped<IAdService, AdService>();
+
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IChatService, ChatService>();
+
 
 
 var app = builder.Build();

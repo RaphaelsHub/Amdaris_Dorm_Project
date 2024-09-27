@@ -10,15 +10,15 @@ namespace Dorm.Domain.DTO
 {
     public class UserProfileDto
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
+        public string? Email { get; set; }
         public byte[]? Photo  { get; set; } 
         public string? FirstName { get; set; }
-        public string? Lastname { get; set; }
+        public string? LastName { get; set; }
         public GenderType Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
-        public UserStatus UserStatus { get; set; } = UserStatus.Student;
+        public UserType UserType { get; set; } = UserType.Student;
         public string? Faculty { get; set; }
         public string? Specialty { get; set; }
         public string? Group { get; set; }
@@ -30,6 +30,6 @@ namespace Dorm.Domain.DTO
         public DateTime EndDateOfRent { get; set; }
         public byte[]? ContractPhoto { get; set; }
         public decimal MonthlyRent { get; set; }
-        public decimal PaidMonths {  get; set; }
+        public int PaidMonths {  get; set; }
     }
 }
