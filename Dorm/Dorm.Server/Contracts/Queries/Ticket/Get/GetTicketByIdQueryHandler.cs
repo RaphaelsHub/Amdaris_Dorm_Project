@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Dorm.Server.Contracts.Queries.Ticket.Get
 {
-    public class GetTicketByIdQueryHandler : IRequestHandler<GetTicketByIdQuery, BaseResponse<TicketDto>>
+    public class GetTicketByIdQueryHandler : IRequestHandler<GetTicketByIdQuery, TestsResponse<TicketDto>>
     {
         private readonly ITicketService _ticketService;
         private readonly IOptions<AuthSettings> _options;
@@ -25,7 +25,7 @@ namespace Dorm.Server.Contracts.Queries.Ticket.Get
             _ticketService = ticketService;
             _options = options;
         }
-        public async Task<BaseResponse<TicketDto>> Handle(GetTicketByIdQuery request, CancellationToken cancellationToken)
+        public async Task<TestsResponse<TicketDto>> Handle(GetTicketByIdQuery request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey);

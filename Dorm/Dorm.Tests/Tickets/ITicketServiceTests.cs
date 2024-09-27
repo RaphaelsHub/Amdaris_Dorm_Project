@@ -23,7 +23,7 @@ namespace Dorm.BLL.Tests
             // Arrange
             var ticketId = 1;
             var ticketDto = new TicketDto { Id = ticketId, Subject = "Test Ticket Subject" };
-            var expectedResponse = new BaseResponse<TicketDto>(ticketDto, null); 
+            var expectedResponse = new TestsResponse<TicketDto>(ticketDto, null); 
 
             _mockTicketService.Setup(s => s.GetById(ticketId)).ReturnsAsync(expectedResponse);
 
@@ -45,7 +45,7 @@ namespace Dorm.BLL.Tests
                 new TicketDto { Id = 1, Subject = "Test Ticket 1" },
                 new TicketDto { Id = 2, Subject = "Test Ticket 2" }
             };
-            var expectedResponse = new BaseResponse<IEnumerable<TicketDto>>(ticketDtos, null); 
+            var expectedResponse = new TestsResponse<IEnumerable<TicketDto>>(ticketDtos, null); 
 
             _mockTicketService.Setup(s => s.GetAll()).ReturnsAsync(expectedResponse);
 
@@ -63,7 +63,7 @@ namespace Dorm.BLL.Tests
             // Arrange
             var ticketDto = new TicketDto { Subject = "New Ticket Subject" };
             var createdTicketDto = new TicketDto { Id = 3, Subject = "New Ticket Subject" };
-            var expectedResponse = new BaseResponse<TicketDto>(createdTicketDto, null); 
+            var expectedResponse = new TestsResponse<TicketDto>(createdTicketDto, null); 
 
             _mockTicketService.Setup(s => s.Create(ticketDto)).ReturnsAsync(expectedResponse);
 
@@ -80,7 +80,7 @@ namespace Dorm.BLL.Tests
         {
             // Arrange
             var ticketId = 1;
-            var expectedResponse = new BaseResponse<bool>(true, null); 
+            var expectedResponse = new TestsResponse<bool>(true, null); 
 
             _mockTicketService.Setup(s => s.Delete(ticketId)).ReturnsAsync(expectedResponse);
 
@@ -98,7 +98,7 @@ namespace Dorm.BLL.Tests
             // Arrange
             var ticketId = 1;
             var ticketDto = new TicketDto { Subject = "Updated Ticket Subject" };
-            var expectedResponse = new BaseResponse<TicketDto>(ticketDto, null); 
+            var expectedResponse = new TestsResponse<TicketDto>(ticketDto, null); 
 
             _mockTicketService.Setup(s => s.Update(ticketId, ticketDto)).ReturnsAsync(expectedResponse);
 
@@ -116,7 +116,7 @@ namespace Dorm.BLL.Tests
             // Arrange
             var ticketId = 1;
             var ticketDto = new TicketDto { Subject = "Ticket with Response" };
-            var expectedResponse = new BaseResponse<TicketDto>(ticketDto, null); 
+            var expectedResponse = new TestsResponse<TicketDto>(ticketDto, null); 
 
             _mockTicketService.Setup(s => s.AddResponse(ticketId, ticketDto)).ReturnsAsync(expectedResponse);
 

@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Commands.Ticket.Update
 {
-    public record UpdateTicketCommand(int ticketId, TicketDto ticketDto, string token) : IRequest<BaseResponse<TicketDto>>;
+    public record UpdateTicketCommand(int ticketId, TicketDto ticketDto, string token) : IRequest<TestsResponse<TicketDto>>;
 }

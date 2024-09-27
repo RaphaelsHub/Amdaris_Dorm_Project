@@ -17,13 +17,13 @@ namespace Dorm.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<BaseResponse<TicketDto>> AddResponse(int ticketId, TicketDto ticketDto)
+        public async Task<TestsResponse<TicketDto>> AddResponse(int ticketId, TicketDto ticketDto)
         {
             try
             {
                 var ticket = await _ticketRepository.GetById(ticketId);
                 if (ticket == null)
-                    return new BaseResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
+                    return new TestsResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
 
                 ticket.RespondentId = ticketDto.RespondentId;
                 ticket.RespondentName = ticketDto.RespondentName;
@@ -32,94 +32,94 @@ namespace Dorm.BLL.Services
                 ticket.Status = Domain.Enum.Ticket.TicketStatus.IN_PROCESS;
 
                 await _ticketRepository.Update(ticket);
-                return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
+                return new TestsResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
             }
             catch (Exception ex)
             {
-                return new BaseResponse<TicketDto>(null, ex.Message);
+                return new TestsResponse<TicketDto>(null, ex.Message);
             }
         }
 
-        public async Task<BaseResponse<TicketDto>> Create(TicketDto ticketDto)
+        public async Task<TestsResponse<TicketDto>> Create(TicketDto ticketDto)
         {
             try
             {
                 var ticket = _mapper.Map<Ticket>(ticketDto);
                 await _ticketRepository.Create(ticket);
-                return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
+                return new TestsResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
             }
             catch (Exception ex)
             {
-                return new BaseResponse<TicketDto>(null, ex.Message);
+                return new TestsResponse<TicketDto>(null, ex.Message);
             }
         }
 
-        public async Task<BaseResponse<bool>> Delete(int ticketId)
+        public async Task<TestsResponse<bool>> Delete(int ticketId)
         {
             try
             {
                 var ticket = await _ticketRepository.GetById(ticketId);
                 if (ticket == null)
-                    return new BaseResponse<bool>(false, $"Ticket with ID {ticketId} not found.");
+                    return new TestsResponse<bool>(false, $"Ticket with ID {ticketId} not found.");
                 await _ticketRepository.Delete(ticket);
-                return new BaseResponse<bool>(true, "Success.");
+                return new TestsResponse<bool>(true, "Success.");
             }
             catch (Exception ex)
             {
-                return new BaseResponse<bool>(false, ex.Message);
+                return new TestsResponse<bool>(false, ex.Message);
             }
         }
 
-        public async Task<BaseResponse<IEnumerable<TicketDto>>> GetAll()
+        public async Task<TestsResponse<IEnumerable<TicketDto>>> GetAll()
         {
             try
             {
                 var tickets = await _ticketRepository.GetAll();
                 if (!tickets.Any())
                 {
-                    return new BaseResponse<IEnumerable<TicketDto>> (null, "Tickets not found.");
+                    return new TestsResponse<IEnumerable<TicketDto>> (null, "Tickets not found.");
                 }
-                return new BaseResponse<IEnumerable<TicketDto>>(_mapper.Map<IEnumerable<TicketDto>>(tickets), "Success.");
+                return new TestsResponse<IEnumerable<TicketDto>>(_mapper.Map<IEnumerable<TicketDto>>(tickets), "Success.");
             }
             catch (Exception ex)
             {
-                return new BaseResponse<IEnumerable<TicketDto>>(null, ex.Message);
+                return new TestsResponse<IEnumerable<TicketDto>>(null, ex.Message);
             }
         }
 
-        public async Task<BaseResponse<TicketDto>> GetById(int ticketId)
+        public async Task<TestsResponse<TicketDto>> GetById(int ticketId)
         {
             try
             {
                 var ticket = await _ticketRepository.GetById(ticketId);
                 if(ticket == null)
-                    return new BaseResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
+                    return new TestsResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
 
-                return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
+                return new TestsResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
             }
             catch (Exception ex)
             {
-                return new BaseResponse<TicketDto>(null, ex.Message);
+                return new TestsResponse<TicketDto>(null, ex.Message);
             }
         }
 
-        public async Task<BaseResponse<TicketDto>> Update(int ticketId, TicketDto ticketDto)
+        public async Task<TestsResponse<TicketDto>> Update(int ticketId, TicketDto ticketDto)
         {
             try
             {
                 var ticket = await _ticketRepository.GetById(ticketId);
                 if (ticket == null)
-                    return new BaseResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
+                    return new TestsResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
 
                 //int temp = ticketDto.UserId;
                 _mapper.Map(ticketDto, ticket);
                 //ticket.UserId = temp;
                 await _ticketRepository.Update(ticket);
-                return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
+                return new TestsResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
             }
             catch (Exception ex)
             {
-                return new BaseResponse<TicketDto>(null, ex.Message);
+                return new TestsResponse<TicketDto>(null, ex.Message);
             }
         }
     }

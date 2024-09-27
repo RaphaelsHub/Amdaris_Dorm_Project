@@ -143,7 +143,7 @@ namespace Dorm.BLL.Tests
 
             // Assert
             Assert.NotNull(result);
-            Assert.False(result.Success);  
+            Assert.False(result.Data);  
             Assert.Equal($"Ticket with ID {ticketId} not found.", result.Description);
         }
 

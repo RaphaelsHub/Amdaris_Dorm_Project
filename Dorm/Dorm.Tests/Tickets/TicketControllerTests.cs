@@ -34,7 +34,6 @@ namespace Dorm.Tests
 
         private void SetUpHttpContextWithCookie(string token)
         {
-            // Mock IRequestCookieCollection to simulate cookies
             var cookieCollectionMock = new Mock<IRequestCookieCollection>();
             cookieCollectionMock.Setup(c => c["authToken"]).Returns(token);
 
@@ -62,7 +61,7 @@ namespace Dorm.Tests
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<GetTicketByIdQuery>(), default))
-                .ReturnsAsync(new BaseResponse<TicketDto>(ticketData, "Success"));
+                .ReturnsAsync(new TestsResponse<TicketDto>(ticketData, "Success"));
 
             // Act
             var result = await _ticketController.GetTicketById(ticketId);
@@ -78,7 +77,7 @@ namespace Dorm.Tests
             // Arrange
             int ticketId = 1;
 
-            SetUpHttpContextWithCookie(null); // No token in cookies
+            SetUpHttpContextWithCookie(null); 
 
             // Act
             var result = await _ticketController.GetTicketById(ticketId);
@@ -99,11 +98,10 @@ namespace Dorm.Tests
     };
 
             SetUpHttpContextWithCookie(token);
-
-            // Измените на BaseResponse<IEnumerable<TicketDto>>
+   
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<GetAllTicketsQuery>(), default))
-                .ReturnsAsync(new BaseResponse<IEnumerable<TicketDto>>(ticketDataList, "Tickets retrieved successfully"));
+                .ReturnsAsync(new TestsResponse<IEnumerable<TicketDto>>(ticketDataList, "Tickets retrieved successfully"));
 
             // Act
             var result = await _ticketController.GetAllTickets();
@@ -123,14 +121,14 @@ namespace Dorm.Tests
             var ticketDto = new TicketDto
             {
                 Id = 1,
-                Subject = "Test ticket subject"  // Используем Subject вместо Title
+                Subject = "Test ticket subject"  
             };
 
             SetUpHttpContextWithCookie(token);
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<CreateTicketCommand>(), default))
-                .ReturnsAsync(new BaseResponse<TicketDto>(ticketDto, "Ticket created successfully"));
+                .ReturnsAsync(new TestsResponse<TicketDto>(ticketDto, "Ticket created successfully"));
 
             // Act
             var result = await _ticketController.CreateTicket(ticketDto);
@@ -150,7 +148,7 @@ namespace Dorm.Tests
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<DeleteTicketCommand>(), default))
-                .ReturnsAsync(new BaseResponse<bool>(true, "Ticket deleted successfully"));
+                .ReturnsAsync(new TestsResponse<bool>(true, "Ticket deleted successfully"));
 
             // Act
             var result = await _ticketController.DeleteTicket(ticketId);
@@ -168,14 +166,14 @@ namespace Dorm.Tests
             var ticketDto = new TicketDto
             {
                 Id = ticketId,
-                Subject = "Updated ticket subject"  // Используем Subject вместо Title
+                Subject = "Updated ticket subject"  
             };
 
             SetUpHttpContextWithCookie(token);
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<UpdateTicketCommand>(), default))
-                .ReturnsAsync(new BaseResponse<TicketDto>(ticketDto, "Ticket updated successfully"));
+                .ReturnsAsync(new TestsResponse<TicketDto>(ticketDto, "Ticket updated successfully"));
 
             // Act
             var result = await _ticketController.UpdateTicket(ticketId, ticketDto);
@@ -198,7 +196,7 @@ namespace Dorm.Tests
 
             _mediatorMock
                 .Setup(m => m.Send(It.IsAny<AddResponseCommand>(), default))
-                .ReturnsAsync(new BaseResponse<TicketDto>(ticketDto, "Response added successfully"));
+                .ReturnsAsync(new TestsResponse<TicketDto>(ticketDto, "Response added successfully"));
 
             // Act
             var result = await _ticketController.AddResponse(ticketId, ticketDto);

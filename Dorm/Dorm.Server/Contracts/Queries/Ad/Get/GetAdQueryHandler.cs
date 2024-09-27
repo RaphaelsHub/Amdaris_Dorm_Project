@@ -11,7 +11,7 @@ using System.Text;
 namespace Dorm.Server.Contracts.Queries.Ad.Get
 {
     public class GetAdQueryHandler
-        : IRequestHandler<GetAdQuery, BaseResponse<AdDto>>
+        : IRequestHandler<GetAdQuery, TestsResponse<AdDto>>
     {
         private readonly IAdService _adService;
         private readonly IOptions<AuthSettings> _options;
@@ -22,7 +22,7 @@ namespace Dorm.Server.Contracts.Queries.Ad.Get
             _options = options;
         }
 
-        public async Task<BaseResponse<AdDto>> Handle(GetAdQuery request, CancellationToken cancellationToken)
+        public async Task<TestsResponse<AdDto>> Handle(GetAdQuery request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey);

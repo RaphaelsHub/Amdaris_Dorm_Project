@@ -12,7 +12,7 @@ using System.Text;
 namespace Dorm.Server.Contracts.Commands.Ad.Create
 {
     public class CreateAdCommandHandler
-        : IRequestHandler<CreateAdCommand, BaseResponse<AdDto>>
+        : IRequestHandler<CreateAdCommand, TestsResponse<AdDto>>
     {
         private readonly IAdService _adService;
         private readonly IOptions<AuthSettings> _options;
@@ -23,7 +23,7 @@ namespace Dorm.Server.Contracts.Commands.Ad.Create
             _options = options;
         }
 
-        public async Task<BaseResponse<AdDto>> Handle(CreateAdCommand request, CancellationToken cancellationToken)
+        public async Task<TestsResponse<AdDto>> Handle(CreateAdCommand request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey);

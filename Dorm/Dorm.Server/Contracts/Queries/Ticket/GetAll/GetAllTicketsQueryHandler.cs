@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
 {
-    public class GetAllTicketsQueryHandler : IRequestHandler<GetAllTicketsQuery, BaseResponse<IEnumerable<TicketDto>>>
+    public class GetAllTicketsQueryHandler : IRequestHandler<GetAllTicketsQuery, TestsResponse<IEnumerable<TicketDto>>>
     {
         private readonly ITicketService _ticketService;
         private readonly IOptions<AuthSettings> _options;
@@ -20,7 +20,7 @@ namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
             _options = options;
         }
 
-        public async Task<BaseResponse<IEnumerable<TicketDto>>> Handle(GetAllTicketsQuery request, CancellationToken cancellationToken)
+        public async Task<TestsResponse<IEnumerable<TicketDto>>> Handle(GetAllTicketsQuery request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey!);

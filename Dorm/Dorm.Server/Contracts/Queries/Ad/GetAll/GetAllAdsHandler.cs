@@ -6,7 +6,7 @@ using MediatR;
 namespace Dorm.Server.Contracts.Queries.Ad.GetAll
 {
     public class GetAllAdQueryHandler
-        : IRequestHandler<GetAllAdsQuery, BaseResponse<IEnumerable<AdDto>>>
+        : IRequestHandler<GetAllAdsQuery, TestsResponse<IEnumerable<AdDto>>>
     {
         private readonly IAdService _adService;
 
@@ -15,7 +15,7 @@ namespace Dorm.Server.Contracts.Queries.Ad.GetAll
             _adService = adService;
         }
 
-        public async Task<BaseResponse<IEnumerable<AdDto>>> Handle(GetAllAdsQuery request, CancellationToken cancellationToken)
+        public async Task<TestsResponse<IEnumerable<AdDto>>> Handle(GetAllAdsQuery request, CancellationToken cancellationToken)
         {
             return await _adService.GetAll();
         }

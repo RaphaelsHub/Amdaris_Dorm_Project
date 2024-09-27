@@ -5,11 +5,11 @@ namespace Dorm.BLL.Interfaces
 {
     public interface ITicketService
     {
-        Task<BaseResponse<TicketDto>> GetById(int ticketId);
-        Task<BaseResponse<IEnumerable<TicketDto>>> GetAll();
-        Task<BaseResponse<TicketDto>> Create(TicketDto ticketDto);
-        Task<BaseResponse<bool>> Delete(int ticketId);
-        Task<BaseResponse<TicketDto>> Update(int ticketId, TicketDto ticketDto);
-        Task<BaseResponse<TicketDto>> AddResponse(int ticketId, TicketDto ticketDto);
+        Task<TestsResponse<TicketDto>> GetById(int ticketId);
+        Task<TestsResponse<IEnumerable<TicketDto>>> GetAll();
+        Task<TestsResponse<TicketDto>> Create(TicketDto ticketDto);
+        Task<TestsResponse<bool>> Delete(int ticketId);
+        Task<TestsResponse<TicketDto>> Update(int ticketId, TicketDto ticketDto);
+        Task<TestsResponse<TicketDto>> AddResponse(int ticketId, TicketDto ticketDto);
     }
 }
