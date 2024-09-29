@@ -50,7 +50,7 @@ builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddScoped<JwtService, JwtService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=04nykk"));//04nykk
+    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=13579"));//04nykk
 
 
 

@@ -15,9 +15,6 @@ export default function AdPage() {
     const fetchAdData = async () => {
       try {
         const response = await axios.get(`http://localhost:5077/api/ads/${adId}`, {
-          headers: {
-            'Content-Type': 'application/json',
-        },
           withCredentials: true,
         });
         setAdData(response.data);
