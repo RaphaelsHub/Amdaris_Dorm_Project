@@ -2,31 +2,40 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../common/table/table";
 import Pagination from "../../common/pagination/pagination";
-import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
+// import { jwtDecode } from "jwt-decode"; // Убедитесь, что используете jwtDecode, если он нужен
 
 export default function TicketsPage() {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [ticketsPerPage] = useState(10);
-  const token = localStorage.getItem("token");
-  const decodedToken = jwtDecode(token);
-  const userId = decodedToken.id;
+  const [userRole, setUserRole] = useState(null); // Инициализируем состояние для userRole
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(token);
-    console.log(userId);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("No token found.");
+      return;
+    }
+
     const fetchTicketsAndUserRole = async () => {
       try {
-        // Получаем данные пользователя
         const userResponse = await axios.get(
-          `http://localhost:5077/api/studentprofile/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+            `http://localhost:5077/api/studentprofile`, //3 - временно, потом убрать, для тестирования ответа
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              withCredentials: true,
+            }
         );
+
+        const userId = userResponse.data.id; 
+        setUserRole(userResponse.data.userType);
 
         const response = await axios.get(`http://localhost:5077/api/tickets`, {
           withCredentials: true,
@@ -35,10 +44,9 @@ export default function TicketsPage() {
         const filteredTickets =
           userResponse.data.userType === 0
             ? response.data.filter(
-                (ticket) => String(ticket.userId) === String(userId)
+                (ticket) => String(ticket.userId) === String(userId) 
               )
             : response.data;
-        console.log(filteredTickets);
 
         const formattedTickets = filteredTickets.map((ticket) => ({
           ...ticket,
@@ -47,9 +55,6 @@ export default function TicketsPage() {
             month: "2-digit",
             day: "2-digit",
           }),
-        //  
-        
-        //хочу заменить типы и статусы цыфры на слова, но пока не вышло
         }));
 
         setTickets(formattedTickets);
@@ -68,7 +73,8 @@ export default function TicketsPage() {
   const currentTickets = tickets.slice(indexOfFirstTicket, indexOfLastTicket);
 
   const handleTicketClick = (ticketId) => {
-    console.log(`Ticket ID: ${ticketId}`);
+    navigate(`/tickets/${ticketId}`, { state: { userRole } }); 
+    console.log(`Ticket ID: ${ticketId}, User Role: ${userRole}`);
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -86,6 +92,7 @@ export default function TicketsPage() {
         columns={columns}
         data={currentTickets}
         onRowClick={handleTicketClick}
+        userRole={userRole} 
       />
       <Pagination
         itemsPerPage={ticketsPerPage}
