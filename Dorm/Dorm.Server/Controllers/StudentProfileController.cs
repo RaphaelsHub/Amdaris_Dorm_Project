@@ -109,11 +109,32 @@ namespace Dorm.Server.Controllers
             }
         }
         
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProfile([FromRoute] int id, [FromBody] UserProfileDto userDto)
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfile([FromBody] UserProfileDto userDto)
         {
             try
             {
+                var token = Request.Cookies["authToken"];
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return Unauthorized("Token is missing");
+                }
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.UTF8.GetBytes(options.Value.SecretKey);
+
+                var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                }, out SecurityToken validatedToken);
+
+                var userIdClaim = principal.FindFirst("id")?.Value;
+                var id = int.Parse(userIdClaim);
+
                 var response = await mediator.Send(new UpdateStudentProfileCommand(id, userDto, GetToken()));
                 
                 if(response == null)

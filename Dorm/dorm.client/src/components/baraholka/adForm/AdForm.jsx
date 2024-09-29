@@ -117,7 +117,8 @@ export default function AdForm() {
                 console.log("Товар добавлен:", response.data);
             }
 
-            navigate(`/ads/${adId || response.data.id}`);
+            // navigate(`/ads/${adId || response.data.id}`);
+            navigate(`/ads`);
         } catch (error) {
             console.error("Ошибка при сохранении товара:", error.response ? error.response.data : error.message);
         }
