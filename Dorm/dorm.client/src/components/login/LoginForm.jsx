@@ -86,7 +86,7 @@ export default function LoginForm() {
       <div className="login-container">
         <h2 className="login-header">Вход</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           {serverError && <div className="server-error">{serverError}</div>}
 
           <InputField
