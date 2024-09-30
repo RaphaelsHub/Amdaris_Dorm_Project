@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Queries.StudentProfile.Get;
 
-public record GetStudentProfileQuery(int Id, string Token) : 
+public record GetStudentProfileQuery(string Token) : 
             IRequest<BaseResponse<UserProfileDto>>;

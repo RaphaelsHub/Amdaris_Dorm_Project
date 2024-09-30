@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Commands.StudentProfile.Update;
 
-public record UpdateStudentProfileCommand(int Id, UserProfileDto UserProfileDto, string Token) : 
+public record UpdateStudentProfileCommand(UserProfileDto UserProfileDto, string Token) : 
             IRequest<BaseResponse<UserProfileDto>>;

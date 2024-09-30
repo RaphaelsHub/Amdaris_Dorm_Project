@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Dorm.BLL.Interfaces;
+﻿using Dorm.BLL.Interfaces;
 using Dorm.BLL.MappingService;
 using Dorm.BLL.Services;
 using Dorm.BLL.Settings;
@@ -7,16 +6,11 @@ using Dorm.DAL;
 using Dorm.DAL.Interfaces;
 using Dorm.DAL.Repositories;
 using Dorm.Domain.Entities.UserEF;
-using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Dorm.BLL.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Dorm.Server.Controllers;
 using Dorm.Server.Hubs;
+using Dorm.Domain.Enum.User;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,8 +44,14 @@ builder.Services.AddAuth(builder.Configuration);
 builder.Services.AddScoped<JwtService, JwtService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=13579"));//04nykk
+    options.UseNpgsql("Host=localhost;Port=5432;Database=DormHub;Username=postgres;Password=123456"));//04nykk
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Student", policy => policy.RequireRole(UserType.Student.ToString()));
+    options.AddPolicy("Moderator", policy => policy.RequireRole(UserType.Moderator.ToString()));
+    options.AddPolicy("Admin", policy => policy.RequireRole(UserType.Admin.ToString()));
+});
 
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
@@ -69,6 +69,7 @@ builder.Services.AddScoped<IAdService, AdService>();
 
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IChatService, ChatService>();
+
 
 
 
