@@ -98,16 +98,15 @@ export default function AdForm() {
 
         try {
             if (isEditMode) {
-                
-                const response = await axios.put(`http://localhost:5077/api/ads/${adId}`, formDataToSend, {
+                await axios.put(`http://localhost:5077/api/ads/${adId}`, formDataToSend, {
                     headers: {
                         "Content-Type": "application/json",
                     },
                     withCredentials: true,
                 });
                 console.log("Товар обновлен:", response.data);
+                navigate(`/ads/${adId}`);
             } else {
-                
                 const response = await axios.post("http://localhost:5077/api/ads", formDataToSend, {
                     headers: {
                         "Content-Type": "application/json",
@@ -115,10 +114,9 @@ export default function AdForm() {
                     withCredentials: true,
                 });
                 console.log("Товар добавлен:", response.data);
+                navigate(`/ads/${response.data.id}`);
             }
 
-            // navigate(`/ads/${adId || response.data.id}`);
-            navigate(`/ads`);
         } catch (error) {
             console.error("Ошибка при сохранении товара:", error.response ? error.response.data : error.message);
         }

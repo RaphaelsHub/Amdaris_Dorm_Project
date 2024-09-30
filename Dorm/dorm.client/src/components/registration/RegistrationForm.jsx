@@ -48,7 +48,6 @@ export default function RegistrationForm() {
       
       console.log('Регистрация успешна', response.data);
 
-      // const userId = response.data.id;
       navigate(`/login`);
 
     } catch (error) {
@@ -71,7 +70,7 @@ export default function RegistrationForm() {
 
         {message && <div className="message">{message}</div>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <InputField
             label="Email"
             type="email"
@@ -120,7 +119,7 @@ export default function RegistrationForm() {
             onChange={handleChange}
             error={errors.group}
           />
-          {/* <Button label="Зарегистрироваться" buttonType="submit"/> */}
+          
           <Button label={isSubmitting ? "Отправка..." : "Зарегистрироваться"} buttonType="submit" disabled={isSubmitting} />
         </form>
         <div className="login-redirect">
