@@ -98,14 +98,14 @@ export default function AdForm() {
 
         try {
             if (isEditMode) {
-                await axios.put(`http://localhost:5077/api/ads/${adId}`, formDataToSend, {
+                const response = await axios.put(`http://localhost:5077/api/ads/${adId}`, formDataToSend, {
                     headers: {
                         "Content-Type": "application/json",
                     },
                     withCredentials: true,
                 });
                 console.log("Товар обновлен:", response.data);
-                navigate(`/ads/${adId}`);
+                navigate(`/ads/${response.data.id}`);
             } else {
                 const response = await axios.post("http://localhost:5077/api/ads", formDataToSend, {
                     headers: {
