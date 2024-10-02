@@ -1,7 +1,6 @@
 ﻿using Dorm.DAL.Repositories;
 using Dorm.Domain.Entities.Ticket;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -11,16 +10,19 @@ namespace Dorm.DAL.Tests
     public class TicketRepositoryTests
     {
         private readonly TicketRepository _repository;
-        private readonly DbContextOptions<ApplicationDbContext> _options;
+        private readonly ApplicationDbContext _context;
 
         public TicketRepositoryTests()
         {
-            _options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "TicketDatabase")
                 .Options;
 
-            var context = new ApplicationDbContext(_options);
-            _repository = new TicketRepository(context);
+            _context = new ApplicationDbContext(options);
+            _context.Database.EnsureDeleted(); // Очищаем базу данных перед каждым тестом
+            _context.Database.EnsureCreated(); // Заново создаем базу данных
+
+            _repository = new TicketRepository(_context);
         }
 
         [Fact]
