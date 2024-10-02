@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Commands.Ticket.Delete
 {
-    public class DeleteTicketCommandHandler : IRequestHandler<DeleteTicketCommand, TestsResponse<bool>>
+    public class DeleteTicketCommandHandler : IRequestHandler<DeleteTicketCommand, BaseResponse<bool>>
     {
         private readonly ITicketService _ticketService;
         public DeleteTicketCommandHandler(ITicketService ticketService)
@@ -12,7 +12,7 @@ namespace Dorm.Server.Contracts.Commands.Ticket.Delete
             _ticketService = ticketService;
         }
 
-        public async Task<TestsResponse<bool>> Handle(DeleteTicketCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<bool>> Handle(DeleteTicketCommand request, CancellationToken cancellationToken)
         {
             return await _ticketService.Delete(request.ticketId);
         }

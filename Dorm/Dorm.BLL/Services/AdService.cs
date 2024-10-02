@@ -18,7 +18,7 @@ namespace Dorm.BLL.Services
             _adRepository = adRepository;
         }
 
-        public async Task<TestsResponse<AdDto>> Create(AdDto model)
+        public async Task<BaseResponse<AdDto>> Create(AdDto model)
         {
             try
             {
@@ -28,16 +28,16 @@ namespace Dorm.BLL.Services
                 await _adRepository.Create(ad);
 
                 var adDto = _mapper.Map<AdDto>(ad);
-                return new TestsResponse<AdDto>(adDto, "Success");
+                return new BaseResponse<AdDto>(adDto, "Success");
             }
             catch (Exception ex)
             {
-                return new TestsResponse<AdDto>(null, ex.Message);
+                return new BaseResponse<AdDto>(null, ex.Message);
             }
             
         }
 
-        public async Task<TestsResponse<bool>> Delete(int id)
+        public async Task<BaseResponse<bool>> Delete(int id)
         {
             try
             {
@@ -45,19 +45,19 @@ namespace Dorm.BLL.Services
 
                 if (ad == null)
                 {
-                    return new TestsResponse<bool>(false, "ad not found.");
+                    return new BaseResponse<bool>(false, "ad not found.");
                 }
                 await _adRepository.Delete(ad);
 
-                return new TestsResponse<bool>(true, "Success.");
+                return new BaseResponse<bool>(true, "Success.");
             }
             catch (Exception ex)
             {
-                return new TestsResponse<bool>(false , ex.Message);
+                return new BaseResponse<bool>(false , ex.Message);
             }
         }
 
-        public async Task<TestsResponse<AdDto>> Edit(int id, AdDto model)
+        public async Task<BaseResponse<AdDto>> Edit(int id, AdDto model)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace Dorm.BLL.Services
 
                 if (ad == null)
                 {
-                    return new TestsResponse<AdDto>(null, "Ad not found.");
+                    return new BaseResponse<AdDto>(null, "Ad not found.");
                 }
 
                 _mapper.Map(model, ad);
@@ -76,15 +76,15 @@ namespace Dorm.BLL.Services
 
                 var adDto = _mapper.Map<AdDto>(ad);
 
-                return new TestsResponse<AdDto>(adDto, "Success");
+                return new BaseResponse<AdDto>(adDto, "Success");
             }
             catch (Exception ex)
             {
-                return new TestsResponse<AdDto>(null, ex.Message);
+                return new BaseResponse<AdDto>(null, ex.Message);
             }
         }
 
-        public async Task<TestsResponse<AdDto>> Get(int id)
+        public async Task<BaseResponse<AdDto>> Get(int id)
         {
             try
             {
@@ -92,20 +92,20 @@ namespace Dorm.BLL.Services
 
                 if (ad == null)
                 {
-                    return new TestsResponse<AdDto>(null, "Ad not found.");
+                    return new BaseResponse<AdDto>(null, "Ad not found.");
                 }
 
                 var adDto = _mapper.Map<AdDto>(ad);
                 
-                return new TestsResponse<AdDto>(adDto, "Success.");
+                return new BaseResponse<AdDto>(adDto, "Success.");
             }
             catch (Exception ex)
             {
-                return new TestsResponse<AdDto>(null , ex.Message);
+                return new BaseResponse<AdDto>(null , ex.Message);
             }
         }
 
-        public async Task<TestsResponse<IEnumerable<AdDto>>> GetAll()
+        public async Task<BaseResponse<IEnumerable<AdDto>>> GetAll()
         {
             try
             {
@@ -113,17 +113,17 @@ namespace Dorm.BLL.Services
 
                 if (ads.Count() == 0)
                 {
-                    return new TestsResponse<IEnumerable<AdDto>>(null, "0 elements.");
+                    return new BaseResponse<IEnumerable<AdDto>>(null, "0 elements.");
                 }
 
                 //_mapper.Map<IEnumerable<TicketDto>>(tickets);
                 var adDtos = _mapper.Map<IEnumerable<AdDto>>(ads);
                 
-                return new TestsResponse<IEnumerable<AdDto>>(adDtos, "Success.");
+                return new BaseResponse<IEnumerable<AdDto>>(adDtos, "Success.");
             }
             catch (Exception ex)
             {
-                return new TestsResponse<IEnumerable<AdDto>>(null, ex.Message);
+                return new BaseResponse<IEnumerable<AdDto>>(null, ex.Message);
             }
         }
     }

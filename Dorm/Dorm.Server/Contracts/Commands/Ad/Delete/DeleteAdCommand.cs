@@ -4,5 +4,5 @@ using MediatR;
 namespace Dorm.Server.Contracts.Commands.Ad.Delete
 {
     public record DeleteAdCommand(int adId)
-        : IRequest<TestsResponse<bool>>;
+        : IRequest<BaseResponse<bool>>;
 }

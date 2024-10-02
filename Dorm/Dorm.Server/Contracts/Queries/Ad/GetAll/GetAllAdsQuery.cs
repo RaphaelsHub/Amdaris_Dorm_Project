@@ -5,5 +5,5 @@ using MediatR;
 namespace Dorm.Server.Contracts.Queries.Ad.GetAll
 {
     public record GetAllAdsQuery()
-        : IRequest<TestsResponse<IEnumerable<AdDto>>>;
+        : IRequest<BaseResponse<IEnumerable<AdDto>>>;
 }

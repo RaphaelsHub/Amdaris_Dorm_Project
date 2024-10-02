@@ -11,7 +11,7 @@ using System.Text;
 namespace Dorm.Server.Contracts.Commands.Ad.Edit
 {
     public class EditAdCommandHandler
-        : IRequestHandler<EditAdCommand, TestsResponse<AdDto>>
+        : IRequestHandler<EditAdCommand, BaseResponse<AdDto>>
     {
         private readonly IAdService _adService;
         private readonly IOptions<AuthSettings> _options;
@@ -22,7 +22,7 @@ namespace Dorm.Server.Contracts.Commands.Ad.Edit
             _options = options;
         }
 
-        public async Task<TestsResponse<AdDto>> Handle(EditAdCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<AdDto>> Handle(EditAdCommand request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey);

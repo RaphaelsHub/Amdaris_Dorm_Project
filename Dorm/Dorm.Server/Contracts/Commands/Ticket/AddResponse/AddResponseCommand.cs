@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Commands.Ticket.AddResponse
 {
-    public record AddResponseCommand (int ticketId, TicketDto ticketDto, string token) : IRequest<TestsResponse<TicketDto>>;
+    public record AddResponseCommand (int ticketId, TicketDto ticketDto, string token) : IRequest<BaseResponse<TicketDto>>;
 }

@@ -5,10 +5,10 @@ namespace Dorm.BLL.Interfaces
 {
     public interface IAdService
     {
-        Task<TestsResponse<AdDto>> Create(AdDto model);
-        Task<TestsResponse<AdDto>> Edit(int id, AdDto model);
-        Task<TestsResponse<bool>> Delete(int id);
-        Task<TestsResponse<AdDto>> Get(int id);
-        Task<TestsResponse<IEnumerable<AdDto>>> GetAll();
+        Task<BaseResponse<AdDto>> Create(AdDto model);
+        Task<BaseResponse<AdDto>> Edit(int id, AdDto model);
+        Task<BaseResponse<bool>> Delete(int id);
+        Task<BaseResponse<AdDto>> Get(int id);
+        Task<BaseResponse<IEnumerable<AdDto>>> GetAll();
     }
 }

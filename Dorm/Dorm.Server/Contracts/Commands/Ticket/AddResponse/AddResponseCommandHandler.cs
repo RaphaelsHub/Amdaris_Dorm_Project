@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Dorm.Server.Contracts.Commands.Ticket.AddResponse
 {
-    public class AddResponseCommandHandler : IRequestHandler<AddResponseCommand, TestsResponse<TicketDto>>
+    public class AddResponseCommandHandler : IRequestHandler<AddResponseCommand, BaseResponse<TicketDto>>
     {
         private readonly ITicketService _ticketService;
         private readonly IOptions<AuthSettings> _options;
@@ -23,7 +23,7 @@ namespace Dorm.Server.Contracts.Commands.Ticket.AddResponse
             _studentProfileService = studentProfileService;
         }
 
-        public async Task<TestsResponse<TicketDto>> Handle(AddResponseCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<TicketDto>> Handle(AddResponseCommand request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey!);

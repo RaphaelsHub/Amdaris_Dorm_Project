@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Dorm.Server.Contracts.Commands.Ticket.Create
 {
-    public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, TestsResponse<TicketDto>>
+    public class CreateTicketCommandHandler : IRequestHandler<CreateTicketCommand, BaseResponse<TicketDto>>
     {
         private readonly ITicketService _ticketService;
         private readonly IOptions<AuthSettings> _options;
@@ -20,7 +20,7 @@ namespace Dorm.Server.Contracts.Commands.Ticket.Create
             _options = options;
         }
 
-        public async Task<TestsResponse<TicketDto>> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<TicketDto>> Handle(CreateTicketCommand request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey!);

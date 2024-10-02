@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Commands.Ad.Create
 {
-    public record CreateAdCommand(AdDto model, string token) : IRequest<TestsResponse<AdDto>>;
+    public record CreateAdCommand(AdDto model, string token) : IRequest<BaseResponse<AdDto>>;
 }

@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Commands.Ticket.Create
 {
-    public record CreateTicketCommand(TicketDto ticketDto, string token) : IRequest<TestsResponse<TicketDto>>;
+    public record CreateTicketCommand(TicketDto ticketDto, string token) : IRequest<BaseResponse<TicketDto>>;
 }

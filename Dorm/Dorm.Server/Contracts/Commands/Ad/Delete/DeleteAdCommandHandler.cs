@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace Dorm.Server.Contracts.Commands.Ad.Delete
 {
     public class DeleteAdCommandHandler
-        : IRequestHandler<DeleteAdCommand, TestsResponse<bool>>
+        : IRequestHandler<DeleteAdCommand, BaseResponse<bool>>
     {
         private readonly IAdService _adService;
 
@@ -17,7 +17,7 @@ namespace Dorm.Server.Contracts.Commands.Ad.Delete
             _adService = adService;
         }
 
-        public async Task<TestsResponse<bool>> Handle(DeleteAdCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<bool>> Handle(DeleteAdCommand request, CancellationToken cancellationToken)
         {
             return await _adService.Delete(request.adId);
         }

@@ -4,5 +4,5 @@ using MediatR;
 
 namespace Dorm.Server.Contracts.Queries.Ticket.Get
 {
-    public record GetTicketByIdQuery(int ticketId, string token) : IRequest<TestsResponse<TicketDto>>;
+    public record GetTicketByIdQuery(int ticketId, string token) : IRequest<BaseResponse<TicketDto>>;
 }

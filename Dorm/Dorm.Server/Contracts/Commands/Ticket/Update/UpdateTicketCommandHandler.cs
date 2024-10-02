@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Dorm.Server.Contracts.Commands.Ticket.Update
 {
-    public class UpdateTicketCommandHandler : IRequestHandler<UpdateTicketCommand, TestsResponse<TicketDto>>
+    public class UpdateTicketCommandHandler : IRequestHandler<UpdateTicketCommand, BaseResponse<TicketDto>>
     {
         private readonly ITicketService _ticketService;
         private readonly IOptions<AuthSettings> _options;
@@ -20,7 +20,7 @@ namespace Dorm.Server.Contracts.Commands.Ticket.Update
             _options = options;
         }
 
-        public async Task<TestsResponse<TicketDto>> Handle(UpdateTicketCommand request, CancellationToken cancellationToken)
+        public async Task<BaseResponse<TicketDto>> Handle(UpdateTicketCommand request, CancellationToken cancellationToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_options.Value.SecretKey!);
@@ -37,7 +37,7 @@ namespace Dorm.Server.Contracts.Commands.Ticket.Update
             if(request.ticketDto.UserId == currentUserId)
                 return await _ticketService.Update(request.ticketId, request.ticketDto);
 
-            return new TestsResponse<TicketDto>(null, $"You cannot edit other users' tickets. Your ID is {currentUserId}");
+            return new BaseResponse<TicketDto>(null, $"You cannot edit other users' tickets. Your ID is {currentUserId}");
         }
     }
 }
