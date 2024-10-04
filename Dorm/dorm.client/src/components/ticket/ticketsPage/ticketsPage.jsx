@@ -3,14 +3,14 @@ import axios from "axios";
 import Table from "../../common/table/table";
 import Pagination from "../../common/pagination/pagination";
 import { useNavigate } from 'react-router-dom';
-// import { jwtDecode } from "jwt-decode"; // Убедитесь, что используете jwtDecode, если он нужен
 
 export default function TicketsPage() {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [ticketsPerPage] = useState(10);
-  const [userRole, setUserRole] = useState(null); // Инициализируем состояние для userRole
+  const [userRole, setUserRole] = useState(null); 
+  const [respondentData, setRespondentData] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,7 +56,18 @@ export default function TicketsPage() {
             day: "2-digit",
           }),
         }));
+        
+          const respondent = {
+            id: userResponse.data.id,
+            email: userResponse.data.email,
+            name: userResponse.data.firstName + " " + userResponse.data.lastName,
 
+          }
+          if (userRole >=1)
+          console.log(respondent)
+          setRespondentData(respondent);
+          
+        
         setTickets(formattedTickets);
         setLoading(false);
       } catch (error) {
@@ -73,8 +84,8 @@ export default function TicketsPage() {
   const currentTickets = tickets.slice(indexOfFirstTicket, indexOfLastTicket);
 
   const handleTicketClick = (ticketId) => {
-    navigate(`/tickets/${ticketId}`, { state: { userRole } }); 
-    console.log(`Ticket ID: ${ticketId}, User Role: ${userRole}`);
+    navigate(`/tickets/${ticketId}`, { state: { userRole, respondentData } }); 
+    console.log(`Ticket ID: ${ticketId}, User Role: ${userRole}, Respondent Data:${respondentData}`);
   };
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -93,6 +104,7 @@ export default function TicketsPage() {
         data={currentTickets}
         onRowClick={handleTicketClick}
         userRole={userRole} 
+        respondentData={respondentData}
       />
       <Pagination
         itemsPerPage={ticketsPerPage}

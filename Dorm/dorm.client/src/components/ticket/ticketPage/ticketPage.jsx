@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import Modal from "../ticketResponseForm/modal"
-import "./ticketPage.css"; 
+import Modal from "../ticketResponseForm/modal";
+import "./ticketPage.css";
 
 export default function TicketPage() {
   const { ticketId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { userRole } = location.state || {};
+  const { userRole, respondentData } = location.state || {};
   const [ticketData, setTicketData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,9 +17,12 @@ export default function TicketPage() {
   useEffect(() => {
     const fetchTicketData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5077/api/tickets/${ticketId}`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `http://localhost:5077/api/tickets/${ticketId}`,
+          {
+            withCredentials: true,
+          }
+        );
         setTicketData(response.data);
       } catch (error) {
         setError("Ошибка при загрузке тикета");
@@ -47,23 +50,28 @@ export default function TicketPage() {
   };
 
   const handleReply = () => {
-    setIsModalOpen(true); 
+    setIsModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
   };
 
   const handleResponseSubmit = async (responseData) => {
     try {
-      await axios.put(`http://localhost:5077/api/tickets/${ticketId}`, responseData, {
-        withCredentials: true,
-      });
+      
+      await axios.put(
+        `http://localhost:5077/api/tickets/${ticketId}`,
+        responseData,
+        {
+          withCredentials: true,
+        }
+      );
       setTicketData((prevData) => ({
         ...prevData,
-        ...responseData, 
+        ...responseData,
       }));
-      handleModalClose(); 
+      handleModalClose();
     } catch (error) {
       setError("Ошибка при отправке ответа");
     }
@@ -76,26 +84,65 @@ export default function TicketPage() {
     <div className="ticket-container">
       <h1>Тикет №{ticketData.id}</h1>
       <div className="ticket-info">
-        <p><strong>ФИО:</strong> {ticketData.name}</p>
-        <p><strong>Группа:</strong> {ticketData.group}</p>
-        <p><strong>Комната:</strong> {ticketData.room}</p>
-        <p><strong>Тип:</strong> {ticketData.type === 0 ? 'Общее' : 'Другое'}</p>
-        <p><strong>Тема:</strong> {ticketData.subject}</p>
-        <p><strong>Описание:</strong> {ticketData.description}</p>
-        <p><strong>Статус:</strong> {ticketData.status === 0 ? 'Открыт' : 'Закрыт'}</p>
-        <p><strong>Дата создания:</strong> {new Date(ticketData.date).toLocaleString()}</p>
-        <p><strong>Ответственный:</strong> {ticketData.respondentName || "Не назначен"}</p>
-        <p><strong>Email Ответственного:</strong> {ticketData.respondentEmail || "Не указан"}</p>
+        <p>
+          <strong>ФИО:</strong> {ticketData.name}
+        </p>
+        <p>
+          <strong>Группа:</strong> {ticketData.group}
+        </p>
+        <p>
+          <strong>Комната:</strong> {ticketData.room}
+        </p>
+        <p>
+          <strong>Тип:</strong>
+          {ticketData.type === 0
+            ? " Запрос"
+            : ticketData.type === 1
+              ? " Жалоба"
+              : " Предложение"}
+        </p>
+        <p>
+          <strong>Тема:</strong> {ticketData.subject}
+        </p>
+        <p>
+          <strong>Описание:</strong> {ticketData.description}
+        </p>
+        <p>
+          <strong>Статус:</strong>{" "}
+          {ticketData.status === 0
+            ? " Отправен"
+            : ticketData.status === 1
+              ? " В процессе"
+              : " Закрыт"}
+        </p>
+        <p>
+          <strong>Дата создания:</strong>{" "}
+          {new Date(ticketData.date).toLocaleString()}
+        </p>
+        <p>
+          <strong>Ответственный:</strong>{" "}
+          {ticketData.respondentName || "Не назначен"}
+        </p>
+        <p>
+          <strong>Email Ответственного:</strong>{" "}
+          {ticketData.respondentEmail || "Не указан"}
+        </p>
       </div>
       <div className="ticket-buttons">
         {ticketData.canEdit && (
-          <button className="edit-button" onClick={handleEdit}>Редактировать</button>
+          <button className="edit-button" onClick={handleEdit}>
+            Редактировать
+          </button>
         )}
-        <button className="delete-button" onClick={handleDelete}>Удалить</button>
-        
+        <button className="delete-button" onClick={handleDelete}>
+          Удалить
+        </button>
+
         {/* Кнопка "Ответить", если роль пользователя >= 1 */}
         {userRole >= 1 && (
-          <button className="reply-button" onClick={handleReply}>Ответить</button>
+          <button className="reply-button" onClick={handleReply}>
+            Ответить
+          </button>
         )}
       </div>
 
@@ -105,7 +152,7 @@ export default function TicketPage() {
         onClose={handleModalClose}
         onSubmit={handleResponseSubmit}
         ticket={ticketData}
-        userRole={userRole}
+        respondentData={respondentData}
       />
     </div>
   );

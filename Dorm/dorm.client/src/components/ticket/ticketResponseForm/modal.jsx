@@ -1,18 +1,19 @@
-
 import React, { useState } from 'react';
 import './modal.css';
-//тут бред пока, доделать
-const Modal = ({ isOpen, onClose, onSubmit, ticket }) => {
+
+const Modal = ({ isOpen, onClose, onSubmit, ticket, respondentData}) => {
   const [response, setResponse] = useState('');
 
   if (!isOpen) return null;
+  const {id: respondentId, name: respondentName, email:respondentEmail} = respondentData;
 
   const handleSubmit = () => {
     onSubmit({
-    //   respondentId: ticket.userId, // Используйте актуальное значение
-    //   respondentName: ticket.userName, // Используйте актуальное значение
-    //   respondentEmail: ticket.userEmail, // Используйте актуальное значение
-    //   response: response,
+      respondentId,
+      respondentName, // ID ответственного передается как пропс
+      respondentEmail, // Email ответственного передается как пропс
+      response, // Ответ из формы
+      // Данные для отправки
     });
     setResponse(''); // Очищаем поле после отправки
   };
@@ -26,8 +27,8 @@ const Modal = ({ isOpen, onClose, onSubmit, ticket }) => {
           onChange={(e) => setResponse(e.target.value)}
           placeholder="Введите ваш ответ..."
         />
-        <button onClick={handleSubmit}>Отправить ответ</button>
-        <button onClick={onClose}>Закрыть</button>
+        <button-modal onClick={handleSubmit}>Отправить ответ</button-modal>
+        <button-modal onClick={onClose}>Закрыть</button-modal>
       </div>
     </div>
   );
