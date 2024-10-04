@@ -6,12 +6,14 @@ using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ad;
 using Dorm.Domain.Enum.Ad;
 using Dorm.Domain.Responces;
+using Dorm.Domain.Responses;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Dorm.BLL.Tests
 {
@@ -53,9 +55,10 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _adService.Create(adDto);
+            var testsResponse = new TestsResponse<AdDto>(result.Data, result.Description);
 
             // Assert
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success", result.Description);
             Assert.NotNull(result.Data);
         }
@@ -75,9 +78,10 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _adService.Delete(adId);
+            var testsResponse = new TestsResponse<bool>(result.Data, result.Description);
 
             // Assert
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success.", result.Description);
         }
 
@@ -114,9 +118,10 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _adService.Edit(adId, updatedAdDto);
+            var testsResponse = new TestsResponse<AdDto>(result.Data, result.Description);
 
             // Assert
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success", result.Description);
             Assert.NotNull(result.Data);
         }
@@ -133,9 +138,10 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _adService.Get(adId);
+            var testsResponse = new TestsResponse<AdDto>(result.Data, result.Description);
 
             // Assert
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success.", result.Description);
             Assert.NotNull(result.Data);
         }
@@ -155,8 +161,10 @@ namespace Dorm.BLL.Tests
             // Act
             var result = await _adService.GetAll();
 
+            var testsResponse = new TestsResponse<IEnumerable<AdDto>>(result.Data, result.Description);
+
             // Assert
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success.", result.Description);
             Assert.Equal(2, result.Data.Count());
         }

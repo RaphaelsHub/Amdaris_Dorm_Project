@@ -5,6 +5,7 @@ using Dorm.DAL.Interfaces;
 using Dorm.Domain.DTO;
 using Dorm.Domain.Entities.Ticket;
 using Dorm.Domain.Responces;
+using Dorm.Domain.Responses;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -48,10 +49,11 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _ticketService.AddResponse(ticketId, ticketDto);
+            var testsResponse = new TestsResponse<TicketDto>(result.Data, result.Description);
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success.", result.Description);
             _ticketRepositoryMock.Verify(repo => repo.Update(It.IsAny<Ticket>()), Times.Once);
         }
@@ -67,10 +69,12 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _ticketService.AddResponse(ticketId, ticketDto);
+            var testsResponse = new TestsResponse<TicketDto>(result.Data, result.Description);
 
             // Assert
             Assert.NotNull(result);
-            Assert.False(result.Success);
+            Assert.Null(result.Data);
+            Assert.False(testsResponse.Success);
             Assert.Equal($"Ticket with ID {ticketId} not found.", result.Description);
         }
 
@@ -103,10 +107,11 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _ticketService.Create(ticketDto);
+            var testsResponse = new TestsResponse<TicketDto>(result.Data, result.Description);
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success.", result.Description);
         }
 
@@ -122,10 +127,11 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _ticketService.Delete(ticketId);
+            var testsResponse = new TestsResponse<bool>(result.Data, result.Description);
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success.", result.Description);
         }
 
@@ -162,10 +168,11 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _ticketService.GetAll();
+            var testsResponse = new TestsResponse<IEnumerable<TicketDto>>(result.Data, result.Description);
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success.", result.Description);
         }
 
@@ -182,10 +189,11 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _ticketService.GetById(ticketId);
+            var testsResponse = new TestsResponse<TicketDto>(result.Data, result.Description);
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Success);
+            Assert.True(testsResponse.Success);
             Assert.Equal("Success.", result.Description);
             Assert.Equal(ticketDto.Id, result.Data?.Id); 
         }
@@ -220,10 +228,11 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _ticketService.Update(ticketId, ticketDto);
+            var testsResponse = new TestsResponse<TicketDto>(result.Data, result.Description);
 
             // Assert
             Assert.NotNull(result);
-            Assert.True(result.Success, "Expected result to be successful.");
+            Assert.True(testsResponse.Success, "Expected result to be successful.");
             Assert.Equal("Success.", result.Description);
             Assert.Equal(ticketDto.RespondentName, result.Data?.RespondentName); 
         }
@@ -241,10 +250,11 @@ namespace Dorm.BLL.Tests
 
             // Act
             var result = await _ticketService.Update(ticketId, ticketDto);
+            var testsResponse = new TestsResponse<TicketDto>(result.Data, result.Description);
 
             // Assert
             Assert.NotNull(result);
-            Assert.False(result.Success);
+            Assert.False(testsResponse.Success);
             Assert.Equal($"Ticket with ID {ticketId} not found.", result.Description);
         }
     }
