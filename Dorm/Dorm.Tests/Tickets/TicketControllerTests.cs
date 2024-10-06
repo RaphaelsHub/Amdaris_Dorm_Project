@@ -28,9 +28,9 @@ namespace Dorm.Tests
         public TicketControllerTests()
         {
             _mediatorMock = new Mock<IMediator>();
-            _ticketServiceMock = new Mock<ITicketService>();
-            _ticketController = new TicketController(_mediatorMock.Object, _ticketServiceMock.Object);
+            _ticketController = new TicketController(_mediatorMock.Object);
         }
+
 
         private void SetUpHttpContextWithCookie(string token)
         {
