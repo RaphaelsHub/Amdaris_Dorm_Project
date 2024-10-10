@@ -43,15 +43,7 @@ namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
                 return await _ticketService.GetAll();
             }
 
-            var response = await _ticketService.GetByUserId(currentUserId);
-            if(response.Data != null)
-            {
-                foreach (var ticket in response.Data)
-                {
-                    ticket.canEdit = ticket.UserId == currentUserId;
-                }
-            }
-            return response;
+            return await _ticketService.GetByUserId(currentUserId);
         }
     }
 }

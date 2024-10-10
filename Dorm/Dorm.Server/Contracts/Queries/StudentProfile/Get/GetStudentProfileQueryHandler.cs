@@ -14,12 +14,15 @@ public class GetStudentProfileQueryHandler(IStudentProfileService studentProfile
         CancellationToken cancellationToken)
     {
         var userId = jwtService.GetUserIdFromToken(request.Token);
-
-        var userExists = userId != null && await studentProfileService.GetById(int.Parse(userId)) != null;
-
-        if (!userExists)
+        
+        if(string.IsNullOrEmpty(userId))
             return new BaseResponse<UserProfileDto>(null,  "User not found because of invalid token");
         
-        return await studentProfileService.GetById(request.Id);
+        var userExists = await studentProfileService.GetById(int.Parse(userId)) != null;
+
+        if (!userExists)
+            return new BaseResponse<UserProfileDto>(null,  "User not found because user dont exists");
+        
+        return await studentProfileService.GetById(int.Parse(userId));
     }
 }

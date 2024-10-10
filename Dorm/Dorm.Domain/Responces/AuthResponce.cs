@@ -21,6 +21,7 @@ namespace Dorm.Domain.Responses
     public record AuthResponse(
         bool Success,
         string? Error = null,
+        string? Role = null,
         string? Token = null
     );
 }

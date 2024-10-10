@@ -116,7 +116,6 @@ namespace Dorm.BLL.Services
                     return new BaseResponse<IEnumerable<AdDto>>(null, "0 elements.");
                 }
 
-                //_mapper.Map<IEnumerable<TicketDto>>(tickets);
                 var adDtos = _mapper.Map<IEnumerable<AdDto>>(ads);
                 
                 return new BaseResponse<IEnumerable<AdDto>>(adDtos, "Success.");
