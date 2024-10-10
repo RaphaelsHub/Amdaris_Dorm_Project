@@ -44,9 +44,12 @@ namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
             }
 
             var response = await _ticketService.GetByUserId(currentUserId);
-            foreach (var ticket in response.Data)
+            if(response.Data != null)
             {
-                ticket.canEdit = ticket.UserId == currentUserId;
+                foreach (var ticket in response.Data)
+                {
+                    ticket.canEdit = ticket.UserId == currentUserId;
+                }
             }
             return response;
         }
