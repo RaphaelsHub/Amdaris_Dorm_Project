@@ -13,11 +13,13 @@ namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
     public class GetAllTicketsQueryHandler : IRequestHandler<GetAllTicketsQuery, BaseResponse<IEnumerable<TicketDto>>>
     {
         private readonly ITicketService _ticketService;
+        private readonly IStudentProfileService _studentProfileService;
         private readonly IOptions<AuthSettings> _options;
-        public GetAllTicketsQueryHandler(ITicketService ticketService, IOptions<AuthSettings> options)
+        public GetAllTicketsQueryHandler(ITicketService ticketService, IOptions<AuthSettings> options, IStudentProfileService studentProfileService)
         {
             _ticketService = ticketService;
             _options = options;
+            _studentProfileService = studentProfileService;
         }
 
         public async Task<BaseResponse<IEnumerable<TicketDto>>> Handle(GetAllTicketsQuery request, CancellationToken cancellationToken)
@@ -34,13 +36,14 @@ namespace Dorm.Server.Contracts.Queries.Ticket.GetAll
             }, out SecurityToken validatedToken);
 
             var currentUserId = int.Parse(principal.FindFirst("id")?.Value);
-            var response =  await _ticketService.GetAll();
+            var user = await _studentProfileService.GetById(currentUserId);
 
-            foreach (var ticket in response.Data)
+            if(user.Data.UserType == Domain.Enum.User.UserType.Admin)
             {
-                ticket.canEdit = ticket.UserId == currentUserId;
+                return await _ticketService.GetAll();
             }
-            return response;
+
+            return await _ticketService.GetByUserId(currentUserId);
         }
     }
 }

@@ -9,8 +9,6 @@ namespace Dorm.DAL.Interfaces
 {
     public interface ITicketRepository : IBaseRepository<Ticket>
     {
-        Task<bool> Delete(Ticket ticket);
-        Task<Ticket> GetById(int id);
-        Task<Ticket> Update(Ticket entity);
+        Task<IEnumerable<Ticket>> GetByUserId(int userId);
     }
 }
