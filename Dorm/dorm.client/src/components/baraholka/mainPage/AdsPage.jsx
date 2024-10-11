@@ -15,6 +15,7 @@ export default function AdsPage() {
                 const response = await axios.get('http://localhost:5077/api/ads', {
                     withCredentials: true,
                 });
+                console.log(response);
                 setAds(response.data);
             } catch (error) {
                 setError('Ошибка при загрузке объявлений');
