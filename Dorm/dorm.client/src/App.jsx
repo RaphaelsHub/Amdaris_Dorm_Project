@@ -10,6 +10,7 @@ import NavBar from "./components/common/navigation bar/NavBar";
 import Chat from "./components/chat/Chat";
 import TicketsPage from "./components/ticket/ticketsPage/ticketsPage";
 import TicketPage from "./components/ticket/ticketPage/ticketPage";
+import TicketForm from "./components/ticket/ticketForm/ticketForm"
 
 function App() {
   return (
