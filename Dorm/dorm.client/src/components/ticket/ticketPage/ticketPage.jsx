@@ -138,7 +138,7 @@ export default function TicketPage() {
           Удалить
         </button>
 
-        {/* Кнопка "Ответить", если роль пользователя >= 1 */}
+        
         {userRole >= 2 && (
           <button className="reply-button" onClick={handleReply}>
             Ответить
@@ -146,7 +146,6 @@ export default function TicketPage() {
         )}
       </div>
 
-      {/* Модалка для ответа на тикет */}
       <Modal
         isOpen={isModalOpen}
         onClose={handleModalClose}
