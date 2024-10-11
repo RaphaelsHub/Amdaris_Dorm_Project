@@ -129,17 +129,17 @@ export default function TicketPage() {
         </p>
       </div>
       <div className="ticket-buttons">
-        {ticketData.canEdit && (
+        
           <button className="edit-button" onClick={handleEdit}>
             Редактировать
           </button>
-        )}
+        
         <button className="delete-button" onClick={handleDelete}>
           Удалить
         </button>
 
         {/* Кнопка "Ответить", если роль пользователя >= 1 */}
-        {userRole >= 1 && (
+        {userRole >= 2 && (
           <button className="reply-button" onClick={handleReply}>
             Ответить
           </button>
