@@ -8,7 +8,7 @@ export default function TicketPage() {
   const { ticketId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { userRole, respondentData } = location.state || {};
+  const { userRole } = location.state || {};
   const [ticketData, setTicketData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,9 +59,8 @@ export default function TicketPage() {
 
   const handleResponseSubmit = async (responseData) => {
     try {
-      
       await axios.put(
-        `http://localhost:5077/api/tickets/${ticketId}`,
+        `http://localhost:5077/api/tickets/${ticketId}/response`,
         responseData,
         {
           withCredentials: true,
@@ -129,16 +128,14 @@ export default function TicketPage() {
         </p>
       </div>
       <div className="ticket-buttons">
-        
-          <button className="edit-button" onClick={handleEdit}>
-            Редактировать
-          </button>
-        
+        <button className="edit-button" onClick={handleEdit}>
+          Редактировать
+        </button>
+
         <button className="delete-button" onClick={handleDelete}>
           Удалить
         </button>
 
-        
         {userRole >= 2 && (
           <button className="reply-button" onClick={handleReply}>
             Ответить
@@ -151,7 +148,6 @@ export default function TicketPage() {
         onClose={handleModalClose}
         onSubmit={handleResponseSubmit}
         ticket={ticketData}
-        respondentData={respondentData}
       />
     </div>
   );
