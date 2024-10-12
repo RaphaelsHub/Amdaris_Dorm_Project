@@ -24,7 +24,7 @@ export default function TicketsPage() {
     const fetchTicketsAndUserRole = async () => {
       try {
         const userResponse = await axios.get(
-            `http://localhost:5077/api/studentprofile`, //3 - временно, потом убрать, для тестирования ответа
+            `http://localhost:5077/api/studentprofile`, 
             {
               headers: {
                 "Content-Type": "application/json",
@@ -41,21 +41,21 @@ export default function TicketsPage() {
           withCredentials: true,
         });
 
-        const filteredTickets =
-          userResponse.data.userType === 0
-            ? response.data.filter(
-                (ticket) => String(ticket.userId) === String(userId) 
-              )
-            : response.data;
+        // const filteredTickets =
+        //   userResponse.data.userType === 0
+        //     ? response.data.filter(
+        //         (ticket) => String(ticket.userId) === String(userId) 
+        //       )
+        //     : response.data;
 
-        const formattedTickets = filteredTickets.map((ticket) => ({
-          ...ticket,
-          date: new Date(ticket.date).toLocaleDateString("ru-RU", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          }),
-        }));
+        // const formattedTickets = filteredTickets.map((ticket) => ({
+        //   ...ticket,
+        //   date: new Date(ticket.date).toLocaleDateString("ru-RU", {
+        //     year: "numeric",
+        //     month: "2-digit",
+        //     day: "2-digit",
+        //   }),
+        // }));
         
           const respondent = {
             id: userResponse.data.id,
@@ -68,7 +68,8 @@ export default function TicketsPage() {
           setRespondentData(respondent);
           
         
-        setTickets(formattedTickets);
+        // setTickets(formattedTickets);
+        setTickets(response.data);
         setLoading(false);
       } catch (error) {
         console.error("Ошибка при получении тикетов:", error);

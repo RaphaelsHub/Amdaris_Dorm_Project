@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import InputField from "../../inputs/InputField";
 import SelectField from "../../inputs/SelectField";
 import Button from "../../common/button/Button";
-import "./ticketForm.css"; // Импортируем стили
+import "./ticketForm.css"; 
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function TicketForm() {
@@ -168,7 +168,7 @@ export default function TicketForm() {
             value={ticketFormData.name}
             onChange={handleChange}
             error={ticketErrors.name}
-            className="input-field" // Добавляем класс
+            className="input-field" 
           />
 
           <InputField
@@ -177,7 +177,7 @@ export default function TicketForm() {
             name="group"
             value={ticketFormData.group}
             onChange={handleChange}
-            className="input-field" // Добавляем класс
+            className="input-field"
           />
 
           <InputField
@@ -186,7 +186,7 @@ export default function TicketForm() {
             name="room"
             value={ticketFormData.room}
             onChange={handleChange}
-            className="input-field" // Добавляем класс
+            className="input-field" 
           />
 
           <SelectField
@@ -199,7 +199,7 @@ export default function TicketForm() {
               { value: "2", label: "Предложение" },
             ]}
             onChange={handleChange}
-            className="select-field" // Добавляем класс
+            className="select-field" 
           />
 
           <InputField
@@ -209,7 +209,7 @@ export default function TicketForm() {
             value={ticketFormData.subject}
             onChange={handleChange}
             error={ticketErrors.subject}
-            className="input-field" // Добавляем класс
+            className="input-field" 
           />
 
           <InputField
@@ -219,7 +219,7 @@ export default function TicketForm() {
             value={ticketFormData.description}
             onChange={handleChange}
             error={ticketErrors.description}
-            className="input-field" // Добавляем класс
+            className="input-field" 
           />
 
           <Button
