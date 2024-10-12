@@ -128,9 +128,9 @@ namespace Dorm.BLL.Services
                 if (ticket == null)
                     return new BaseResponse<TicketDto>(null, $"Ticket with ID {ticketId} not found.");
 
-                //int temp = ticketDto.UserId;
+                int temp = ticket.UserId;
                 _mapper.Map(ticketDto, ticket);
-                //ticket.UserId = temp;
+                ticket.UserId = temp;
                 await _ticketRepository.Update(ticket);
                 return new BaseResponse<TicketDto>(_mapper.Map<TicketDto>(ticket), "Success.");
             }
