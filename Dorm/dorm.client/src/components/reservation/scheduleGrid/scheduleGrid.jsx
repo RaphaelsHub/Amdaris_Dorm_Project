@@ -3,7 +3,6 @@ import './ScheduleGrid.css';
 
 const ScheduleGrid = ({ washers, days, timeSlots }) => {
   const handleDayClick = (day) => {
-    // Логика для обработки клика по дню недели
     console.log(`Кликнули на ${day}`);
   };
 
@@ -35,7 +34,7 @@ const ScheduleGrid = ({ washers, days, timeSlots }) => {
               <td>{washer.name}</td>
               {timeSlots.map((_, timeIndex) => (
                 <td key={timeIndex} className="time-slot available">
-                  {/* Здесь можно добавить логику отображения статуса резервирования */}
+                  {/* Здесь добавить логику отображения статуса резервирования */}
                 </td>
               ))}
             </tr>

@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    margin-top: 20px;
   }
   
   .days-panel {
@@ -9,35 +11,67 @@
   }
   
   .day-button {
-    margin: 0 5px;
-    padding: 10px;
+    margin: 0 10px;
+    padding: 12px 20px;
     cursor: pointer;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
+    background-color: #3800336c;
+    color: #fff;
+    border: none;
     border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .day-button:hover {
+    background-color: #45063c43;
   }
   
   .reservation-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
   }
   
   .reservation-table th,
   .reservation-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid #3800336c;
+    padding: 15px;
     text-align: center;
+    font-size: 16px;
+    color: #333;
   }
   
   .reservation-table th {
-    background-color: #f2f2f2;
+    background-color: #3800339e;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .reservation-table tr td:first-child {
+    background-color: #3800339e;
+    font-weight: bold;
+    color: white;
+    border-right: 2px solid #ccc;
+    padding: 15px;
+    text-align: left;
   }
   
   .time-slot {
     position: relative;
+    border-radius: 4px;
   }
   
-  .washer-name {
-    padding: 5px;
+  .available {
+    background-color: #f0fae1;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .available:hover {
+    background-color: #d0f1d0;
   }
   
