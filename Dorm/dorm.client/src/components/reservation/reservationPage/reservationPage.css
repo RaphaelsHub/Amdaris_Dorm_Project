@@ -1,0 +1,54 @@
+.reservation-page {
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .schedule-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .schedule-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .day-header {
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .reservation-table th,
+  .reservation-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .available-slot {
+    background-color: #d4f7d4;
+  }
+  
+  .unavailable-slot {
+    background-color: #f7d4d4;
+    cursor: not-allowed;
+  }
+  
+  .washers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  

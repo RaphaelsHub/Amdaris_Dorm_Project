@@ -1,0 +1,43 @@
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .days-panel {
+    margin-bottom: 10px;
+  }
+  
+  .day-button {
+    margin: 0 5px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .reservation-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .reservation-table th,
+  .reservation-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .reservation-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .time-slot {
+    position: relative;
+  }
+  
+  .washer-name {
+    padding: 5px;
+  }
+  
