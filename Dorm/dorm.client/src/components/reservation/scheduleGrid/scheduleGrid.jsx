@@ -1,93 +1,144 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './ScheduleGrid.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./ScheduleGrid.css";
 
-const ScheduleGrid = ({ washers, days, timeSlots, reservations }) => {
-  const [selectedDay, setSelectedDay] = useState(days[0]); 
-  const [currentReservations, setCurrentReservations] = useState(reservations); 
+const ScheduleGrid = ({ washers, days, timeSlots, defaultDay }) => {
+  const [currentReservations, setCurrentReservations] = useState([]);
+  const [currentUserId, setCurrentUserId] = useState(null);
+  const [selectedDay, setSelectedDay] = useState(defaultDay); // Устанавливаем выбранный день
 
-  const handleDayClick = (day) => {
-    setSelectedDay(day);
-    console.log(`Выбран день: ${day}`);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found.");
+          return;
+        }
 
-  const formatDate = (date) => {
-    const year = date.getUTCFullYear();
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Месяцы начинаются с 0
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const hours = String(date.getUTCHours()).padStart(2, '0');
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
-    const milliseconds = String(date.getUTCMilliseconds()).padStart(3, '0'); // Получаем миллисекунды
+        const userResponse = await axios.get(
+          "http://localhost:5077/api/studentprofile",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
+          }
+        );
 
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`; // Формат ISO 8601 с миллисекундами
-  };
+        setCurrentUserId(userResponse.data.id);
 
-  const getTimesForReservation = (day, timeSlot) => {
-    const [start, end] = timeSlot.split(' - ');
-    const today = new Date();
-    const selectedDate = new Date(today);
-    const targetDay = days.indexOf(day);
-    const delta = targetDay - today.getDay();
-    selectedDate.setDate(today.getDate() + delta);
-    const startTime = new Date(selectedDate);
-    startTime.setHours(...start.split(':'));
-    const endTime = new Date(selectedDate);
-    endTime.setHours(...end.split(':'));
+        const reservationsResponse = await axios.get(
+          "http://localhost:5077/api/reservations",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
+          }
+        );
 
-    return {
-      startTime: formatDate(startTime), 
-      endTime: formatDate(endTime),       
+        setCurrentReservations(reservationsResponse.data);
+      } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+      }
     };
-  };
+
+    fetchData();
+  }, []);
+
+  const handleDayClick = (day) => setSelectedDay(day);
 
   const getReservationStatus = (washerId, timeSlot) => {
     const reservation = currentReservations.find(
       (r) =>
         r.washerId === washerId &&
-        r.startTime.includes(timeSlot.split(' - ')[0])
+        r.startTime.includes(timeSlot.split(" - ")[0]) &&
+        isSameDay(r.startTime, selectedDay) // Сравниваем с выбранным днем
     );
 
-    if (!reservation) return 'available';
-    return reservation.userId === 16 ? 'user-owned' : 'occupied';
+    if (!reservation) return "available";
+    return reservation.userId === currentUserId ? "user-owned" : "occupied";
   };
 
   const handleReservationClick = async (day, washerId, timeSlot) => {
     const status = getReservationStatus(washerId, timeSlot);
-    if (status === 'available') {
+    if (status === "available") {
       const { startTime, endTime } = getTimesForReservation(day, timeSlot);
+      const reservationData = { washerId, startTime, endTime };
 
-      const reservationData = {
-        washerId,
-        startTime,   // В формате YYYY-MM-DDTHH:MM:SS.sssZ
-        endTime,     // В формате YYYY-MM-DDTHH:MM:SS.sssZ
-      };
-
-      console.log('Отправляемые данные:', reservationData);
+      console.log("Попытка создания резервации:", reservationData); // Лог для отслеживания данных
 
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.error("No token found.");
+          return;
+        }
+
         const response = await axios.post(
-          'http://localhost:5077/api/reservations',
+          "http://localhost:5077/api/reservations",
           reservationData,
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
             },
             withCredentials: true,
           }
         );
 
-        console.log('Резервация создана:', response.data);
+        console.log("Резервация успешно создана:", response.data); // Лог успешного создания
         setCurrentReservations((prev) => [...prev, response.data]);
       } catch (error) {
-        console.error(
-          'Ошибка при создании резервации:',
-          error.response ? error.response.data : error.message
-        );
+        console.error("Ошибка при создании резервации:", error.message);
+
+        if (error.response && error.response.status === 400) {
+          console.error("Возможная причина: такая резервация уже существует."); // Лог о возможной причине
+        }
       }
+    } else {
+      console.log(`Резервация недоступна: статус - ${status}`); // Лог для недоступных резервирований
     }
+  };
+
+  const getTimesForReservation = (day, timeSlot) => {
+    const [start, end] = timeSlot.split(" - ");
+    const today = new Date();
+    const selectedDate = new Date(today); // Копируем текущую дату
+
+    // Корректируем дату для выбранного дня
+    selectedDate.setDate(today.getDate() + (days.indexOf(day) - today.getDay() + 1));
+    
+    // Установка времени начала и окончания
+    const startTime = new Date(selectedDate);
+    const endTime = new Date(selectedDate);
+    
+    // Устанавливаем часы и минуты для начала и окончания
+    const [startHour, startMinute] = start.split(":");
+    const [endHour, endMinute] = end.split(":");
+
+    console.log (startHour, endHour);
+    
+    startTime.setUTCHours(parseInt(startHour), parseInt(startMinute), 0, 0);
+    endTime.setUTCHours(parseInt(endHour), parseInt(endMinute), 0, 0);
+
+    console.log(startTime, endTime);
+
+    return {
+      startTime: startTime.toISOString(),
+      endTime: endTime.toISOString(),
+      
+    };
+  };
+
+  // Функция для проверки, совпадают ли дни
+  const isSameDay = (dateStr, day) => {
+    const date = new Date(dateStr);
+    const today = new Date();
+    const selectedDate = new Date(today);
+    selectedDate.setDate(today.getDate() + (days.indexOf(day) - today.getDay() + 1));
+    return (
+      date.getFullYear() === selectedDate.getFullYear() &&
+      date.getMonth() === selectedDate.getMonth() &&
+      date.getDate() === selectedDate.getDate()
+    );
   };
 
   return (
@@ -97,7 +148,7 @@ const ScheduleGrid = ({ washers, days, timeSlots, reservations }) => {
           <button
             key={index}
             onClick={() => handleDayClick(day)}
-            className={`day-button ${day === selectedDay ? 'active' : ''}`}
+            className={`day-button ${day === selectedDay ? "active" : ""}`}
           >
             {day}
           </button>
@@ -121,12 +172,13 @@ const ScheduleGrid = ({ washers, days, timeSlots, reservations }) => {
                 return (
                   <td
                     key={index}
-                    className={`time-slot ${status}`}
+                    className={`time-slot ${status}`} // Добавление класса статуса
                     onClick={() =>
+                      status === "available" &&
                       handleReservationClick(selectedDay, washer.id, slot)
                     }
                   >
-                    {status === 'user-owned' ? 'Ваша' : ''}
+                    {status === "user-owned" ? "Ваша" : ""}
                   </td>
                 );
               })}

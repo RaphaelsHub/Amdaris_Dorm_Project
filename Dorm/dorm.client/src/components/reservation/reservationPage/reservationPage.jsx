@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ScheduleGrid from "../scheduleGrid/scheduleGrid";
-import axios from "axios";
 import "./ReservationPage.css";
 
 const ReservationPage = () => {
-    const [reservations, setReservations] = useState([]);
   const [washers] = useState([
     { id: 1, name: "Стиральная машина 1" },
     { id: 2, name: "Стиральная машина 2" },
@@ -29,30 +27,31 @@ const ReservationPage = () => {
 
   useEffect(() => {
     const generateDaysOfWeek = () => {
-      const today = new Date().getDay(); // 0 = Sunday, 1 = Monday, ...
+      const today = new Date();
       const weekDays = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
-      return [...weekDays.slice(today), ...weekDays.slice(0, today)];
+      const todayIndex = today.getDay(); // Индекс текущего дня
+
+      // Генерируем массив с текущей датой начиная с сегодняшнего дня
+      return [
+        ...weekDays.slice(todayIndex),  // Дни начиная с текущего
+        ...weekDays.slice(0, todayIndex), // Дни до текущего
+      ];
     };
 
     setDays(generateDaysOfWeek());
-
-    // Получение всех резерваций с помощью axios
-    axios
-      .get("http://localhost:5077/api/reservations")
-      .then((response) => setReservations(response.data))
-      .catch((error) => console.error("Ошибка загрузки резерваций:", error));
   }, []);
-  console.log(reservations);
 
   return (
     <div className="reservation-page">
       <h1 className="title">Резервация стиральных машин</h1>
-      <ScheduleGrid 
-      washers={washers} 
-      days={days} 
-      timeSlots={timeSlots} 
-      reservations={reservations}
-      />
+      {days.length > 0 && (
+        <ScheduleGrid
+          washers={washers}
+          days={days}
+          timeSlots={timeSlots}
+          defaultDay={days[0]} // Передаем текущий день
+        />
+      )}
     </div>
   );
 };
