@@ -12,9 +12,10 @@ export default function TicketsPage() {
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  
+  const token = localStorage.getItem("token");
 
+  useEffect(() => {
     if (!token) {
       console.error("No token found.");
       return;
