@@ -41,7 +41,7 @@ namespace Dorm.Server.Contracts.Commands.Reservation.Create
             }, out SecurityToken validatedToken);
 
             request.reservationDto.UserId = int.Parse(principal.FindFirst("id")?.Value);
-            request.reservationDto.EndTime = request.reservationDto.StartTime.AddHours(2);
+            // request.reservationDto.EndTime = request.reservationDto.StartTime.AddHours(2);
 
             return await _washerService.Create(request.reservationDto);
         }
