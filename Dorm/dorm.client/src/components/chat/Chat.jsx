@@ -12,14 +12,24 @@ const Chat = () => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+        
+        if (!token) {
+            console.error("No token found.");
+            return;
+        }
+
     const fetchUserName = async () => {
       try {
         const response = await axios.get("http://localhost:5077/api/StudentProfile", {
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           withCredentials: true
         });
+        console.log(response);
+
         setUserName(response.data.firstName + " " + response.data.lastName + " " + response.data.group);
       } catch (error) {
         console.error("Ошибка при получении имени пользователя:", error);

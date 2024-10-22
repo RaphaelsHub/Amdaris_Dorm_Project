@@ -28,6 +28,8 @@ const UserProfile = () => {
             roomNumber: ""
     });
 
+    const [role, setRole] = useState("");
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         
@@ -48,12 +50,15 @@ const UserProfile = () => {
     
                 const profileData = response.data;
     
-                localStorage.setItem('userProfile', JSON.stringify(profileData));
+                // localStorage.setItem('userProfile', JSON.stringify(profileData));
 
                 setProfile({
                     ...profileData,
                     gender: profileData.gender.toString()
                 });
+
+                setRole(profileData.role || "Student");
+
             } catch (error) {
                 console.error("Error fetching profile:", error);
             }
@@ -119,6 +124,13 @@ const UserProfile = () => {
         //     return;
         // }
 
+        const token = localStorage.getItem('token');
+    
+        if (!token) {
+            console.error("No token found.");
+            return;
+        }
+
         const profileToSend = {
             ...profile,
             gender: parseInt(profile.gender),
@@ -126,10 +138,11 @@ const UserProfile = () => {
         };
 
         try{
-            if(isEditing) {
+            if(isEditing && role === "Student") {
                 const response = await axios.put(`http://localhost:5077/api/StudentProfile`, profileToSend, {
                     headers: {
                         "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`
                     },
                     withCredentials: true
                 });
@@ -140,11 +153,13 @@ const UserProfile = () => {
             }
         }
         catch (error) {
-            console.error("Ошибка при сохранении товара:", error.response ? error.response.data : error.message);
+            console.error("Ошибка при сохранении профиля:", error.response ? error.response.data : error.message);
         }
 
         setIsEditing(!isEditing);
     };
+
+    const canEdit = role === "Student";
 
     
 
