@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './NavBar.css';
 
 export default function NavBar() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMarketplaceDropdownOpen, setIsMarketplaceDropdownOpen] = useState(false);
+  const [isTicketsDropdownOpen, setIsTicketsDropdownOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
+  const toggleMarketplaceDropdown = () => {
+    setIsMarketplaceDropdownOpen((prev) => !prev);
+    setIsTicketsDropdownOpen(false); // Закрыть другой дропдаун
   };
 
-  
+  const toggleTicketsDropdown = () => {
+    setIsTicketsDropdownOpen((prev) => !prev);
+    setIsMarketplaceDropdownOpen(false); // Закрыть другой дропдаун
+  };
+
   const handleClickOutside = (e) => {
     if (!e.target.closest('.dropdown')) {
-      setIsDropdownOpen(false);
+      setIsMarketplaceDropdownOpen(false);
+      setIsTicketsDropdownOpen(false);
     }
   };
 
-  
   React.useEffect(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
@@ -37,17 +43,34 @@ export default function NavBar() {
         </Link>
 
         <div className="dropdown">
-          <button onClick={toggleDropdown} className="dropdown-toggle">
+          <button onClick={toggleMarketplaceDropdown} className="dropdown-toggle">
             Барахолка
           </button>
 
-          {isDropdownOpen && (
+          {isMarketplaceDropdownOpen && (
             <div className="dropdown-menu">
-              <Link to="/ads" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
+              <Link to="/ads" className="dropdown-item" onClick={() => setIsMarketplaceDropdownOpen(false)}>
                 Все объявления
               </Link>
-              <Link to="/adform" className="dropdown-item" onClick={() => setIsDropdownOpen(false)}>
+              <Link to="/adform" className="dropdown-item" onClick={() => setIsMarketplaceDropdownOpen(false)}>
                 Создать объявление
+              </Link>
+            </div>
+          )}
+        </div>
+
+        <div className="dropdown">
+          <button onClick={toggleTicketsDropdown} className="dropdown-toggle">
+            Тикеты
+          </button>
+
+          {isTicketsDropdownOpen && (
+            <div className="dropdown-menu">
+              <Link to="/tickets" className="dropdown-item" onClick={() => setIsTicketsDropdownOpen(false)}>
+                Все мои тикеты
+              </Link>
+              <Link to="/ticket" className="dropdown-item" onClick={() => setIsTicketsDropdownOpen(false)}>
+                Создать тикет
               </Link>
             </div>
           )}

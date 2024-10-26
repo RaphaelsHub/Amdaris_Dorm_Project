@@ -1,0 +1,106 @@
+.schedule-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.days-panel {
+  margin-bottom: 10px;
+}
+
+.day-button {
+  margin: 0 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+  background-color: #3800336c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.day-button.active {
+  background-color: #45063c;
+  color: #fff;
+  border: 2px solid #5a004d;
+}
+
+.day-button:hover {
+  background-color: #45063c43;
+}
+
+.reservation-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.reservation-table th,
+.reservation-table td {
+  border: 1px solid #3800336c;
+  padding: 15px;
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+}
+
+.reservation-table th {
+  background-color: #3800339e;
+  color: white;
+  font-weight: bold;
+}
+
+.reservation-table tr td:first-child {
+  background-color: #3800339e;
+  font-weight: bold;
+  color: white;
+  border-right: 2px solid #ccc;
+  padding: 15px;
+  text-align: left;
+}
+
+.time-slot {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.time-slot.available {
+  background-color: #ffffff; /* Белый для доступных ячеек */
+}
+
+.time-slot.user-owned {
+  background-color: #add8e6; /* Цвет для ячеек, принадлежащих пользователю */
+}
+
+.time-slot.occupied {
+  background-color: red; /* Красный для зарезервированных ячеек */
+  cursor: not-allowed; /* Запрет курсора для зарезервированных ячеек */
+}
+
+
+.available:hover {
+  background-color: #d0f1d0;
+}
+
+/* Слот, занятый другим пользователем */
+.occupied {
+  background-color: #ffcccc;
+  cursor: not-allowed;
+  pointer-events: none; /* Делает ячейку некликабельной */
+}
+
+/* Слот, занятый текущим пользователем */
+.user-owned {
+  background-color: #b0e57c;
+  cursor: pointer;
+}

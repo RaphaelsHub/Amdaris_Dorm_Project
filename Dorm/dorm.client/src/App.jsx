@@ -8,6 +8,10 @@ import AdPage from "./components/baraholka/adPage/AdPage";
 import AdsPage from "./components/baraholka/mainPage/AdsPage";
 import NavBar from "./components/common/navigation bar/NavBar";
 import Chat from "./components/chat/Chat";
+import TicketsPage from "./components/ticket/ticketsPage/ticketsPage";
+import TicketPage from "./components/ticket/ticketPage/ticketPage";
+import TicketForm from "./components/ticket/ticketForm/ticketForm"
+import ReservationPage from "./components/reservation/reservationPage/reservationPage";
 
 function App() {
   return (
@@ -18,6 +22,11 @@ function App() {
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/adform" element={<AdForm />} />
+        <Route path="/ticket" element={<TicketForm />}/>
+        <Route path="/tickets/:ticketId" element={<TicketPage />}/>
+        <Route path="/tickets/edit/:ticketId" element={<TicketForm />}/>
+        <Route path="/tickets" element={<TicketsPage />}/>
+        <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/ads/edit/:adId" element={<AdForm />} />
         <Route path="/ads/:adId" element={<AdPage />} />
         <Route path="/ads" element={<AdsPage />} />

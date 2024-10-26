@@ -1,0 +1,8 @@
+/* tableHeader.css */
+.table-header th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
