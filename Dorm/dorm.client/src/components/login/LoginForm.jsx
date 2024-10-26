@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { validateLoginForm } from "../../validation/LoginValidation";
 import InputField from "../inputs/InputField";
 import Button from "../common/button/Button";
 import Checkbox from "../inputs/Checkbox";
-import { validateLoginForm } from "../../validation/LoginValidation";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 import './LoginForm.css';
 
 export default function LoginForm() {
-  // const { id } = useParams();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -69,12 +68,13 @@ export default function LoginForm() {
       if (formData.rememberMe) {
         localStorage.setItem('email', formData.email);
         localStorage.setItem('password', formData.password);
-      } else {
+      } 
+      else {
         localStorage.removeItem('email');
         localStorage.removeItem('password');
       }
 
-      navigate(`/`);
+      navigate(`/profile`);
 
     } catch (error) {
       setServerError("Ошибка входа. Пожалуйста, проверьте данные.");
@@ -86,7 +86,7 @@ export default function LoginForm() {
       <div className="login-container">
         <h2 className="login-header">Вход</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           {serverError && <div className="server-error">{serverError}</div>}
 
           <InputField

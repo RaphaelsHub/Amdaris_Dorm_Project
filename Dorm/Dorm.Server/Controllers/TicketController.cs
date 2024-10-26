@@ -106,7 +106,7 @@ namespace Dorm.Server.Controllers
             return Ok(response.Data);
         }
 
-        [HttpPut("api/tickets/{ticketId}/response")]
+        [HttpPut("{ticketId}/response")]
         public async Task<IActionResult> AddResponse([FromRoute] int ticketId, [FromBody] TicketDto ticketDto)
         {
             var token = Request.Cookies["authToken"];

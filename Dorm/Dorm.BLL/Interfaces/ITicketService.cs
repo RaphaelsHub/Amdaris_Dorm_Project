@@ -6,6 +6,7 @@ namespace Dorm.BLL.Interfaces
     public interface ITicketService
     {
         Task<BaseResponse<TicketDto>> GetById(int ticketId);
+        Task<BaseResponse<IEnumerable<TicketDto>>> GetByUserId(int userId);
         Task<BaseResponse<IEnumerable<TicketDto>>> GetAll();
         Task<BaseResponse<TicketDto>> Create(TicketDto ticketDto);
         Task<BaseResponse<bool>> Delete(int ticketId);

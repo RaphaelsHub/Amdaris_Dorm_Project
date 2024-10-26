@@ -36,6 +36,11 @@ namespace Dorm.DAL.Repositories
             return await _db.Tickets.FirstOrDefaultAsync(x => x.Id == ticketId);
         }
 
+        public async Task<IEnumerable<Ticket>> GetByUserId(int userId)
+        {
+            return await _db.Tickets.Where(t => t.UserId == userId).ToListAsync();
+        }
+
         public async Task<Ticket> Update(Ticket entity)
         {
             _db.Tickets.Update(entity);

@@ -1,0 +1,68 @@
+.ticket-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 40px auto; 
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-height: 50vh; 
+  }
+  
+  .ticket-info p {
+    margin: 10px 0;
+    font-size: 18px; 
+  }
+  
+  .ticket-info p strong {
+    color: #333;
+  }
+  
+  .ticket-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px; /* Уменьшен отступ сверху для кнопок */
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 15px 30px; /* Вернули немного меньший размер кнопок */
+    font-size: 18px; /* Вернули размер шрифта для кнопок */
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .edit-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .delete-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .edit-button:hover {
+    background-color: #45a049;
+  }
+  
+  .delete-button:hover {
+    background-color: #e53935;
+  }
+
+  .reply-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+  
+  .reply-button:hover {
+    background-color: #007B9E;
+  }
+  
+  

@@ -18,6 +18,5 @@ namespace Dorm.Domain.DTO
         public string? RespondentEmail { get; set; }
         public DateTime Date { get; set; } = DateTime.UtcNow;
         public string? Response { get; set; }
-        public bool canEdit { get; set; }
     }
 }

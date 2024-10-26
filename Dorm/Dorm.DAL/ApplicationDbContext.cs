@@ -20,6 +20,7 @@ namespace Dorm.DAL
         public DbSet<Ad> Ads { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
+        
         public DbSet<ChatUser> ChatUsers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Washer> Washers { get; set; }
