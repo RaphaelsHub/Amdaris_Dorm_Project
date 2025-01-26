@@ -19,7 +19,7 @@
   border: none;
   border-radius: 5px;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.1s ease;
 }
 
 .day-button.active {
@@ -29,7 +29,9 @@
 }
 
 .day-button:hover {
-  background-color: #45063c43;
+  background-color: #45063c;
+  color: #fff;
+  border: 2px solid #5a004d;
 }
 
 .reservation-table {
@@ -52,26 +54,25 @@
 }
 
 .reservation-table th {
-  background-color: #3800339e;
+  background-color: #301934;
   color: white;
   font-weight: bold;
 }
 
 .reservation-table tr td:first-child {
-  background-color: #3800339e;
+  width: 30%;
+  background-color: #82607f9e;
   font-weight: bold;
-  color: white;
-  border-right: 2px solid #ccc;
+  color: rgb(255, 255, 255);
   padding: 15px;
-  text-align: left;
+  text-align: center;
 }
 
 .time-slot {
   width: 50px;
   height: 50px;
-  border: 1px solid #ccc;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.1s;
 }
 
 .time-slot.available {
@@ -79,17 +80,17 @@
 }
 
 .time-slot.user-owned {
-  background-color: #add8e6; /* Цвет для ячеек, принадлежащих пользователю */
+  background-color: #b9dbe6d4; /* Цвет для ячеек, принадлежащих пользователю */
 }
 
 .time-slot.occupied {
-  background-color: red; /* Красный для зарезервированных ячеек */
+  background-color: rgba(255, 0, 0, 0.667); /* Красный для зарезервированных ячеек */
   cursor: not-allowed; /* Запрет курсора для зарезервированных ячеек */
 }
 
 
 .available:hover {
-  background-color: #d0f1d0;
+  background-color: #d0f1d0f1;
 }
 
 /* Слот, занятый другим пользователем */

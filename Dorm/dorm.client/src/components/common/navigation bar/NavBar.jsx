@@ -59,6 +59,10 @@ export default function NavBar() {
           )}
         </div>
 
+        <Link to="/reservation" className='nav-link'>
+          Стиралки
+        </Link>
+
         <div className="dropdown">
           <button onClick={toggleTicketsDropdown} className="dropdown-toggle">
             Тикеты
