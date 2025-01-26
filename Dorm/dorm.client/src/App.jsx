@@ -12,12 +12,14 @@ import TicketsPage from "./components/ticket/ticketsPage/ticketsPage";
 import TicketPage from "./components/ticket/ticketPage/ticketPage";
 import TicketForm from "./components/ticket/ticketForm/ticketForm"
 import ReservationPage from "./components/reservation/reservationPage/reservationPage";
+import HomePage from "./components/common/home/HomePage"
 
 function App() {
   return (
     <Router>
       <NavBar />
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/profile" element={<UserProfile />} />

@@ -1,7 +1,7 @@
 .ad-form-page {
     display: flex;
-    justify-content: center; //horizontal
-    align-items: center; //vertical
+    justify-content: center;
+    align-items: center;
     height: auto;
     background-color: white;
     margin-top: 50px;

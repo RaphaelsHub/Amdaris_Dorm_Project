@@ -1,46 +1,36 @@
-/* Общие стили для страницы */
 .ticket-form-page {
-    display: flex;
+  display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 0vh;
-    background-color: #f0f0f5;
-    font-family: Arial, sans-serif;
+    height: auto;
+    background-color: white;
+    margin-top: 50px;
+    margin-bottom: 30px;
   }
   
   /* Контейнер для формы */
   .ticket-form-container {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 1800px;
-    width: 100%;
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    border-width: 5px;
+    border-color: black;
+    background-color: white;
+    box-shadow: 10px 4px 30px rgba(0, 0, 0, 0.1);
+    width: 950px;
+    text-align: left;
   }
 
-  
-  
-  /* Заголовок формы */
+
   .ticket-form-header {
     font-size: 24px;
-    color: #3c3c74;
+    margin-top: 0;
     text-align: center;
-    margin-bottom: 20px;
+    color: #301934;
   }
   
-  /* Стили для полей ввода */
-  input[type="text"], select {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 17px;
-    background-color: #f9f9f9;
-  }
   
-  /* Стили для ошибок валидации */
+  
   input[type="text"]:invalid, select:invalid {
     border-color: #e74c3c;
   }
@@ -56,25 +46,13 @@
     cursor: not-allowed;
   }
   
-  /* Стили для полей, которые имеют статус ошибки */
+  
   input:focus {
     border-color: #3c3c74;
   }
   
-  /* Стили для выпадающего списка */
-  select {
-    appearance: none;
-    background-color: #f9f9f9;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%233c3c74' d='M2 0L0 2h4z'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
-  }
-  
-  /* Стили для заголовков */
   label {
     font-size: 16px;
-    color: #3c3c74;
     margin-bottom: 6px;
     display: block;
   }
